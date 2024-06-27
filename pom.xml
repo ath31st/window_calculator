@@ -99,6 +99,20 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>9.22.3</version>
+                <configuration>
+                    <cleanDisabled>false</cleanDisabled>
+                    <user>postgres</user>
+                    <password>postgres</password>
+                    <url>jdbc:postgresql://localhost:5440/dev_win_calc_db</url>
+                    <schemas>
+                        <schema>win_calc_schema</schema>
+                    </schemas>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
