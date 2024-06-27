@@ -1,0 +1,17 @@
+services:
+
+  postgres:
+    image: postgres:15.5
+    container_name: postgres-container
+    ports:
+      - "5444:5444"
+    command: -p 5444
+    environment:
+      TZ: "Europe/Moscow"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: win_calc_db
+    restart: on-failure
+    volumes:
+      - "database:/var/lib/postgresql/data"
+      - "./scripts/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql"
