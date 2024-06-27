@@ -16,10 +16,10 @@ services:
       - "database:/var/lib/postgresql/data"
       - "./scripts/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql"
 
-volumes:
-  database:
-
 networks:
   win-calc-net:
-    name: undying-net
+    name: win-calc-net
     driver: bridge
+
+volumes:
+  database:
