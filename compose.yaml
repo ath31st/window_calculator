@@ -3,7 +3,7 @@ version: "3.10"
 services:
   postgres:
     image: postgres:15.5
-    container_name: postgres-container
+    container_name: win_calc_db
     ports:
       - "5440:5432"
     environment:
