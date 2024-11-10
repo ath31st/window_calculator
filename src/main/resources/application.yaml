@@ -18,5 +18,6 @@ spring:
     driverClassName: org.postgresql.Driver
 
   flyway:
+    schemas: win_calc_schema
     clean-on-validation-error: true
     clean-disabled: false
