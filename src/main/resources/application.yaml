@@ -12,7 +12,7 @@ spring:
       ddl-auto: validate
 
   datasource:
-    url: jdbc:postgresql://localhost:5440/${POSTGRES_DB:dev_win_calc_db}?currentSchema=win_calc_schema
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5440}/${POSTGRES_DB:dev_win_calc_db}?currentSchema=win_calc_schema
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:postgres}
     driverClassName: org.postgresql.Driver
