@@ -15,13 +15,17 @@ import sidim.doma.wc.repository.FrameRepository;
 public class FrameService {
   private final FrameRepository frameRepository;
 
-
-  public FrameDto create(NewFrameDto frameDto) {
+  public FrameDto createFrame(NewFrameDto frameDto) {
     val frame = new Frame();
     frame.setName(frameDto.name());
 
     val savedFrame = frameRepository.save(frame);
     return new FrameDto(savedFrame.getId(), savedFrame.getName());
+  }
+
+  public void deleteFrame(Integer frameId) {
+    checkExistsFrame(frameId);
+    frameRepository.deleteById(frameId);
   }
 
   public FrameDto renameFrame(String newName, Integer id) {

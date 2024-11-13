@@ -48,7 +48,7 @@ class FrameServiceTest {
   void createNewFrame_whenValidDataProvided() {
     when(frameRepository.save(any(Frame.class))).thenReturn(frame);
 
-    val savedFrame = frameService.create(frameDto);
+    val savedFrame = frameService.createFrame(frameDto);
 
     assertEquals(expectedFrameDto, savedFrame);
     verify(frameRepository).save(argThat(f -> f.getName().equals("test")));
@@ -77,5 +77,16 @@ class FrameServiceTest {
 
     assertThrows(FrameServiceException.class, () -> frameService.renameFrame(newName, id));
     verify(frameRepository).existsById(id);
+  }
+
+  @Test
+  void deleteFrame_success() {
+    val id = 1;
+
+    when(frameRepository.existsById(id)).thenReturn(true);
+
+    frameService.deleteFrame(id);
+
+    verify(frameRepository).deleteById(id);
   }
 }
