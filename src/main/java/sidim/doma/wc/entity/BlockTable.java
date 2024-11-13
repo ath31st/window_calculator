@@ -1,5 +1,6 @@
 package sidim.doma.wc.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -55,7 +56,7 @@ public class BlockTable {
   @Column(name = "updated_at")
   private Instant updatedAt;
 
-  @OneToMany(mappedBy = "blockTable")
+  @OneToMany(mappedBy = "blockTable", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<TableButton> tableButtons = new LinkedHashSet<>();
 
 }

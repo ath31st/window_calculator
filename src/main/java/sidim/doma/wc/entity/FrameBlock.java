@@ -1,5 +1,6 @@
 package sidim.doma.wc.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -61,7 +62,7 @@ public class FrameBlock {
   @Column(name = "updated_at")
   private Instant updatedAt;
 
-  @OneToMany(mappedBy = "frameBlock")
+  @OneToMany(mappedBy = "frameBlock", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<BlockTable> blockTables = new LinkedHashSet<>();
 
 }

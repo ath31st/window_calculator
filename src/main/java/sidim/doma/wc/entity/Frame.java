@@ -1,5 +1,6 @@
 package sidim.doma.wc.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,7 +43,7 @@ public class Frame {
   @Column(name = "updated_at")
   private Instant updatedAt;
 
-  @OneToMany(mappedBy = "frame")
+  @OneToMany(mappedBy = "frame", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<FrameBlock> frameBlocks = new LinkedHashSet<>();
 
 }
