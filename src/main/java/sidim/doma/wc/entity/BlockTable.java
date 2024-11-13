@@ -12,7 +12,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.Instant;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,6 +56,6 @@ public class BlockTable {
   private Instant updatedAt;
 
   @OneToMany(mappedBy = "blockTable", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<TableButton> tableButtons = new LinkedHashSet<>();
+  private Set<TableButton> tableButtons;
 
 }

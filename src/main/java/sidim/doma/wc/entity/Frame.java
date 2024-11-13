@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.Instant;
-import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +43,6 @@ public class Frame {
   private Instant updatedAt;
 
   @OneToMany(mappedBy = "frame", cascade = CascadeType.ALL, orphanRemoval = true)
-  private Set<FrameBlock> frameBlocks = new LinkedHashSet<>();
+  private Set<FrameBlock> frameBlocks;
 
 }
