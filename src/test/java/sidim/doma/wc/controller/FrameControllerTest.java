@@ -30,7 +30,7 @@ class FrameControllerTest {
 
     when(frameService.createFrame(newFrameDto)).thenReturn(new FrameDto(1, "test"));
 
-    mockMvc.perform(post("/frames")
+    mockMvc.perform(post("/api/v1/frames")
             .contentType("application/json")
             .content("{\"name\":\"test\"}"))
         .andExpect(status().isCreated())
@@ -40,7 +40,7 @@ class FrameControllerTest {
 
   @Test
   void createNewFrame_whenInvalidDataProvided() throws Exception {
-    mockMvc.perform(post("/frames")
+    mockMvc.perform(post("/api/v1/frames")
             .contentType("application/json")
             .content("{\"name\":\"\"}"))
         .andExpect(status().isBadRequest());
