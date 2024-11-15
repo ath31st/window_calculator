@@ -1,10 +1,12 @@
 package sidim.doma.wc.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -27,6 +29,8 @@ import sidim.doma.wc.service.FrameService;
 @WebMvcTest(controllers = FrameController.class)
 class FrameControllerTest {
 
+  private static final String BASE_URL = "/api/v1/frames";
+
   @MockBean
   private FrameService frameService;
 
@@ -44,7 +48,7 @@ class FrameControllerTest {
 
     when(frameService.createFrame(newFrameDto)).thenReturn(new FrameDto(id, name));
 
-    mockMvc.perform(post("/api/v1/frames")
+    mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(newFrameDto)))
         .andExpect(status().isCreated())
@@ -57,7 +61,7 @@ class FrameControllerTest {
   void createNewFrame_whenInvalidDataProvided(String emptyName) throws Exception {
     val newFrameDto = new NewFrameDto(emptyName);
 
-    mockMvc.perform(post("/api/v1/frames")
+    mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(newFrameDto)))
         .andExpect(status().isBadRequest());
@@ -68,7 +72,7 @@ class FrameControllerTest {
     val id = 1;
 
     mockMvc.perform(
-            delete("/api/v1/frames/{id}", id))
+            delete(BASE_URL + "/{id}", id))
         .andExpect(status().isNoContent());
 
     verify(frameService).deleteFrame(id);
@@ -81,7 +85,60 @@ class FrameControllerTest {
     doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
         .when(frameService).deleteFrame(id);
 
-    mockMvc.perform(delete("/api/v1/frames/{id}", id))
+    mockMvc.perform(delete(BASE_URL + "/{id}", id))
         .andExpect(status().isNotFound());
+
+    verify(frameService).deleteFrame(id);
+  }
+
+  @Test
+  void updateFrame_whenValidDataProvided() throws Exception {
+    val id = 1;
+    val newName = "new_test";
+    val newFrameDto = new NewFrameDto(newName);
+
+    when(frameService.renameFrame(id, newName)).thenReturn(new FrameDto(id, newName));
+
+    val mvcResult = mockMvc.perform(put(BASE_URL + "/{id}", id)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(newFrameDto)))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    val content = mvcResult.getResponse().getContentAsString();
+
+    val frameDto = objectMapper.readValue(content, FrameDto.class);
+
+    assertEquals(id, frameDto.id());
+    assertEquals(newName, frameDto.name());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"", "  ", "sh"})
+  void updateFrame_whenInvalidNameProvided(String invalidName) throws Exception {
+    val id = 1;
+    val newFrameDto = new NewFrameDto(invalidName);
+
+    mockMvc.perform(put(BASE_URL + "/{id}", id)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(newFrameDto)))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void updateFrame_whenFrameNotFound() throws Exception {
+    val id = 1;
+    val newName = "new_test";
+    val newFrameDto = new NewFrameDto(newName);
+
+    doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
+        .when(frameService).renameFrame(id, newName);
+
+    mockMvc.perform(put(BASE_URL + "/{id}", id)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(newFrameDto)))
+        .andExpect(status().isNotFound());
+
+    verify(frameService).renameFrame(id, newName);
   }
 }
