@@ -28,7 +28,7 @@ public class FrameService {
     frameRepository.deleteById(frameId);
   }
 
-  public FrameDto renameFrame(String newName, Integer id) {
+  public FrameDto renameFrame(Integer id, String newName) {
     checkExistsFrame(id);
 
     val frame = getFrame(id);

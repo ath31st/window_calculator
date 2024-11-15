@@ -63,7 +63,7 @@ class FrameServiceTest {
     when(frameRepository.findById(id)).thenReturn(Optional.ofNullable(frame));
     when(frameRepository.save(any(Frame.class))).thenReturn(frame);
 
-    val savedFrame = frameService.renameFrame(newName, id);
+    val savedFrame = frameService.renameFrame(id, newName);
 
     assertEquals(newName, savedFrame.name());
   }
@@ -75,7 +75,7 @@ class FrameServiceTest {
 
     when(frameRepository.existsById(id)).thenReturn(false);
 
-    assertThrows(FrameServiceException.class, () -> frameService.renameFrame(newName, id));
+    assertThrows(FrameServiceException.class, () -> frameService.renameFrame(id, newName));
     verify(frameRepository).existsById(id);
   }
 
