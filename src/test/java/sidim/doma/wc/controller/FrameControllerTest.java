@@ -1,6 +1,9 @@
 package sidim.doma.wc.controller;
 
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -13,10 +16,12 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import sidim.doma.wc.dto.FrameDto;
 import sidim.doma.wc.dto.NewFrameDto;
+import sidim.doma.wc.exception.FrameServiceException;
 import sidim.doma.wc.service.FrameService;
 
 @WebMvcTest(controllers = FrameController.class)
@@ -56,5 +61,27 @@ class FrameControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(newFrameDto)))
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void deleteFrame_whenValidDataProvided() throws Exception {
+    val id = 1;
+
+    mockMvc.perform(
+            delete("/api/v1/frames/{id}", id))
+        .andExpect(status().isNoContent());
+
+    verify(frameService).deleteFrame(id);
+  }
+
+  @Test
+  void deleteFrame_whenFrameNotFound() throws Exception {
+    val id = 1;
+
+    doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
+        .when(frameService).deleteFrame(id);
+
+    mockMvc.perform(delete("/api/v1/frames/{id}", id))
+        .andExpect(status().isNotFound());
   }
 }
