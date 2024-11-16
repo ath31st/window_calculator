@@ -11,4 +11,7 @@ public record NewFrameDto(
     @Size(min = 3, max = 100, message = "Name must be between 3 and 100 characters")
     String name
 ) implements Serializable {
+  public static NewFrameDto of(NewFrameDto dto) {
+    return new NewFrameDto(dto.name() != null ? dto.name().trim() : null);
+  }
 }
