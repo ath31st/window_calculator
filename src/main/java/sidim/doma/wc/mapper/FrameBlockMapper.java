@@ -1,7 +1,7 @@
 package sidim.doma.wc.mapper;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import org.springframework.stereotype.Component;
 import sidim.doma.wc.dto.frame_block.FrameBlockDto;
 import sidim.doma.wc.dto.frame_block.NewFrameBlockDto;
@@ -18,7 +18,7 @@ public class FrameBlockMapper {
         .isWindowSizeEnabled(dto.isWindowSizeEnabled())
         .inputTitle(dto.inputTitle())
         .description(dto.description())
-        .createdAt(Instant.from(LocalDateTime.now()))
+        .createdAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
         .build();
   }
 
