@@ -38,7 +38,7 @@ public class FrameService {
     return new FrameDto(frame.getId(), frame.getName());
   }
 
-  private Frame getFrame(Integer id) {
+  public Frame getFrame(Integer id) {
     return frameRepository.findById(id).orElseThrow(
         () -> new FrameServiceException(String.format("Frame with id: %d not found", id),
             HttpStatus.NOT_FOUND)

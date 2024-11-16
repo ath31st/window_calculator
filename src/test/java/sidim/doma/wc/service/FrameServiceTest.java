@@ -89,4 +89,19 @@ class FrameServiceTest {
 
     verify(frameRepository).deleteById(id);
   }
+
+  @Test
+  void getFrameById_whenValidDataProvided() {
+    when(frameRepository.findById(1)).thenReturn(Optional.ofNullable(frame));
+
+    val frame1 = frameService.getFrame(1);
+
+    assertEquals(frame, frame1);
+  }
+
+  @Test
+  void getFrameById_whenFrameNotFound_thenThrow() {
+    when(frameRepository.findById(1)).thenReturn(Optional.empty());
+    assertThrows(FrameServiceException.class, () -> frameService.getFrame(1));
+  }
 }
