@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import sidim.doma.wc.dto.block_table.BlockTableDto;
 import sidim.doma.wc.dto.block_table.NewBlockTableDto;
+import sidim.doma.wc.dto.block_table.UpdateBlockTableDto;
+import sidim.doma.wc.entity.BlockTable;
 import sidim.doma.wc.entity.FrameBlock;
 import sidim.doma.wc.exception.BlockTableServiceException;
 import sidim.doma.wc.mapper.BlockTableMapper;
@@ -24,7 +26,7 @@ public class BlockTableService {
     return blockTableMapper.fromEntityToDto(savedBlockTable);
   }
 
-  private void checkExistsFrameBlock(Integer id) {
+  private void checkExistsBlockTable(Integer id) {
     if (!blockTableRepository.existsById(id)) {
       throw new BlockTableServiceException(String.format("BlockTable with id: %d not found", id),
           HttpStatus.NOT_FOUND);
@@ -32,8 +34,25 @@ public class BlockTableService {
   }
 
   public void deleteBlockTable(Integer id) {
-    checkExistsFrameBlock(id);
+    checkExistsBlockTable(id);
 
     blockTableRepository.deleteById(id);
+  }
+
+  public BlockTableDto updateBlockTable(UpdateBlockTableDto dto) {
+    checkExistsBlockTable(dto.id());
+
+    val blockTable = getBlockTable(dto.id());
+    blockTable.setName(dto.name());
+    blockTable.setButtonType(dto.buttonType());
+
+    val savedBlockTable = blockTableRepository.save(blockTable);
+    return blockTableMapper.fromEntityToDto(savedBlockTable);
+  }
+
+  public BlockTable getBlockTable(Integer id) {
+    checkExistsBlockTable(id);
+
+    return blockTableRepository.findById(id).get();
   }
 }
