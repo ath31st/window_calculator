@@ -1,6 +1,7 @@
 package sidim.doma.wc.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,6 +17,7 @@ import sidim.doma.wc.dto.block_table.BlockTableDto;
 import sidim.doma.wc.dto.block_table.NewBlockTableDto;
 import sidim.doma.wc.entity.BlockTable;
 import sidim.doma.wc.entity.FrameBlock;
+import sidim.doma.wc.exception.BlockTableServiceException;
 import sidim.doma.wc.mapper.BlockTableMapper;
 import sidim.doma.wc.repository.BlockTableRepository;
 import sidim.doma.wc.util.ButtonType;
@@ -64,5 +66,21 @@ class BlockTableServiceTest {
     verify(blockTableRepository).save(any(BlockTable.class));
     verify(blockTableMapper).fromEntityToDto(any(BlockTable.class));
     verify(blockTableMapper).fromNewToEntity(any(NewBlockTableDto.class), any(FrameBlock.class));
+  }
+
+  @Test
+  void deleteBlockTable_success() {
+    when(blockTableRepository.existsById(1)).thenReturn(true);
+
+    blockTableService.deleteBlockTable(1);
+
+    verify(blockTableRepository).deleteById(1);
+  }
+
+  @Test
+  void deleteBlockTable_whenBlockTableNotFound_thenThrow() {
+    when(blockTableRepository.existsById(1)).thenReturn(false);
+
+    assertThrows(BlockTableServiceException.class, () -> blockTableService.deleteBlockTable(1));
   }
 }
