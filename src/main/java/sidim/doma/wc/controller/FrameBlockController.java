@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,5 +37,12 @@ public class FrameBlockController {
   public ResponseEntity<FrameBlockDto> updateFrameBlock(
       @RequestBody @Valid UpdateFrameBlockDto dto) {
     return new ResponseEntity<>(frameBlockService.updateFrameBlock(dto), HttpStatus.OK);
+  }
+
+  @DeleteMapping("/frame_blocks/{id}")
+  public ResponseEntity<HttpStatus> deleteFrameBlock(@PathVariable Integer id) {
+    frameBlockService.deleteFrameBlock(id);
+
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 }

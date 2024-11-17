@@ -3,7 +3,9 @@ package sidim.doma.wc.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,6 +24,7 @@ import sidim.doma.wc.dto.frame_block.FrameBlockDto;
 import sidim.doma.wc.dto.frame_block.NewFrameBlockDto;
 import sidim.doma.wc.dto.frame_block.UpdateFrameBlockDto;
 import sidim.doma.wc.entity.Frame;
+import sidim.doma.wc.exception.FrameBlockServiceException;
 import sidim.doma.wc.exception.FrameServiceException;
 import sidim.doma.wc.service.FrameBlockService;
 import sidim.doma.wc.service.FrameService;
@@ -145,6 +148,21 @@ class FrameBlockControllerTest {
     mockMvc.perform(put(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(updateFrameBlockDto)))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  void deleteFrameBlock_success() throws Exception {
+    mockMvc.perform(delete(BASE_URL + "/{id}", blockId))
+        .andExpect(status().isNoContent());
+  }
+
+  @Test
+  void deleteFrameBlock_whenFrameBlockNotFound() throws Exception {
+    doThrow(new FrameBlockServiceException("Frame block not found", HttpStatus.NOT_FOUND))
+        .when(frameBlockService).deleteFrameBlock(blockId);
+
+    mockMvc.perform(delete(BASE_URL + "/{id}", blockId))
         .andExpect(status().isNotFound());
   }
 }
