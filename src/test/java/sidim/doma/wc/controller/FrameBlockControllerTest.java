@@ -3,6 +3,7 @@ package sidim.doma.wc.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -53,29 +54,24 @@ class FrameBlockControllerTest {
   private final Boolean isWindowSizeEnabled = false;
   private final String blockInput = "test_block_input";
   private final String updateBlockInput = "another_test_block_input";
-  private Frame frame;
   private NewFrameBlockDto newFrameBlockDto;
-  private NewFrameBlockDto invalidNewFrameBlockDto;
   private UpdateFrameBlockDto updateFrameBlockDto;
-  private UpdateFrameBlockDto invalidUpdateFrameBlockDto;
   private FrameBlockDto frameBlockDto;
   private FrameBlockDto updatedFrameBlockDto;
 
   @BeforeEach
   void setUp() {
     newFrameBlockDto = new NewFrameBlockDto(frameId, name, isWindowSizeEnabled, blockInput, null);
-    invalidNewFrameBlockDto = new NewFrameBlockDto(frameId, null, isWindowSizeEnabled, blockInput, null);
     frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, null);
     updatedFrameBlockDto = new FrameBlockDto(blockId, updateName, isWindowSizeEnabled, updateBlockInput, null);
     updateFrameBlockDto = new UpdateFrameBlockDto(blockId, updateName, isWindowSizeEnabled, updateBlockInput, null);
-    invalidUpdateFrameBlockDto = new UpdateFrameBlockDto(blockId, null, isWindowSizeEnabled, updateBlockInput, null);
-
-    frame = new Frame();
-    frame.setId(frameId);
   }
 
   @Test
   void createFrameBlock_success() throws Exception {
+    val frame = new Frame();
+    frame.setId(frameId);
+
     when(frameService.getFrame(frameId)).thenReturn(frame);
     when(frameBlockService.createFrameBlock(newFrameBlockDto, frame)).thenReturn(frameBlockDto);
 
@@ -109,7 +105,8 @@ class FrameBlockControllerTest {
   void createFrameBlock_whenInvalidDataProvided() throws Exception {
     mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(invalidNewFrameBlockDto)))
+            .content(objectMapper.writeValueAsString(
+                new NewFrameBlockDto(frameId, null, isWindowSizeEnabled, blockInput, null))))
         .andExpect(status().isBadRequest());
   }
 
@@ -136,13 +133,32 @@ class FrameBlockControllerTest {
   void updateFrameBlock_whenInvalidDataProvided() throws Exception {
     mockMvc.perform(put(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(invalidUpdateFrameBlockDto)))
+            .content(objectMapper.writeValueAsString(
+                new UpdateFrameBlockDto(blockId, null, isWindowSizeEnabled, updateBlockInput, null))))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void updateFrameBlock_whenShortDataProvided_1() throws Exception {
+    mockMvc.perform(put(BASE_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(
+                new UpdateFrameBlockDto(blockId, "sh", isWindowSizeEnabled, updateBlockInput, null))))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void updateFrameBlock_whenShortDataProvided_2() throws Exception {
+    mockMvc.perform(put(BASE_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(
+                new UpdateFrameBlockDto(blockId, updateName, isWindowSizeEnabled, "sh", null))))
         .andExpect(status().isBadRequest());
   }
 
   @Test
   void updateFrameBlock_whenFrameBlockNotFound() throws Exception {
-    when(frameBlockService.updateFrameBlock(updateFrameBlockDto)).thenThrow(
+    when(frameBlockService.updateFrameBlock(any(UpdateFrameBlockDto.class))).thenThrow(
         new FrameServiceException("Frame block not found", HttpStatus.NOT_FOUND));
 
     mockMvc.perform(put(BASE_URL)
