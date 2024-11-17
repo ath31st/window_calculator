@@ -30,6 +30,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(buildResponse(e), e.getStatus());
   }
 
+  @ExceptionHandler(BlockTableServiceException.class)
+  protected ResponseEntity<ExceptionResponse> handleException(BlockTableServiceException e) {
+    return new ResponseEntity<>(buildResponse(e), e.getStatus());
+  }
+
   @ExceptionHandler(PropertyReferenceException.class)
   protected ResponseEntity<ExceptionResponse> handleException(PropertyReferenceException e) {
 
