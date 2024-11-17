@@ -1,4 +1,4 @@
-package sidim.doma.wc.dto;
+package sidim.doma.wc.dto.frame;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;

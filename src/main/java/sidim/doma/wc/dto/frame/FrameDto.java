@@ -1,4 +1,4 @@
-package sidim.doma.wc.dto;
+package sidim.doma.wc.dto.frame;
 
 import java.io.Serializable;
 

@@ -21,8 +21,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import sidim.doma.wc.dto.FrameDto;
-import sidim.doma.wc.dto.NewFrameDto;
+import sidim.doma.wc.dto.frame.FrameDto;
+import sidim.doma.wc.dto.frame.NewFrameDto;
 import sidim.doma.wc.exception.FrameServiceException;
 import sidim.doma.wc.service.FrameService;
 

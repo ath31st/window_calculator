@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sidim.doma.wc.dto.FrameDto;
-import sidim.doma.wc.dto.NewFrameDto;
+import sidim.doma.wc.dto.frame.FrameDto;
+import sidim.doma.wc.dto.frame.NewFrameDto;
 import sidim.doma.wc.service.FrameService;
 
 @RestController
