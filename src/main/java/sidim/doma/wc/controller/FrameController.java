@@ -25,12 +25,15 @@ public class FrameController {
   @PostMapping("/frames")
   public ResponseEntity<FrameDto> createNewFrame(@RequestBody @Valid NewFrameDto dto) {
     val trimmedDto = NewFrameDto.of(dto);
-    return new ResponseEntity<>(frameService.createFrame(trimmedDto), HttpStatus.CREATED);
+    val savedFrame = frameService.createFrame(trimmedDto);
+
+    return new ResponseEntity<>(savedFrame, HttpStatus.CREATED);
   }
 
   @DeleteMapping("/frames/{id}")
   public ResponseEntity<HttpStatus> deleteFrame(@PathVariable Integer id) {
     frameService.deleteFrame(id);
+
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
@@ -39,6 +42,7 @@ public class FrameController {
                                               @RequestBody @Valid NewFrameDto dto) {
     val trimmedDto = NewFrameDto.of(dto);
     val updatedFrame = frameService.renameFrame(id, trimmedDto.name());
+
     return ResponseEntity.ok(updatedFrame);
   }
 }

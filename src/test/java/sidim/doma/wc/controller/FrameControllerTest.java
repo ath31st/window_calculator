@@ -1,6 +1,7 @@
 package sidim.doma.wc.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,7 +47,7 @@ class FrameControllerTest {
     val id = 1;
     val newFrameDto = new NewFrameDto(name);
 
-    when(frameService.createFrame(newFrameDto)).thenReturn(new FrameDto(id, name));
+    when(frameService.createFrame(any(NewFrameDto.class))).thenReturn(new FrameDto(id, name));
 
     mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
@@ -54,6 +55,24 @@ class FrameControllerTest {
         .andExpect(status().isCreated())
         .andExpect(jsonPath("$.id").value(id))
         .andExpect(jsonPath("$.name").value(name));
+  }
+
+  @Test
+  void createNewFrame_whenValidDataProvided_withTrailingSpace() throws Exception {
+    val name = "test   ";
+    val trimmedName = "test";
+    val id = 1;
+    val newFrameDto = new NewFrameDto(name);
+
+    when(frameService.createFrame(any(NewFrameDto.class)))
+        .thenReturn(new FrameDto(id, trimmedName));
+
+    mockMvc.perform(post(BASE_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(newFrameDto)))
+        .andExpect(status().isCreated())
+        .andExpect(jsonPath("$.id").value(id))
+        .andExpect(jsonPath("$.name").value(trimmedName));
   }
 
   @ParameterizedTest
