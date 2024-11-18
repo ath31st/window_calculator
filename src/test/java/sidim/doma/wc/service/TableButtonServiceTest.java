@@ -1,11 +1,13 @@
 package sidim.doma.wc.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +17,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sidim.doma.wc.dto.table_button.NewTableButtonDto;
 import sidim.doma.wc.dto.table_button.TableButtonDto;
+import sidim.doma.wc.dto.table_button.UpdateTableButtonDto;
 import sidim.doma.wc.entity.BlockTable;
 import sidim.doma.wc.entity.TableButton;
+import sidim.doma.wc.exception.TableButtonServiceException;
 import sidim.doma.wc.mapper.TableButtonMapper;
 import sidim.doma.wc.repository.TableButtonRepository;
 
@@ -33,6 +37,7 @@ class TableButtonServiceTest {
   private TableButtonService tableButtonService;
 
   private String tableButtonName;
+  private String newTableButtonName;
   private BigDecimal value;
   private TableButton tableButton;
   private TableButtonDto tableButtonDto;
@@ -41,6 +46,7 @@ class TableButtonServiceTest {
   @BeforeEach
   void setUp() {
     tableButtonName = "test_table_button";
+    newTableButtonName = "new_test_table_button";
     value = BigDecimal.TEN;
 
     blockTable = new BlockTable();
@@ -71,4 +77,38 @@ class TableButtonServiceTest {
     verify(tableButtonMapper).fromEntityToDto(any(TableButton.class));
     verify(tableButtonMapper).fromNewToEntity(any(NewTableButtonDto.class), any(BlockTable.class));
   }
+
+  @Test
+  void updateTableButton_success() {
+    val newValue = BigDecimal.TWO;
+    val id = 3;
+    val updateTableButtonDto = new UpdateTableButtonDto(id, newTableButtonName, newValue);
+    tableButton.setName(newTableButtonName);
+    tableButton.setValue(newValue);
+    val updatedTableButtonDto = new TableButtonDto(id, newTableButtonName, newValue);
+
+    when(tableButtonRepository.existsById(id)).thenReturn(true);
+    when(tableButtonRepository.findById(id)).thenReturn(Optional.ofNullable(tableButton));
+    when(tableButtonRepository.save(tableButton)).thenReturn(tableButton);
+    when(tableButtonMapper.fromEntityToDto(any(TableButton.class))).thenReturn(updatedTableButtonDto);
+
+    val savedTableButtonDto = tableButtonService.updateTableButton(updateTableButtonDto);
+
+    assertEquals(updatedTableButtonDto, savedTableButtonDto);
+    verify(tableButtonRepository).save(any(TableButton.class));
+    verify(tableButtonMapper).fromEntityToDto(any(TableButton.class));
+  }
+
+  @Test
+  void updateTableButton_whenTableButtonNotFound() {
+    val newValue = BigDecimal.TWO;
+    val id = 4;
+    val updateTableButtonDto = new UpdateTableButtonDto(id, newTableButtonName, newValue);
+
+    when(tableButtonRepository.existsById(id)).thenReturn(false);
+
+    assertThrows(TableButtonServiceException.class,
+        () -> tableButtonService.updateTableButton(updateTableButtonDto));
+  }
+
 }
