@@ -52,10 +52,6 @@ class BlockTableControllerTest {
   private final Integer blockTableId = 2;
   private final String name = "test_block_table";
 
-  @BeforeEach
-  void setUp() {
-  }
-
   @Test
   void createNewBlockTable_whenValidDataProvided() throws Exception {
     val frameBlock = new FrameBlock();
