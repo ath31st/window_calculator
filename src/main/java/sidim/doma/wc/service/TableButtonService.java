@@ -49,4 +49,10 @@ public class TableButtonService {
           HttpStatus.NOT_FOUND);
     }
   }
+
+  public void deleteTableButton(Integer tableButtonId) {
+    checkExistsTableButton(tableButtonId);
+
+    tableButtonRepository.deleteById(tableButtonId);
+  }
 }

@@ -36,6 +36,7 @@ class TableButtonServiceTest {
   @InjectMocks
   private TableButtonService tableButtonService;
 
+  private Integer tableButtonId;
   private String tableButtonName;
   private String newTableButtonName;
   private BigDecimal value;
@@ -45,6 +46,7 @@ class TableButtonServiceTest {
 
   @BeforeEach
   void setUp() {
+    tableButtonId = 3;
     tableButtonName = "test_table_button";
     newTableButtonName = "new_test_table_button";
     value = BigDecimal.TEN;
@@ -53,13 +55,13 @@ class TableButtonServiceTest {
     blockTable.setId(2);
 
     tableButton = TableButton.builder()
-        .id(3)
+        .id(tableButtonId)
         .blockTable(blockTable)
         .name(tableButtonName)
         .value(value)
         .build();
 
-    tableButtonDto = new TableButtonDto(3, tableButtonName, value);
+    tableButtonDto = new TableButtonDto(tableButtonId, tableButtonName, value);
   }
 
   @Test
@@ -81,14 +83,13 @@ class TableButtonServiceTest {
   @Test
   void updateTableButton_success() {
     val newValue = BigDecimal.TWO;
-    val id = 3;
-    val updateTableButtonDto = new UpdateTableButtonDto(id, newTableButtonName, newValue);
+    val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, newTableButtonName, newValue);
     tableButton.setName(newTableButtonName);
     tableButton.setValue(newValue);
-    val updatedTableButtonDto = new TableButtonDto(id, newTableButtonName, newValue);
+    val updatedTableButtonDto = new TableButtonDto(tableButtonId, newTableButtonName, newValue);
 
-    when(tableButtonRepository.existsById(id)).thenReturn(true);
-    when(tableButtonRepository.findById(id)).thenReturn(Optional.ofNullable(tableButton));
+    when(tableButtonRepository.existsById(tableButtonId)).thenReturn(true);
+    when(tableButtonRepository.findById(tableButtonId)).thenReturn(Optional.ofNullable(tableButton));
     when(tableButtonRepository.save(tableButton)).thenReturn(tableButton);
     when(tableButtonMapper.fromEntityToDto(any(TableButton.class))).thenReturn(updatedTableButtonDto);
 
@@ -111,4 +112,40 @@ class TableButtonServiceTest {
         () -> tableButtonService.updateTableButton(updateTableButtonDto));
   }
 
+  @Test
+  void getTableButton_success() {
+    when(tableButtonRepository.existsById(tableButtonId)).thenReturn(true);
+    when(tableButtonRepository.findById(tableButtonId)).thenReturn(Optional.ofNullable(tableButton));
+
+    val existsTableButton = tableButtonService.getTableButton(tableButtonId);
+
+    assertEquals(existsTableButton, tableButton);
+    verify(tableButtonRepository).findById(tableButtonId);
+    verify(tableButtonRepository).existsById(tableButtonId);
+  }
+
+  @Test
+  void getTableButton_whenTableButtonNotFound() {
+    when(tableButtonRepository.existsById(tableButtonId)).thenReturn(false);
+
+    assertThrows(TableButtonServiceException.class,
+        () -> tableButtonService.getTableButton(tableButtonId));
+  }
+
+  @Test
+  void deleteTableButton_success() {
+    when(tableButtonRepository.existsById(tableButtonId)).thenReturn(true);
+
+    tableButtonService.deleteTableButton(tableButtonId);
+
+    verify(tableButtonRepository).deleteById(tableButtonId);
+  }
+
+  @Test
+  void deleteTableButton_whenTableButtonNotFound() {
+    when(tableButtonRepository.existsById(tableButtonId)).thenReturn(false);
+
+    assertThrows(TableButtonServiceException.class,
+        () -> tableButtonService.deleteTableButton(tableButtonId));
+  }
 }
