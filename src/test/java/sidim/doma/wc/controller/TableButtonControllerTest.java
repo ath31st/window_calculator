@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,8 +22,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import sidim.doma.wc.dto.table_button.NewTableButtonDto;
 import sidim.doma.wc.dto.table_button.TableButtonDto;
+import sidim.doma.wc.dto.table_button.UpdateTableButtonDto;
 import sidim.doma.wc.entity.BlockTable;
 import sidim.doma.wc.exception.BlockTableServiceException;
+import sidim.doma.wc.exception.TableButtonServiceException;
 import sidim.doma.wc.service.BlockTableService;
 import sidim.doma.wc.service.TableButtonService;
 
@@ -105,5 +109,88 @@ class TableButtonControllerTest {
         .contentType("application/json")
         .content(objectMapper.writeValueAsString(newTableButton))
     ).andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
+  void updateTableButton_success() throws Exception {
+    val newName = "new_table_button_name";
+    val newValue = BigDecimal.TEN;
+    val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, newName, newValue);
+    val savedTableButtonDto = new TableButtonDto(tableButtonId, newName, newValue);
+
+    when(tableButtonService.updateTableButton(updateTableButtonDto))
+        .thenReturn(savedTableButtonDto);
+
+    val result = mockMvc.perform(put(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(updateTableButtonDto))
+    ).andExpect(status().isOk()).andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val tableButtonDto = objectMapper.readValue(content, TableButtonDto.class);
+
+    assertEquals(tableButtonId, tableButtonDto.id());
+    assertEquals(newName, tableButtonDto.name());
+    assertEquals(newValue, tableButtonDto.value());
+  }
+
+  @Test
+  void updateTableButton_whenInvalidDataProvided_1() throws Exception {
+    val updateTableButtonDto = new UpdateTableButtonDto(null, null, null);
+
+    mockMvc.perform(put(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(updateTableButtonDto))
+    ).andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
+  void updateTableButton_whenInvalidDataProvided_2() throws Exception {
+    val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, name, null);
+
+    mockMvc.perform(put(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(updateTableButtonDto))
+    ).andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
+  void updateTableButton_whenInvalidDataProvided_3() throws Exception {
+    val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, name, BigDecimal.valueOf(-100));
+
+    mockMvc.perform(put(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(updateTableButtonDto))
+    ).andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
+  void updateTableButton_whenTableButtonNotFound() throws Exception {
+    val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, name, value);
+
+    doThrow(new TableButtonServiceException("Table button not found", HttpStatus.NOT_FOUND))
+        .when(tableButtonService).updateTableButton(updateTableButtonDto);
+
+    mockMvc.perform(put(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(updateTableButtonDto))
+    ).andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  void deleteTableButton_success() throws Exception {
+    mockMvc.perform(delete(BASE_URL + "/{id}", tableButtonId))
+        .andExpect(status().isNoContent()).andReturn();
+
+    verify(tableButtonService).deleteTableButton(tableButtonId);
+  }
+
+  @Test
+  void deleteTableButton_whenTableButtonNotFound() throws Exception {
+    doThrow(new TableButtonServiceException("Table button not found", HttpStatus.NOT_FOUND))
+        .when(tableButtonService).deleteTableButton(tableButtonId);
+
+    mockMvc.perform(delete(BASE_URL + "/{id}", tableButtonId))
+        .andExpect(status().isNotFound()).andReturn();
   }
 }
