@@ -27,8 +27,9 @@ public class FrameBlockController {
 
   @PostMapping("/frame_blocks")
   public ResponseEntity<FrameBlockDto> createFrameBlock(@RequestBody @Valid NewFrameBlockDto dto) {
-    val frame = frameService.getFrame(dto.frameId());
-    val savedFrameBlockDto = frameBlockService.createFrameBlock(dto, frame);
+    val trimmedDto = NewFrameBlockDto.from(dto);
+    val frame = frameService.getFrame(trimmedDto.frameId());
+    val savedFrameBlockDto = frameBlockService.createFrameBlock(trimmedDto, frame);
 
     return new ResponseEntity<>(savedFrameBlockDto, HttpStatus.CREATED);
   }
@@ -36,7 +37,10 @@ public class FrameBlockController {
   @PutMapping("/frame_blocks")
   public ResponseEntity<FrameBlockDto> updateFrameBlock(
       @RequestBody @Valid UpdateFrameBlockDto dto) {
-    return new ResponseEntity<>(frameBlockService.updateFrameBlock(dto), HttpStatus.OK);
+    val trimmedDto = UpdateFrameBlockDto.from(dto);
+    val updatedFrameBlock = frameBlockService.updateFrameBlock(trimmedDto);
+
+    return new ResponseEntity<>(updatedFrameBlock, HttpStatus.OK);
   }
 
   @DeleteMapping("/frame_blocks/{id}")

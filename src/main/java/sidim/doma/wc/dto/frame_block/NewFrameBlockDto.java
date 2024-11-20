@@ -20,4 +20,13 @@ public record NewFrameBlockDto(
     String inputTitle,
     String description
 ) implements Serializable {
+  public static NewFrameBlockDto from(NewFrameBlockDto dto) {
+    return new NewFrameBlockDto(
+        dto.frameId,
+        dto.name.trim(),
+        dto.isWindowSizeEnabled,
+        dto.inputTitle,
+        dto.description != null ? dto.description.trim() : null
+    );
+  }
 }

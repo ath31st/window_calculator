@@ -20,4 +20,13 @@ public record UpdateFrameBlockDto(
     String inputTitle,
     String description
 ) implements Serializable {
+  public static UpdateFrameBlockDto from(UpdateFrameBlockDto dto) {
+    return new UpdateFrameBlockDto(
+        dto.id(),
+        dto.name().trim(),
+        dto.isWindowSizeEnabled(),
+        dto.inputTitle(),
+        dto.description() != null ? dto.description().trim() : null
+    );
+  }
 }
