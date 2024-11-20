@@ -3,6 +3,7 @@ package sidim.doma.wc.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import lombok.val;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -72,6 +72,38 @@ class BlockTableControllerTest {
 
     assertEquals(blockTableId, blockTableDto.id());
     assertEquals(name, blockTableDto.name());
+    assertEquals(ButtonType.VALUE, blockTableDto.buttonType());
+
+    verify(frameBlockService).getFrameBlock(frameBlockId);
+    verify(blockTableService).createNewBlockTable(newBlockTable, frameBlock);
+  }
+
+  @Test
+  void createNewBlockTable_whenValidDataProvided_trimmed() throws Exception {
+    val nameWithSpaces = "    test_block_table ";
+    val trimmedName = "test_block_table";
+    val frameBlock = new FrameBlock();
+    val newBlockTable = new NewBlockTableDto(frameBlockId, trimmedName, ButtonType.VALUE);
+    val saveBlockTableDto = new BlockTableDto(blockTableId, trimmedName, ButtonType.VALUE);
+
+    when(frameBlockService.getFrameBlock(frameBlockId)).thenReturn(frameBlock);
+    when(blockTableService.createNewBlockTable(
+        refEq(new NewBlockTableDto(frameBlockId, trimmedName, ButtonType.VALUE)),
+        any(FrameBlock.class))
+    ).thenReturn(saveBlockTableDto);
+
+
+    val result = mockMvc.perform(post(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(
+            new NewBlockTableDto(frameBlockId, nameWithSpaces, ButtonType.VALUE)))
+    ).andExpect(status().isCreated()).andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val blockTableDto = objectMapper.readValue(content, BlockTableDto.class);
+
+    assertEquals(blockTableId, blockTableDto.id());
+    assertEquals(trimmedName, blockTableDto.name());
     assertEquals(ButtonType.VALUE, blockTableDto.buttonType());
 
     verify(frameBlockService).getFrameBlock(frameBlockId);
@@ -154,6 +186,28 @@ class BlockTableControllerTest {
 
     assertEquals(blockTableId, blockTableDto.id());
     assertEquals(newName, blockTableDto.name());
+    assertEquals(ButtonType.MODIFIER, blockTableDto.buttonType());
+  }
+
+  @Test
+  void updateBlockTable_success_trimmed() throws Exception {
+    val newName = "     new_block_table_name   ";
+    val trimmedNewName = "new_block_table_name";
+    val updateBlockTableDto = new UpdateBlockTableDto(blockTableId, newName, ButtonType.MODIFIER);
+
+    when(blockTableService.updateBlockTable(any(UpdateBlockTableDto.class)))
+        .thenReturn(new BlockTableDto(blockTableId, trimmedNewName, ButtonType.MODIFIER));
+
+    val result = mockMvc.perform(put(BASE_URL)
+            .contentType("application/json")
+            .content(objectMapper.writeValueAsString(updateBlockTableDto)))
+        .andExpect(status().isOk()).andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val blockTableDto = objectMapper.readValue(content, BlockTableDto.class);
+
+    assertEquals(blockTableId, blockTableDto.id());
+    assertEquals(trimmedNewName, blockTableDto.name());
     assertEquals(ButtonType.MODIFIER, blockTableDto.buttonType());
   }
 
