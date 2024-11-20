@@ -1,6 +1,7 @@
 package sidim.doma.wc.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -78,6 +79,34 @@ class TableButtonControllerTest {
   }
 
   @Test
+  void createNewTableButton_whenValidDataProvided_trimmed() throws Exception {
+    val blockTable = new BlockTable();
+    val nameWithSpaces = "  " + name + "  ";
+    val newTableButton = new NewTableButtonDto(blockTableId, nameWithSpaces, value);
+    val saveTableButtonDto = new TableButtonDto(tableButtonId, name, value);
+
+    when(blockTableService.getBlockTable(blockTableId)).thenReturn(blockTable);
+    when(tableButtonService.createTableButton(any(NewTableButtonDto.class), any(BlockTable.class)))
+        .thenReturn(saveTableButtonDto);
+
+    val result = mockMvc.perform(post(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(newTableButton))
+    ).andExpect(status().isCreated()).andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val tableButtonDto = objectMapper.readValue(content, TableButtonDto.class);
+
+    assertEquals(tableButtonId, tableButtonDto.id());
+    assertEquals(name, tableButtonDto.name());
+    assertEquals(value, tableButtonDto.value());
+
+    verify(blockTableService).getBlockTable(blockTableId);
+    verify(tableButtonService).createTableButton(
+        any(NewTableButtonDto.class), any(BlockTable.class));
+  }
+
+  @Test
   void createNewTableButton_whenBlockTableNotFound() throws Exception {
     val newTableButton = new NewTableButtonDto(blockTableId, name, value);
 
@@ -119,6 +148,30 @@ class TableButtonControllerTest {
     val savedTableButtonDto = new TableButtonDto(tableButtonId, newName, newValue);
 
     when(tableButtonService.updateTableButton(updateTableButtonDto))
+        .thenReturn(savedTableButtonDto);
+
+    val result = mockMvc.perform(put(BASE_URL)
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(updateTableButtonDto))
+    ).andExpect(status().isOk()).andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val tableButtonDto = objectMapper.readValue(content, TableButtonDto.class);
+
+    assertEquals(tableButtonId, tableButtonDto.id());
+    assertEquals(newName, tableButtonDto.name());
+    assertEquals(newValue, tableButtonDto.value());
+  }
+
+  @Test
+  void updateTableButton_success_trimmed() throws Exception {
+    val newNameWithSpaces = "  new_table_button_name   ";
+    val newName = "new_table_button_name";
+    val newValue = BigDecimal.TEN;
+    val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, newNameWithSpaces, newValue);
+    val savedTableButtonDto = new TableButtonDto(tableButtonId, newName, newValue);
+
+    when(tableButtonService.updateTableButton(any(UpdateTableButtonDto.class)))
         .thenReturn(savedTableButtonDto);
 
     val result = mockMvc.perform(put(BASE_URL)
