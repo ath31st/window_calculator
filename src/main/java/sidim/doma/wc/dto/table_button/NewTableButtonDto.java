@@ -21,4 +21,11 @@ public record NewTableButtonDto(
     @DecimalMax(value = "1000000.0", message = "Value must be less than or equal to 1,000,000")
     BigDecimal value
 ) implements Serializable {
+  public static NewTableButtonDto from(NewTableButtonDto dto) {
+    return new NewTableButtonDto(
+        dto.blockTableId,
+        dto.name.trim(),
+        dto.value
+    );
+  }
 }

@@ -28,8 +28,9 @@ public class TableButtonController {
   @PostMapping("/table_buttons")
   public ResponseEntity<TableButtonDto> createTableButton(
       @RequestBody @Valid NewTableButtonDto dto) {
-    val blockTable = blockTableService.getBlockTable(dto.blockTableId());
-    val tableButton = tableButtonService.createTableButton(dto, blockTable);
+    val trimmedDto = NewTableButtonDto.from(dto);
+    val blockTable = blockTableService.getBlockTable(trimmedDto.blockTableId());
+    val tableButton = tableButtonService.createTableButton(trimmedDto, blockTable);
 
     return new ResponseEntity<>(tableButton, HttpStatus.CREATED);
   }
@@ -37,7 +38,8 @@ public class TableButtonController {
   @PutMapping("/table_buttons")
   public ResponseEntity<TableButtonDto> updateTableButton(
       @RequestBody @Valid UpdateTableButtonDto dto) {
-    val tableButton = tableButtonService.updateTableButton(dto);
+    val trimmedDto = UpdateTableButtonDto.from(dto);
+    val tableButton = tableButtonService.updateTableButton(trimmedDto);
 
     return new ResponseEntity<>(tableButton, HttpStatus.OK);
   }
