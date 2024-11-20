@@ -27,8 +27,9 @@ public class BlockTableController {
 
   @PostMapping("/block_tables")
   public ResponseEntity<BlockTableDto> createNewBlockTable(@RequestBody @Valid NewBlockTableDto dto) {
-    val frameBlock = frameBlockService.getFrameBlock(dto.frameBlockId());
-    val savedBlockTableDto = blockTableService.createNewBlockTable(dto, frameBlock);
+    val trimmedDto = NewBlockTableDto.from(dto);
+    val frameBlock = frameBlockService.getFrameBlock(trimmedDto.frameBlockId());
+    val savedBlockTableDto = blockTableService.createNewBlockTable(trimmedDto, frameBlock);
 
     return new ResponseEntity<>(savedBlockTableDto, HttpStatus.CREATED);
   }
@@ -42,7 +43,8 @@ public class BlockTableController {
 
   @PutMapping("/block_tables")
   public ResponseEntity<BlockTableDto> updateBlockTable(@RequestBody @Valid UpdateBlockTableDto dto) {
-    val blockTable = blockTableService.updateBlockTable(dto);
+    val trimmedDto = UpdateBlockTableDto.from(dto);
+    val blockTable = blockTableService.updateBlockTable(trimmedDto);
 
     return new ResponseEntity<>(blockTable, HttpStatus.OK);
   }

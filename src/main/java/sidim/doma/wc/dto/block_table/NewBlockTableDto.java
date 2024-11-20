@@ -15,4 +15,11 @@ public record NewBlockTableDto(
     @NotNull(message = "Button type is required and cannot be null")
     ButtonType buttonType
 ) implements Serializable {
+  public static NewBlockTableDto from(NewBlockTableDto dto) {
+    return new NewBlockTableDto(
+        dto.frameBlockId(),
+        dto.name().trim(),
+        dto.buttonType()
+    );
+  }
 }

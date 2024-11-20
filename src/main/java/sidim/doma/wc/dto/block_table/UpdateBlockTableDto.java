@@ -15,4 +15,7 @@ public record UpdateBlockTableDto(
     @NotNull(message = "Button type is required and cannot be null")
     ButtonType buttonType
 ) implements Serializable {
+  public static UpdateBlockTableDto from(UpdateBlockTableDto dto) {
+    return new UpdateBlockTableDto(dto.id(), dto.name().trim(), dto.buttonType());
+  }
 }
