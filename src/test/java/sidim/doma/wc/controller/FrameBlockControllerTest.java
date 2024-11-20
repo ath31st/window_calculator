@@ -62,15 +62,17 @@ class FrameBlockControllerTest {
   @BeforeEach
   void setUp() {
     newFrameBlockDto = new NewFrameBlockDto(frameId, name, isWindowSizeEnabled, blockInput, null);
-    frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, null);
-    updatedFrameBlockDto = new FrameBlockDto(blockId, updateName, isWindowSizeEnabled, updateBlockInput, null);
-    updateFrameBlockDto = new UpdateFrameBlockDto(blockId, updateName, isWindowSizeEnabled, updateBlockInput, null);
+    updateFrameBlockDto = new UpdateFrameBlockDto(blockId, updateName, isWindowSizeEnabled,
+        updateBlockInput, null);
+    updatedFrameBlockDto = new FrameBlockDto(blockId, updateName, isWindowSizeEnabled,
+        updateBlockInput, null);
   }
 
   @Test
   void createFrameBlock_success() throws Exception {
     val frame = new Frame();
     frame.setId(frameId);
+    frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, null);
 
     when(frameService.getFrame(frameId)).thenReturn(frame);
     when(frameBlockService.createFrameBlock(newFrameBlockDto, frame)).thenReturn(frameBlockDto);
@@ -88,6 +90,36 @@ class FrameBlockControllerTest {
     assertEquals(blockInput, blockDto.inputTitle());
     assertEquals(isWindowSizeEnabled, blockDto.isWindowSizeEnabled());
     assertNull(blockDto.description());
+  }
+
+  @Test
+  void createFrameBlock_success_trimmed() throws Exception {
+    val frame = new Frame();
+    frame.setId(frameId);
+    val nameWithSpaces = "   test_block   ";
+    val descriptionWithSpaces = "   test_description  ";
+    val description = "test_description";
+    newFrameBlockDto = new NewFrameBlockDto(frameId, nameWithSpaces, isWindowSizeEnabled,
+        blockInput, descriptionWithSpaces);
+    frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, description);
+
+    when(frameService.getFrame(frameId)).thenReturn(frame);
+    when(frameBlockService.createFrameBlock(any(NewFrameBlockDto.class), any(Frame.class)))
+        .thenReturn(frameBlockDto);
+
+    val mvcResult = mockMvc.perform(post(BASE_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(newFrameBlockDto)))
+        .andExpect(status().isCreated()).andReturn();
+
+    val content = mvcResult.getResponse().getContentAsString();
+    val blockDto = objectMapper.readValue(content, FrameBlockDto.class);
+
+    assertNotNull(blockDto.id());
+    assertEquals(name, blockDto.name());
+    assertEquals(description, blockDto.description());
+    assertEquals(blockInput, blockDto.inputTitle());
+    assertEquals(isWindowSizeEnabled, blockDto.isWindowSizeEnabled());
   }
 
   @Test
@@ -112,7 +144,8 @@ class FrameBlockControllerTest {
 
   @Test
   void updateFrameBlock_success() throws Exception {
-    when(frameBlockService.updateFrameBlock(updateFrameBlockDto)).thenReturn(updatedFrameBlockDto);
+    when(frameBlockService.updateFrameBlock(any(UpdateFrameBlockDto.class)))
+        .thenReturn(updatedFrameBlockDto);
 
     val mvcResult = mockMvc.perform(put(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
@@ -127,6 +160,34 @@ class FrameBlockControllerTest {
     assertEquals(updateBlockInput, blockDto.inputTitle());
     assertEquals(isWindowSizeEnabled, blockDto.isWindowSizeEnabled());
     assertNull(blockDto.description());
+  }
+
+  @Test
+  void updateFrameBlock_success_trimmed() throws Exception {
+    val updateNameWithSpaces = "   another_test_block   ";
+    val updateDescriptionWithSpaces = "   another_test_description   ";
+    val updateDescription = "another_test_description";
+    updateFrameBlockDto = new UpdateFrameBlockDto(blockId, updateNameWithSpaces,
+        isWindowSizeEnabled, updateBlockInput, updateDescriptionWithSpaces);
+    updatedFrameBlockDto = new FrameBlockDto(blockId, updateName, isWindowSizeEnabled,
+        updateBlockInput, updateDescription);
+
+    when(frameBlockService.updateFrameBlock(any(UpdateFrameBlockDto.class)))
+        .thenReturn(updatedFrameBlockDto);
+
+    val mvcResult = mockMvc.perform(put(BASE_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(updateFrameBlockDto)))
+        .andExpect(status().isOk()).andReturn();
+
+    val content = mvcResult.getResponse().getContentAsString();
+    val blockDto = objectMapper.readValue(content, FrameBlockDto.class);
+
+    assertEquals(blockId, blockDto.id());
+    assertEquals(updateName, blockDto.name());
+    assertEquals(updateBlockInput, blockDto.inputTitle());
+    assertEquals(isWindowSizeEnabled, blockDto.isWindowSizeEnabled());
+    assertEquals(updateDescription, blockDto.description());
   }
 
   @Test
