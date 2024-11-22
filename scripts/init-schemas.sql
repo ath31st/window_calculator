@@ -1,1 +1,0 @@
-CREATE SCHEMA IF NOT EXISTS win_calc_schema;

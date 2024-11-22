@@ -14,13 +14,13 @@ services:
     restart: on-failure
     volumes:
       - "database:/var/lib/postgresql/data"
-      - "./scripts/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql"
+      - "./server/scripts/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql"
 
-#  backend:
+#  server:
 #    build:
 #      context: .
 #      dockerfile: Dockerfile
-#    container_name: backend_container
+#    container_name: server_container
 #    ports:
 #      - "8081:8081"
 #    environment:
