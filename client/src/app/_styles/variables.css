@@ -1,0 +1,49 @@
+:root {
+  /* Основные цвета */
+  --color-primary: #8b4513;
+  --color-secondary: #d2b48c;
+  --color-bg-base: #3e2723;
+  --color-bg-container: #795548;
+  --color-text-base: #f5f5dc;
+  --color-text-secondary: #d7ccc8;
+  --color-border: #a1887f;
+
+  /* Статусы */
+  --color-success: #27ae60;
+  --color-warning: #e67e22;
+  --color-error: #c0392b;
+  --color-info: #2980b9;
+
+  /* Размеры и отступы */
+  --border-radius: 0px;
+  --font-size: 18px;
+  --font-size-small: 12px;
+  --font-size-large: 28px;
+
+  --line-height: 1.5; /* Высота строки */
+  --spacing-small: 8px; /* Маленькие отступы */
+  --spacing-medium: 16px; /* Средние отступы */
+  --spacing-large: 24px; /* Большие отступы */
+
+  /* Тени */
+  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1); /* Легкая тень */
+  --shadow-medium: 0 2px 6px rgba(0, 0, 0, 0.2); /* Средняя тень */
+  --shadow-heavy: 0 4px 12px rgba(0, 0, 0, 0.3); /* Сильная тень */
+
+  /* Переходы */
+  --transition: all 0.3s ease;
+
+  /* Мобильные и адаптивные переменные */
+  --font-size-mobile: 14px;
+  --font-size-small-mobile: 10px;
+  --font-size-large-mobile: 24px;
+
+  --spacing-small-mobile: 6px;
+  --spacing-medium-mobile: 12px;
+  --spacing-large-mobile: 20px;
+
+  /* Адаптивные медиа-запросы */
+  --breakpoint-sm: 576px; /* для мобильных устройств */
+  --breakpoint-md: 768px; /* для планшетов */
+  --breakpoint-lg: 1024px; /* для десктопов */
+}

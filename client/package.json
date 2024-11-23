@@ -9,6 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.13.5",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@fontsource/roboto": "^5.1.0",
+    "@mui/icons-material": "^6.1.8",
+    "@mui/material": "^6.1.8",
+    "@mui/material-nextjs": "^6.1.8",
     "axios": "^1.7.7",
     "jwt-decode": "^4.0.0",
     "next": "15.0.3",
@@ -26,8 +33,6 @@
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "prettier": "^3.3.3",
-    "sass": "^1.81.0",
-    "sass-embedded": "^1.81.0",
     "typescript": "^5"
   }
 }

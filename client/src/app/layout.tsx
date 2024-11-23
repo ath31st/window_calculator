@@ -1,4 +1,16 @@
-import './styles/global.scss';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './_theme/theme';
+import './_styles/variables.css';
+import { Roboto } from 'next/font/google';
+import { CssBaseline } from '@mui/material';
+
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto',
+});
 
 export const metadata = {
   title: 'Window calculator',
@@ -17,14 +29,13 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
 
-      <body>
-        <header>
-          <h1>My Next.js App</h1>
-        </header>
-        {children}
-        <footer>
-          <p>&copy; 2024 My Next.js App</p>
-        </footer>
+      <body className={roboto.variable}>
+        <AppRouterCacheProvider options={{ key: 'css' }}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            {children}
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
