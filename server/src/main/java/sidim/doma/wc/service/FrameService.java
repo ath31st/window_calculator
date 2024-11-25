@@ -1,5 +1,6 @@
 package sidim.doma.wc.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,17 @@ public class FrameService {
     frameRepository.save(frame);
 
     return new FrameDto(frame.getId(), frame.getName());
+  }
+
+  public FrameDto getFrameDto(Integer id) {
+    val frame = getFrame(id);
+    return new FrameDto(frame.getId(), frame.getName());
+  }
+
+  public List<FrameDto> getAllFrameDtos() {
+    return frameRepository.findAll().stream()
+        .map(f -> new FrameDto(f.getId(), f.getName()))
+        .toList();
   }
 
   public Frame getFrame(Integer id) {

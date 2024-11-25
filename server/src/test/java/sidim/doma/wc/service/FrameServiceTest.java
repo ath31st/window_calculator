@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,13 +31,15 @@ class FrameServiceTest {
   @InjectMocks
   private FrameService frameService;
 
-  private NewFrameDto frameDto;
+  private NewFrameDto newFrameDto;
   private FrameDto expectedFrameDto;
   private Frame frame;
+  private Integer id;
 
   @BeforeEach
   void setUp() {
-    frameDto = new NewFrameDto("test");
+    id = 1;
+    newFrameDto = new NewFrameDto("test");
     frame = Frame.builder()
         .id(1)
         .name("test")
@@ -45,10 +48,41 @@ class FrameServiceTest {
   }
 
   @Test
+  void getFrameDtoById_whenValidDataProvided() {
+    val frameDto = new FrameDto(id, "test");
+
+    when(frameRepository.findById(id)).thenReturn(Optional.ofNullable(frame));
+
+    val frameDto1 = frameService.getFrameDto(id);
+
+    assertEquals(frameDto, frameDto1);
+  }
+
+  @Test
+  void getFrameDtoById_whenFrameNotFound_thenThrow() {
+    when(frameRepository.findById(id)).thenReturn(Optional.empty());
+
+    assertThrows(FrameServiceException.class, () -> frameService.getFrameDto(id));
+  }
+
+  @Test
+  void getAllFrameDtos() {
+    val expetctedframeDtos = List.of(expectedFrameDto);
+
+    when(frameRepository.findAll()).thenReturn(List.of(frame));
+
+    val frameDtos = frameService.getAllFrameDtos();
+
+    assertEquals(expetctedframeDtos, frameDtos);
+    assertEquals(1, frameDtos.size());
+    assertEquals(expectedFrameDto, frameDtos.get(0));
+  }
+
+  @Test
   void createNewFrame_whenValidDataProvided() {
     when(frameRepository.save(any(Frame.class))).thenReturn(frame);
 
-    val savedFrame = frameService.createFrame(frameDto);
+    val savedFrame = frameService.createFrame(newFrameDto);
 
     assertEquals(expectedFrameDto, savedFrame);
     verify(frameRepository).save(argThat(f -> f.getName().equals("test")));
@@ -57,7 +91,6 @@ class FrameServiceTest {
   @Test
   void renameFrame_whenValidDataProvided() {
     val newName = "another_test";
-    val id = 1;
 
     when(frameRepository.existsById(id)).thenReturn(true);
     when(frameRepository.findById(id)).thenReturn(Optional.ofNullable(frame));
@@ -71,7 +104,6 @@ class FrameServiceTest {
   @Test
   void renameFrame_whenFrameNotFound_thenThrow() {
     val newName = "another_test";
-    val id = 1;
 
     when(frameRepository.existsById(id)).thenReturn(false);
 
@@ -81,8 +113,6 @@ class FrameServiceTest {
 
   @Test
   void deleteFrame_success() {
-    val id = 1;
-
     when(frameRepository.existsById(id)).thenReturn(true);
 
     frameService.deleteFrame(id);
@@ -92,16 +122,16 @@ class FrameServiceTest {
 
   @Test
   void getFrameById_whenValidDataProvided() {
-    when(frameRepository.findById(1)).thenReturn(Optional.ofNullable(frame));
+    when(frameRepository.findById(id)).thenReturn(Optional.ofNullable(frame));
 
-    val frame1 = frameService.getFrame(1);
+    val frame1 = frameService.getFrame(id);
 
     assertEquals(frame, frame1);
   }
 
   @Test
   void getFrameById_whenFrameNotFound_thenThrow() {
-    when(frameRepository.findById(1)).thenReturn(Optional.empty());
-    assertThrows(FrameServiceException.class, () -> frameService.getFrame(1));
+    when(frameRepository.findById(id)).thenReturn(Optional.empty());
+    assertThrows(FrameServiceException.class, () -> frameService.getFrame(id));
   }
 }
