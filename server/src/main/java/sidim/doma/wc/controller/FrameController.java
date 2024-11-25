@@ -1,11 +1,13 @@
 package sidim.doma.wc.controller;
 
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +23,18 @@ import sidim.doma.wc.service.FrameService;
 @RequestMapping("/api/v1")
 public class FrameController {
   private final FrameService frameService;
+
+  @GetMapping("/frames/{id}")
+  public ResponseEntity<FrameDto> getFrameById(@PathVariable Integer id) {
+    val frameDto = frameService.getFrameDto(id);
+    return ResponseEntity.ok(frameDto);
+  }
+
+  @GetMapping("/frames")
+  public ResponseEntity<List<FrameDto>> getAllFrames() {
+    val frameDtos = frameService.getAllFrameDtos();
+    return ResponseEntity.ok(frameDtos);
+  }
 
   @PostMapping("/frames")
   public ResponseEntity<FrameDto> createNewFrame(@RequestBody @Valid NewFrameDto dto) {

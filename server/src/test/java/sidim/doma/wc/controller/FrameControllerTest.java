@@ -6,12 +6,14 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,10 +43,40 @@ class FrameControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  private final Integer id = 1;
+  private final String name = "test_frame";
+
+  @Test
+  void getAllFrames() throws Exception {
+    when(frameService.getAllFrameDtos()).thenReturn(List.of(new FrameDto(id, name)));
+
+    mockMvc.perform(get(BASE_URL))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].id").value(id))
+        .andExpect(jsonPath("$[0].name").value(name));
+  }
+
+  @Test
+  void getFrameById() throws Exception {
+    when(frameService.getFrameDto(id)).thenReturn(new FrameDto(id, name));
+
+    mockMvc.perform(get(BASE_URL + "/{id}", id))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(id))
+        .andExpect(jsonPath("$.name").value(name));
+  }
+
+  @Test
+  void getFrameById_whenFrameNotFound() throws Exception {
+    doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
+        .when(frameService).getFrameDto(id);
+
+    mockMvc.perform(get(BASE_URL + "/{id}", id))
+        .andExpect(status().isNotFound());
+  }
+
   @Test
   void createNewFrame_whenValidDataProvided() throws Exception {
-    val name = "test";
-    val id = 1;
     val newFrameDto = new NewFrameDto(name);
 
     when(frameService.createFrame(any(NewFrameDto.class))).thenReturn(new FrameDto(id, name));
@@ -59,10 +91,9 @@ class FrameControllerTest {
 
   @Test
   void createNewFrame_whenValidDataProvided_withTrailingSpace() throws Exception {
-    val name = "test   ";
+    val nameWithSpaces = "test   ";
     val trimmedName = "test";
-    val id = 1;
-    val newFrameDto = new NewFrameDto(name);
+    val newFrameDto = new NewFrameDto(nameWithSpaces);
 
     when(frameService.createFrame(any(NewFrameDto.class)))
         .thenReturn(new FrameDto(id, trimmedName));
@@ -88,8 +119,6 @@ class FrameControllerTest {
 
   @Test
   void deleteFrame_whenValidDataProvided() throws Exception {
-    val id = 1;
-
     mockMvc.perform(
             delete(BASE_URL + "/{id}", id))
         .andExpect(status().isNoContent());
@@ -99,8 +128,6 @@ class FrameControllerTest {
 
   @Test
   void deleteFrame_whenFrameNotFound() throws Exception {
-    val id = 1;
-
     doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
         .when(frameService).deleteFrame(id);
 
@@ -112,8 +139,7 @@ class FrameControllerTest {
 
   @Test
   void updateFrame_whenValidDataProvided() throws Exception {
-    val id = 1;
-    val newName = "new_test";
+    val newName = "new_frame_test";
     val newFrameDto = new NewFrameDto(newName);
 
     when(frameService.renameFrame(id, newName)).thenReturn(new FrameDto(id, newName));
@@ -135,7 +161,6 @@ class FrameControllerTest {
   @ParameterizedTest
   @ValueSource(strings = {"", "  ", "sh"})
   void updateFrame_whenInvalidNameProvided(String invalidName) throws Exception {
-    val id = 1;
     val newFrameDto = new NewFrameDto(invalidName);
 
     mockMvc.perform(put(BASE_URL + "/{id}", id)
@@ -146,8 +171,7 @@ class FrameControllerTest {
 
   @Test
   void updateFrame_whenFrameNotFound() throws Exception {
-    val id = 1;
-    val newName = "new_test";
+    val newName = "new_frame_test";
     val newFrameDto = new NewFrameDto(newName);
 
     doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
