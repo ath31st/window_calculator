@@ -12,8 +12,10 @@ import { create } from 'zustand';
 interface FrameStore {
   frames: Frame[];
   frameFull: FrameFull | null;
+  activeFrameId: number | null;
   loading: boolean;
   error: string | null;
+  setActiveFrame: (id: number) => void;
   addFrame: (name: string) => void;
   deleteFrame: (id: number) => void;
   updateFrame: (id: number, newName: string) => void;
@@ -24,6 +26,7 @@ interface FrameStore {
 export const useFrameStore = create<FrameStore>((set) => ({
   frames: [],
   frameFull: null,
+  activeFrameId: null,
   loading: false,
   error: null,
 
@@ -41,7 +44,11 @@ export const useFrameStore = create<FrameStore>((set) => ({
     set({ error: null });
   },
 
-  fetchFrames: () => async () => {
+  setActiveFrame: (id: number) => {
+    set({ activeFrameId: id });
+  },
+
+  fetchFrames: async () => {
     set({ loading: true });
     try {
       const frames = await getFrames();
@@ -92,7 +99,7 @@ export const useFrameStore = create<FrameStore>((set) => ({
     }
   },
 
-  fetchFrameFull: (id: number) => async () => {
+  fetchFrameFull: async (id: number) => {
     set({ loading: true });
     try {
       const frameFull = await getFrameFull(id);
