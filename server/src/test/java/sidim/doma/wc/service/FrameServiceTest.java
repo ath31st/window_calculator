@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import lombok.val;
@@ -17,9 +18,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sidim.doma.wc.dto.frame.FrameDto;
+import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
 import sidim.doma.wc.entity.Frame;
 import sidim.doma.wc.exception.FrameServiceException;
+import sidim.doma.wc.mapper.FrameMapper;
 import sidim.doma.wc.repository.FrameRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,6 +30,9 @@ class FrameServiceTest {
 
   @Mock
   private FrameRepository frameRepository;
+
+  @Mock
+  private FrameMapper frameMapper;
 
   @InjectMocks
   private FrameService frameService;
@@ -67,13 +73,13 @@ class FrameServiceTest {
 
   @Test
   void getAllFrameDtos() {
-    val expetctedframeDtos = List.of(expectedFrameDto);
+    val expectedFrameDtos = List.of(expectedFrameDto);
 
     when(frameRepository.findAll()).thenReturn(List.of(frame));
 
     val frameDtos = frameService.getAllFrameDtos();
 
-    assertEquals(expetctedframeDtos, frameDtos);
+    assertEquals(expectedFrameDtos, frameDtos);
     assertEquals(1, frameDtos.size());
     assertEquals(expectedFrameDto, frameDtos.get(0));
   }
@@ -133,5 +139,24 @@ class FrameServiceTest {
   void getFrameById_whenFrameNotFound_thenThrow() {
     when(frameRepository.findById(id)).thenReturn(Optional.empty());
     assertThrows(FrameServiceException.class, () -> frameService.getFrame(id));
+  }
+
+  @Test
+  void getFrameFullDtoById_whenValidDataProvided() {
+    val expectedFrameFullDto = new FrameFullDto(id, "test", Collections.emptyList());
+
+    when(frameRepository.findById(id)).thenReturn(Optional.ofNullable(frame));
+    when(frameMapper.fromEntityToFullDto(frame)).thenReturn(expectedFrameFullDto);
+
+    val frameFullDto = frameService.getFrameFullDto(id);
+
+    assertEquals(expectedFrameFullDto, frameFullDto);
+  }
+
+  @Test
+  void getFrameFullDtoById_whenFrameNotFound_thenThrow() {
+    when(frameRepository.findById(id)).thenReturn(Optional.empty());
+
+    assertThrows(FrameServiceException.class, () -> frameService.getFrameFullDto(id));
   }
 }

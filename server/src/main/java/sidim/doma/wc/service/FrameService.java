@@ -6,15 +6,18 @@ import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import sidim.doma.wc.dto.frame.FrameDto;
+import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
 import sidim.doma.wc.entity.Frame;
 import sidim.doma.wc.exception.FrameServiceException;
+import sidim.doma.wc.mapper.FrameMapper;
 import sidim.doma.wc.repository.FrameRepository;
 
 @Service
 @RequiredArgsConstructor
 public class FrameService {
   private final FrameRepository frameRepository;
+  private final FrameMapper frameMapper;
 
   public FrameDto createFrame(NewFrameDto frameDto) {
     val frame = new Frame();
@@ -42,6 +45,11 @@ public class FrameService {
   public FrameDto getFrameDto(Integer id) {
     val frame = getFrame(id);
     return new FrameDto(frame.getId(), frame.getName());
+  }
+
+  public FrameFullDto getFrameFullDto(Integer id) {
+    val frame = getFrame(id);
+    return frameMapper.fromEntityToFullDto(frame);
   }
 
   public List<FrameDto> getAllFrameDtos() {
