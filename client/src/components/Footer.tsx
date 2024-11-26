@@ -1,50 +1,27 @@
 'use client';
 
-import { useState } from 'react';
-import {
-  Box,
-  IconButton,
-  Typography,
-  Dialog,
-  TextField,
-  Button,
-} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useFrameStore } from '@/stores/frame.store';
 import FrameButton from './buttons/FrameButton';
+import AddFrameDialog from './dialogs/AddFrameDialog';
 
 const Footer: React.FC = () => {
   const {
     frames,
     activeFrameId,
+    fetchFrames,
     addFrame,
     deleteFrame,
     updateFrame,
     setActiveFrame,
   } = useFrameStore();
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [newFrameName, setNewFrameName] = useState('');
 
-  const handleAddFrame = () => {
-    if (newFrameName.trim()) {
-      addFrame(newFrameName.trim());
-      setNewFrameName('');
-      setDialogOpen(false);
-    }
-  };
-
-  const handleEditFrame = (id: number) => {
-    const newName = prompt('Введите новое название фрейма');
-    if (newName?.trim()) {
-      updateFrame(id, newName.trim());
-    }
-  };
-
-  const handleDeleteFrame = (id: number) => {
-    if (confirm('Вы уверены, что хотите удалить фрейм?')) {
-      deleteFrame(id);
-    }
-  };
+  useEffect(() => {
+    fetchFrames();
+  }, [fetchFrames]);
 
   return (
     <Box
@@ -77,11 +54,12 @@ const Footer: React.FC = () => {
         {frames.map((frame) => (
           <FrameButton
             key={frame.id}
+            id={frame.id}
             name={frame.name}
             isActive={activeFrameId === frame.id}
             onSelect={() => setActiveFrame(frame.id)}
-            onEdit={() => handleEditFrame(frame.id)}
-            onDelete={() => handleDeleteFrame(frame.id)}
+            onEdit={(newName) => updateFrame(frame.id, newName)}
+            onDelete={() => deleteFrame(frame.id)}
           />
         ))}
         <IconButton onClick={() => setDialogOpen(true)}>
@@ -89,22 +67,11 @@ const Footer: React.FC = () => {
         </IconButton>
       </Box>
 
-      <Dialog open={isDialogOpen} onClose={() => setDialogOpen(false)}>
-        <Box
-          sx={{ padding: 3, display: 'flex', flexDirection: 'column', gap: 2 }}
-        >
-          <Typography variant="h6">Добавить фрейм</Typography>
-          <TextField
-            label="Название фрейма"
-            value={newFrameName}
-            onChange={(e) => setNewFrameName(e.target.value)}
-            fullWidth
-          />
-          <Button variant="contained" onClick={handleAddFrame}>
-            Добавить
-          </Button>
-        </Box>
-      </Dialog>
+      <AddFrameDialog
+        isOpen={isDialogOpen}
+        onClose={() => setDialogOpen(false)}
+        onAdd={(name) => addFrame(name)}
+      />
     </Box>
   );
 };

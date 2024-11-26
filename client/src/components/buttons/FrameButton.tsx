@@ -1,58 +1,80 @@
 'use client';
 
-import React from 'react';
-import { Box, IconButton, Typography, Tooltip } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, IconButton, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditFrameDialog from '@/components/dialogs/EditFrameDialog';
+import DeleteFrameDialog from '@/components/dialogs/DeleteFrameDialog';
 
 interface FrameButtonProps {
+  id: number;
   name: string;
   isActive: boolean;
   onSelect: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
+  onDelete: () => void; 
+  onEdit: (newName: string) => void; 
 }
 
 const FrameButton: React.FC<FrameButtonProps> = ({
+  id,
   name,
   isActive,
   onSelect,
-  onEdit,
   onDelete,
-}) => (
-  <Box
-    sx={{
-      padding: 1,
-      cursor: 'pointer',
-      bgcolor: isActive ? 'primary.main' : 'grey.200',
-      color: isActive ? 'white' : 'black',
-      borderRadius: 1,
-      textAlign: 'center',
-      minWidth: 100,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 1,
-    }}
-  >
-    <Box sx={{ flexGrow: 1 }} onClick={onSelect}>
-      <Typography variant="body2" noWrap>
-        {name}
-      </Typography>
-    </Box>
-    <Box sx={{ display: 'flex', gap: 0.5 }}>
-      <Tooltip title="Редактировать">
-        <IconButton size="small" onClick={onEdit}>
+  onEdit,
+}) => {
+  const [dialogType, setDialogType] = useState<'edit' | 'delete' | null>(null);
+
+  const openEditDialog = () => setDialogType('edit');
+  const openDeleteDialog = () => setDialogType('delete');
+  const closeDialog = () => setDialogType(null);
+
+  return (
+    <Box
+      sx={{
+        padding: 1,
+        cursor: 'pointer',
+        bgcolor: isActive ? 'primary.main' : 'grey.200',
+        color: isActive ? 'white' : 'black',
+        borderRadius: 1,
+        textAlign: 'center',
+        minWidth: 100,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 1,
+      }}
+    >
+      <Box sx={{ flexGrow: 1 }} onClick={onSelect}>
+        <Typography variant="body2" noWrap>
+          {name}
+        </Typography>
+      </Box>
+      <Box sx={{ display: 'flex', gap: 0.5 }}>
+        <IconButton size="small" onClick={openEditDialog}>
           <EditIcon fontSize="small" />
         </IconButton>
-      </Tooltip>
-      <Tooltip title="Удалить">
-        <IconButton size="small" onClick={onDelete}>
+        <IconButton size="small" onClick={openDeleteDialog}>
           <DeleteIcon fontSize="small" />
         </IconButton>
-      </Tooltip>
+      </Box>
+
+      <EditFrameDialog
+        isOpen={dialogType === 'edit'}
+        onClose={closeDialog}
+        onUpdate={onEdit}
+        currentName={name}
+      />
+
+      <DeleteFrameDialog
+        isOpen={dialogType === 'delete'}
+        onClose={closeDialog}
+        onDelete={onDelete}
+        frameId={id}
+      />
     </Box>
-  </Box>
-);
+  );
+};
 
 export default FrameButton;

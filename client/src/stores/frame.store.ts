@@ -16,6 +16,7 @@ interface FrameStore {
   loading: boolean;
   error: string | null;
   setActiveFrame: (id: number) => void;
+  fetchFrames: () => void;
   addFrame: (name: string) => void;
   deleteFrame: (id: number) => void;
   updateFrame: (id: number, newName: string) => void;
