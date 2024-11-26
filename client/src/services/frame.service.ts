@@ -1,7 +1,7 @@
 import { Frame, FrameFull } from '@/types/api';
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL + '/frames';
+const API_URL = process.env.NEXT_PUBLIC_API_URL + '/frames';
 
 export const getFrames = async (): Promise<Frame[]> => {
   const response = await axios.get<Frame[]>(API_URL);
