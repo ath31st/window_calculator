@@ -3,17 +3,17 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL + '/frames';
 
-export const fetchFrames = async (): Promise<Frame[]> => {
+export const getFrames = async (): Promise<Frame[]> => {
   const response = await axios.get<Frame[]>(API_URL);
   return response.data;
 };
 
-export const fetchFrame = async (id: number): Promise<Frame> => {
+export const getFrame = async (id: number): Promise<Frame> => {
   const response = await axios.get<Frame>(`${API_URL}/${id}`);
   return response.data;
 };
 
-export const fetchFrameFull = async (id: number): Promise<FrameFull> => {
+export const getFrameFull = async (id: number): Promise<FrameFull> => {
   const response = await axios.get<FrameFull>(`${API_URL}/${id}/full`);
   return response.data;
 };
