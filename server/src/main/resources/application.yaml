@@ -21,3 +21,10 @@ spring:
     schemas: win_calc_schema
     clean-on-validation-error: true
     clean-disabled: false
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          web: DEBUG
