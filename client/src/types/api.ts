@@ -11,6 +11,12 @@ export interface NewFrame {
   name: string;
 }
 
+export interface FrameFull {
+  id: number;
+  name: string;
+  blocks: FrameBlockFull[];
+}
+
 // frame block types
 
 export interface FrameBlock {
@@ -29,6 +35,15 @@ export interface NewFrameBlock {
   description: string;
 }
 
+export interface FrameBlockFull {
+  id: number;
+  name: string;
+  isWindowSizeEnabled: boolean;
+  inputTitle: string;
+  description: string;
+  tables: BlockTableFull[];
+}
+
 // block table types
 
 export interface BlockTable {
@@ -41,6 +56,13 @@ export interface NewBlockTable {
   frameBlockId: number;
   name: string;
   buttonType: ButtonType;
+}
+
+export interface BlockTableFull {
+  id: number;
+  name: string;
+  buttonType: ButtonType;
+  buttons: TableButton[];
 }
 
 // table button types
