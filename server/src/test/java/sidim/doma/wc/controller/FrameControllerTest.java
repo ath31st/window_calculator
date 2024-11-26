@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Collections;
 import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import sidim.doma.wc.dto.frame.FrameDto;
+import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
 import sidim.doma.wc.exception.FrameServiceException;
 import sidim.doma.wc.service.FrameService;
@@ -183,5 +185,26 @@ class FrameControllerTest {
         .andExpect(status().isNotFound());
 
     verify(frameService).renameFrame(id, newName);
+  }
+
+  @Test
+  void getFrameFullDto_whenValidDataProvided() throws Exception {
+    when(frameService.getFrameFullDto(id)).thenReturn(
+        new FrameFullDto(id, name, Collections.emptyList()));
+
+    mockMvc.perform(get(BASE_URL + "/{id}/full", id))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(id))
+        .andExpect(jsonPath("$.name").value(name))
+        .andExpect(jsonPath("$.frameBlocks").isEmpty());
+  }
+
+  @Test
+  void getFrameFullDto_whenFrameNotFound() throws Exception {
+    doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
+        .when(frameService).getFrameFullDto(id);
+
+    mockMvc.perform(get(BASE_URL + "/{id}/full", id))
+        .andExpect(status().isNotFound());
   }
 }

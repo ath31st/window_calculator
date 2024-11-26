@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sidim.doma.wc.dto.frame.FrameDto;
+import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
 import sidim.doma.wc.service.FrameService;
 
@@ -27,12 +28,21 @@ public class FrameController {
   @GetMapping("/frames/{id}")
   public ResponseEntity<FrameDto> getFrameById(@PathVariable Integer id) {
     val frameDto = frameService.getFrameDto(id);
+
+    return ResponseEntity.ok(frameDto);
+  }
+
+  @GetMapping("/frames/{id}/full")
+  public ResponseEntity<FrameFullDto> getFrameFullById(@PathVariable Integer id) {
+    val frameDto = frameService.getFrameFullDto(id);
+
     return ResponseEntity.ok(frameDto);
   }
 
   @GetMapping("/frames")
   public ResponseEntity<List<FrameDto>> getAllFrames() {
     val frameDtos = frameService.getAllFrameDtos();
+
     return ResponseEntity.ok(frameDtos);
   }
 
