@@ -11,9 +11,17 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useFrameStore } from '@/stores/frame.store';
+import FrameButton from './buttons/FrameButton';
 
 const Footer: React.FC = () => {
-  const { frames, activeFrameId, addFrame, setActiveFrame } = useFrameStore();
+  const {
+    frames,
+    activeFrameId,
+    addFrame,
+    deleteFrame,
+    updateFrame,
+    setActiveFrame,
+  } = useFrameStore();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [newFrameName, setNewFrameName] = useState('');
 
@@ -22,6 +30,19 @@ const Footer: React.FC = () => {
       addFrame(newFrameName.trim());
       setNewFrameName('');
       setDialogOpen(false);
+    }
+  };
+
+  const handleEditFrame = (id: number) => {
+    const newName = prompt('Введите новое название фрейма');
+    if (newName?.trim()) {
+      updateFrame(id, newName.trim());
+    }
+  };
+
+  const handleDeleteFrame = (id: number) => {
+    if (confirm('Вы уверены, что хотите удалить фрейм?')) {
+      deleteFrame(id);
     }
   };
 
@@ -54,21 +75,14 @@ const Footer: React.FC = () => {
         }}
       >
         {frames.map((frame) => (
-          <Box
+          <FrameButton
             key={frame.id}
-            onClick={() => setActiveFrame(frame.id)}
-            sx={{
-              padding: 1,
-              cursor: 'pointer',
-              bgcolor: activeFrameId === frame.id ? 'primary.main' : 'grey.200',
-              color: activeFrameId === frame.id ? 'white' : 'black',
-              borderRadius: 1,
-              textAlign: 'center',
-              minWidth: 100,
-            }}
-          >
-            <Typography variant="body2">{frame.name}</Typography>
-          </Box>
+            name={frame.name}
+            isActive={activeFrameId === frame.id}
+            onSelect={() => setActiveFrame(frame.id)}
+            onEdit={() => handleEditFrame(frame.id)}
+            onDelete={() => handleDeleteFrame(frame.id)}
+          />
         ))}
         <IconButton onClick={() => setDialogOpen(true)}>
           <AddIcon />
