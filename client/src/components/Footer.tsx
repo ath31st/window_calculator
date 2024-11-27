@@ -15,13 +15,19 @@ const Footer: React.FC = () => {
     addFrame,
     deleteFrame,
     updateFrame,
-    setActiveFrame,
+    fetchFrameFull,
   } = useFrameStore();
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchFrames();
   }, [fetchFrames]);
+
+  const handleFrameSelect = async (id: number) => {
+    if (activeFrameId !== id) {
+      fetchFrameFull(id);
+    }
+  };
 
   return (
     <Box
@@ -57,7 +63,7 @@ const Footer: React.FC = () => {
             id={frame.id}
             name={frame.name}
             isActive={activeFrameId === frame.id}
-            onSelect={() => setActiveFrame(frame.id)}
+            onSelect={() => handleFrameSelect(frame.id)}
             onEdit={(newName) => updateFrame(frame.id, newName)}
             onDelete={() => deleteFrame(frame.id)}
           />
@@ -66,7 +72,6 @@ const Footer: React.FC = () => {
           <AddIcon />
         </IconButton>
       </Box>
-
       <AddFrameDialog
         isOpen={isDialogOpen}
         onClose={() => setDialogOpen(false)}
