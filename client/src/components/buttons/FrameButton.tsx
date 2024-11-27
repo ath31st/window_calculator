@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditFrameDialog from '@/components/dialogs/EditFrameDialog';
 import DeleteFrameDialog from '@/components/dialogs/DeleteFrameDialog';
+import theme from '@/app/_theme/theme';
 
 interface FrameButtonProps {
   id: number;
@@ -35,9 +36,9 @@ const FrameButton: React.FC<FrameButtonProps> = ({
       sx={{
         padding: 1,
         cursor: 'pointer',
-        bgcolor: isActive ? 'primary.main' : 'grey.200',
-        color: isActive ? 'white' : 'black',
-        borderRadius: 1,
+        bgcolor: isActive ? 'primary.main' : 'primary.secondary',
+        color: isActive ? 'text.primary' : 'text.secondary',
+        borderRadius: theme.shape.borderRadius,
         textAlign: 'center',
         minWidth: 100,
         display: 'flex',
