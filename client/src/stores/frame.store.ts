@@ -16,8 +16,8 @@ interface FrameStore {
   activeFrameId: number | null;
   loading: boolean;
   error: string | null;
-  setActiveFrame: (id: number) => void;
   fetchFrames: () => void;
+  fetchFrameFull: (id: number) => void;
   addFrame: (name: string) => void;
   deleteFrame: (id: number) => void;
   updateFrame: (id: number, newName: string) => void;
@@ -44,10 +44,6 @@ export const useFrameStore = create<FrameStore>((set) => ({
 
   clearError: () => {
     set({ error: null });
-  },
-
-  setActiveFrame: (id: number) => {
-    set({ activeFrameId: id });
   },
 
   fetchFrames: async () => {
@@ -105,8 +101,11 @@ export const useFrameStore = create<FrameStore>((set) => ({
     set({ loading: true });
     try {
       const frameFull = await getFrameFull(id);
-      useFrameBlockStore.getState().setFrameBlocks(frameFull.blocks);
-      set({ frameFull, loading: false });
+      useFrameBlockStore.getState().setFrameBlocks(frameFull.frameBlocks);
+
+      console.log(frameFull);
+
+      set({ frameFull, activeFrameId: id, loading: false });
     } catch (err) {
       set({ loading: false });
       useFrameStore.getState().handleError(err);
