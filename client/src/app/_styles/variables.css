@@ -1,12 +1,12 @@
 :root {
   /* Основные цвета */
-  --color-primary: #9e521c;
-  --color-secondary: #d2b48c;
-  --color-bg-base: #3e2723;
-  --color-bg-container: #795548;
-  --color-text-base: #f5f5dc;
-  --color-text-secondary: #d7ccc8;
-  --color-border: #a1887f;
+  --color-primary: #0078d7;
+  --color-secondary: #b0c4de;
+  --color-bg-base: #f5f5f5;
+  --color-bg-container: #e0e0e0;
+  --color-text-base: #333333;
+  --color-text-secondary: #666666;
+  --color-border: #cccccc;
 
   /* Статусы */
   --color-success: #27ae60;
