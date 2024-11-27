@@ -14,6 +14,7 @@ interface FrameBlockStore {
   addFrameBlock: (frameBlock: NewFrameBlock) => Promise<void>;
   updateFrameBlock: (frameBlock: FrameBlock) => Promise<void>;
   deleteFrameBlock: (id: number) => Promise<void>;
+  setFrameBlocks: (blocks: FrameBlockFull[]) => void;
   clearError: () => void;
   handleError: (error: unknown) => void;
 }
@@ -35,6 +36,10 @@ export const useFrameBlockStore = create<FrameBlockStore>((set) => ({
 
   clearError: () => {
     set({ error: null });
+  },
+
+  setFrameBlocks: (blocks: FrameBlockFull[]) => {
+    set({ frameBlocksFull: blocks });
   },
 
   addFrameBlock: async (frameBlock: NewFrameBlock) => {

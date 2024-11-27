@@ -8,6 +8,7 @@ import {
 import { Frame, FrameFull } from '@/types/api';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
+import { useFrameBlockStore } from './frame.block.store';
 
 interface FrameStore {
   frames: Frame[];
@@ -104,6 +105,7 @@ export const useFrameStore = create<FrameStore>((set) => ({
     set({ loading: true });
     try {
       const frameFull = await getFrameFull(id);
+      useFrameBlockStore.getState().setFrameBlocks(frameFull.blocks);
       set({ frameFull, loading: false });
     } catch (err) {
       set({ loading: false });
