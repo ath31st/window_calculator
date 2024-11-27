@@ -14,7 +14,7 @@ export interface NewFrame {
 export interface FrameFull {
   id: number;
   name: string;
-  blocks: FrameBlockFull[];
+  frameBlocks: FrameBlockFull[];
 }
 
 // frame block types
