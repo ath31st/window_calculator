@@ -5,7 +5,7 @@ import { Box, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useFrameStore } from '@/stores/frame.store';
 import FrameButton from './buttons/FrameButton';
-import AddFrameDialog from './dialogs/AddFrameDialog';
+import AddFrameDialog from './dialogs/frame/AddFrameDialog';
 
 const Footer: React.FC = () => {
   const {

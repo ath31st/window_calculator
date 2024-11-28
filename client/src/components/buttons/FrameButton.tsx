@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditFrameDialog from '@/components/dialogs/EditFrameDialog';
-import DeleteFrameDialog from '@/components/dialogs/DeleteFrameDialog';
+import EditFrameDialog from '@/components/dialogs/frame/EditFrameDialog';
+import DeleteFrameDialog from '@/components/dialogs/frame/DeleteFrameDialog';
 import theme from '@/app/_theme/theme';
 
 interface FrameButtonProps {

@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useFrameBlockStore } from '@/stores/frame.block.store';
 import FrameBlockList from '@/components/FrameBlockList';
-import AddFrameBlockDialog from '@/components/dialogs/AddFrameBlockDialog';
+import AddFrameBlockDialog from '@/components/dialogs/frame.block/AddFrameBlockDialog';
 import { useFrameStore } from '@/stores/frame.store';
 
 const Home: React.FC = () => {
