@@ -44,7 +44,16 @@ export const useFrameBlockStore = create<FrameBlockStore>((set) => ({
 
   addFrameBlock: async (frameBlock: NewFrameBlock) => {
     try {
-      await addFrameBlock(frameBlock);
+      const createdBlock = await addFrameBlock(frameBlock);
+
+      const frameBlockFull: FrameBlockFull = {
+        ...createdBlock,
+        tables: [],
+      };
+
+      set((state) => ({
+        frameBlocksFull: [...state.frameBlocksFull, frameBlockFull],
+      }));
     } catch (err) {
       useFrameBlockStore.getState().handleError(err);
     }
@@ -52,7 +61,12 @@ export const useFrameBlockStore = create<FrameBlockStore>((set) => ({
 
   updateFrameBlock: async (frameBlock: FrameBlock) => {
     try {
-      await updateFrameBlock(frameBlock);
+      const updatedBlock = await updateFrameBlock(frameBlock);
+      set((state) => ({
+        frameBlocksFull: state.frameBlocksFull.map((block) =>
+          block.id === updatedBlock.id ? { ...block, ...updatedBlock } : block,
+        ),
+      }));
     } catch (err) {
       useFrameBlockStore.getState().handleError(err);
     }
@@ -61,6 +75,11 @@ export const useFrameBlockStore = create<FrameBlockStore>((set) => ({
   deleteFrameBlock: async (id: number) => {
     try {
       await deleteFrameBlock(id);
+      set((state) => ({
+        frameBlocksFull: state.frameBlocksFull.filter(
+          (block) => block.id !== id,
+        ),
+      }));
     } catch (err) {
       useFrameBlockStore.getState().handleError(err);
     }
