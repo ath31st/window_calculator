@@ -14,14 +14,21 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   onEdit,
   onDelete,
 }) => {
-  const [widthInMM, setWidthInMM] = useState<string>('');
-  const [heightInMM, setHeightInMM] = useState<string>('');
+  const [multiplier, setMultiplier] = useState<number>(1);
+  const [widthInMM, setWidthInMM] = useState<number>(0);
+  const [heightInMM, setHeightInMM] = useState<number>(0);
 
-  const handleDimensionChange = (key: 'width' | 'height', value: string) => {
+  const handleDimensionChange = (
+    key: 'width' | 'height' | 'multiplier',
+    value: string,
+  ) => {
+    const numericValue = parseInt(value, 10) || 0;
     if (key === 'width') {
-      setWidthInMM(value);
+      setWidthInMM(numericValue);
     } else if (key === 'height') {
-      setHeightInMM(value);
+      setHeightInMM(numericValue);
+    } else if (key === 'multiplier') {
+      setMultiplier(numericValue);
     }
   };
 
@@ -63,6 +70,16 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
               />
             </Box>
           )}
+
+          <TextField
+            label={block.inputTitle}
+            type="number"
+            value={multiplier}
+            onChange={(e) =>
+              handleDimensionChange('multiplier', e.target.value)
+            }
+            fullWidth
+          />
 
           <Box
             sx={{
