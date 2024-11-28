@@ -40,10 +40,6 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             {block.name}
           </Typography>
 
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            {block.description}
-          </Typography>
-
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
             {block.isWindowSizeEnabled
               ? 'Размер окна включен'
@@ -80,6 +76,10 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             }
             fullWidth
           />
+
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            {block.description}
+          </Typography>
 
           <Box
             sx={{
