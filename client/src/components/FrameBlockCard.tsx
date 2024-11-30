@@ -1,7 +1,18 @@
-import { Box, Typography, Card, CardContent, TextField } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  TextField,
+  IconButton,
+} from '@mui/material';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { FrameBlockEditDeleteButtons } from './buttons/FrameBlockEditDeleteButtons';
 import { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import { addBlockTable, deleteBlockTable, updateBlockTable } from '@/services/block.table.service';
+import AddBlockTableDialog from './dialogs/block.table/AddBlockTableDialog';
+import BlockTableList from './BlockTableList';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -14,6 +25,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   onEdit,
   onDelete,
 }) => {
+  const [isDialogOpen, setDialogOpen] = useState(false);
   const [multiplier, setMultiplier] = useState<number>(1);
   const [widthInMM, setWidthInMM] = useState<number>(0);
   const [heightInMM, setHeightInMM] = useState<number>(0);
@@ -39,6 +51,12 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
           <Typography variant="h6" sx={{ mb: 1 }}>
             {block.name}
           </Typography>
+
+          <BlockTableList
+            blockTablesFull={!!!!}
+            deleteBlockTable={(id) => deleteBlockTable(id)}
+            updateBlockTable={(table) => updateBlockTable(table)}
+          />
 
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
             {block.isWindowSizeEnabled
@@ -75,6 +93,21 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
               handleDimensionChange('multiplier', e.target.value)
             }
             fullWidth
+          />
+
+          <Box>
+            <IconButton onClick={() => setDialogOpen(true)}>
+              <AddIcon />
+            </IconButton>
+          </Box>
+
+          <AddBlockTableDialog
+            isOpen={isDialogOpen}
+            onClose={() => setDialogOpen(false)}
+            onAdd={(newBlockTable) => {
+              addBlockTable(newBlockTable);
+            }}
+            frameBlockId={block.id}
           />
 
           <Typography variant="body2" sx={{ mb: 2 }}>
