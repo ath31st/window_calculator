@@ -19,7 +19,7 @@ interface BlockTableStore {
   handleError: (error: unknown) => void;
 }
 
-const useFrameBlockStore = create<BlockTableStore>((set) => ({
+const useBlockTableStore = create<BlockTableStore>((set) => ({
   blockTablesFull: [],
   loading: false,
   error: null,
@@ -51,7 +51,7 @@ const useFrameBlockStore = create<BlockTableStore>((set) => ({
         blockTablesFull: [...state.blockTablesFull, blockTableFull],
       }));
     } catch (err) {
-      useFrameBlockStore.getState().handleError(err);
+      useBlockTableStore.getState().handleError(err);
     }
   },
 
@@ -64,7 +64,7 @@ const useFrameBlockStore = create<BlockTableStore>((set) => ({
         ),
       }));
     } catch (err) {
-      useFrameBlockStore.getState().handleError(err);
+      useBlockTableStore.getState().handleError(err);
     }
   },
 
@@ -75,7 +75,7 @@ const useFrameBlockStore = create<BlockTableStore>((set) => ({
         blockTablesFull: state.blockTablesFull.filter((bt) => bt.id !== id),
       }));
     } catch (err) {
-      useFrameBlockStore.getState().handleError(err);
+      useBlockTableStore.getState().handleError(err);
     }
   },
 
@@ -84,4 +84,4 @@ const useFrameBlockStore = create<BlockTableStore>((set) => ({
   },
 }));
 
-export default useFrameBlockStore;
+export default useBlockTableStore;
