@@ -9,6 +9,7 @@ import { Frame, FrameFull } from '@/types/api';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { useFrameBlockStore } from './frame.block.store';
+import useBlockTableStore from './block.table.store';
 
 interface FrameStore {
   frames: Frame[];
@@ -103,6 +104,10 @@ export const useFrameStore = create<FrameStore>((set) => ({
       const frameFull = await getFrameFull(id);
       useFrameBlockStore.getState().setFrameBlocks(frameFull.frameBlocks);
 
+      const blockTables = frameFull.frameBlocks.flatMap(
+        (block) => block.tables || [],
+      );
+      useBlockTableStore.getState().setBlockTables(blockTables);
       console.log(frameFull);
 
       set({ frameFull, activeFrameId: id, loading: false });
