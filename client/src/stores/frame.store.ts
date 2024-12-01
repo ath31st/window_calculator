@@ -105,7 +105,7 @@ export const useFrameStore = create<FrameStore>((set) => ({
       useFrameBlockStore.getState().setFrameBlocks(frameFull.frameBlocks);
 
       const blockTables = frameFull.frameBlocks.flatMap(
-        (block) => block.tables || [],
+        (block) => block.blockTables || [],
       );
       useBlockTableStore.getState().setBlockTables(blockTables);
       console.log(frameFull);

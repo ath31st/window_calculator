@@ -48,7 +48,7 @@ export const useFrameBlockStore = create<FrameBlockStore>((set) => ({
 
       const frameBlockFull: FrameBlockFull = {
         ...createdBlock,
-        tables: [],
+        blockTables: [],
       };
 
       set((state) => ({

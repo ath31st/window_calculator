@@ -44,7 +44,7 @@ const useBlockTableStore = create<BlockTableStore>((set) => ({
 
       const blockTableFull: BlockTableFull = {
         ...createdBlockTable,
-        buttons: [],
+        tableButtons: [],
       };
 
       set((state) => ({
