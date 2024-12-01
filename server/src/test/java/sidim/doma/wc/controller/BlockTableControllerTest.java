@@ -17,6 +17,7 @@ import java.util.Map;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ import sidim.doma.wc.service.FrameBlockService;
 import sidim.doma.wc.util.ButtonType;
 
 @WebMvcTest(BlockTableController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class BlockTableControllerTest {
 
   private static final String BASE_URL = "/api/v1/block_tables";
