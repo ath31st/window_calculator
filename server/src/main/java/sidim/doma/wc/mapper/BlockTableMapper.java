@@ -17,7 +17,8 @@ public class BlockTableMapper {
   private final TableButtonMapper tableButtonMapper;
 
   public BlockTableDto fromEntityToDto(BlockTable entity) {
-    return new BlockTableDto(entity.getId(), entity.getName(), entity.getButtonType());
+    return new BlockTableDto(
+        entity.getId(), entity.getFrameBlock().getId(), entity.getName(), entity.getButtonType());
   }
 
   public BlockTable fromNewToEntity(NewBlockTableDto dto, FrameBlock frameBlock) {
@@ -34,6 +35,7 @@ public class BlockTableMapper {
   public BlockTableFullDto fromEntityToFullDto(BlockTable entity) {
     return new BlockTableFullDto(
         entity.getId(),
+        entity.getFrameBlock().getId(),
         entity.getName(),
         entity.getButtonType(),
         entity.getTableButtons().stream()

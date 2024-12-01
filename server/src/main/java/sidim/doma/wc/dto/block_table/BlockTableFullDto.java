@@ -7,6 +7,7 @@ import sidim.doma.wc.util.ButtonType;
 
 public record BlockTableFullDto(
     Integer id,
+    Integer frameBlockId,
     String name,
     ButtonType buttonType,
     List<TableButtonDto> tableButtons
