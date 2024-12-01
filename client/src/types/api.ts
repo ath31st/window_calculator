@@ -72,11 +72,11 @@ export interface BlockTableFull {
 export interface TableButton {
   id: number;
   name: string;
-  value: string;
+  value: number;
 }
 
 export interface NewTableButton {
   blockTableId: number;
   name: string;
-  value: string;
+  value: number;
 }
