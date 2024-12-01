@@ -10,9 +10,9 @@ import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { FrameBlockEditDeleteButtons } from './buttons/FrameBlockEditDeleteButtons';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { addBlockTable, deleteBlockTable, updateBlockTable } from '@/services/block.table.service';
 import AddBlockTableDialog from './dialogs/block.table/AddBlockTableDialog';
 import BlockTableList from './BlockTableList';
+import useBlockTableStore from '@/stores/block.table.store';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -29,6 +29,8 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   const [multiplier, setMultiplier] = useState<number>(1);
   const [widthInMM, setWidthInMM] = useState<number>(0);
   const [heightInMM, setHeightInMM] = useState<number>(0);
+  const { blockTablesFull, addBlockTable, updateBlockTable, deleteBlockTable } =
+    useBlockTableStore();
 
   const handleDimensionChange = (
     key: 'width' | 'height' | 'multiplier',
@@ -53,7 +55,9 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
           </Typography>
 
           <BlockTableList
-            blockTablesFull={!!!!}
+            blockTablesFull={blockTablesFull.filter(
+              (bt) => bt.frameBlockId === block.id,
+            )}
             deleteBlockTable={(id) => deleteBlockTable(id)}
             updateBlockTable={(table) => updateBlockTable(table)}
           />
