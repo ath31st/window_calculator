@@ -11,7 +11,8 @@ import sidim.doma.wc.entity.TableButton;
 @Component
 public class TableButtonMapper {
   public TableButtonDto fromEntityToDto(TableButton entity) {
-    return new TableButtonDto(entity.getId(), entity.getName(), entity.getValue());
+    return new TableButtonDto(
+        entity.getId(), entity.getBlockTable().getId(), entity.getName(), entity.getValue());
   }
 
   public TableButton fromNewToEntity(NewTableButtonDto dto, BlockTable blockTable) {
