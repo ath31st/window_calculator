@@ -10,20 +10,13 @@ import {
   Switch,
   FormControlLabel,
 } from '@mui/material';
+import { NewFrameBlock } from '@/types/api';
 
 interface AddFrameBlockDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onAdd: (frameBlock: NewFrameBlock) => void;
   frameId: number;
-}
-
-export interface NewFrameBlock {
-  frameId: number;
-  name: string;
-  isWindowSizeEnabled: boolean;
-  inputTitle: string;
-  description: string;
 }
 
 const AddFrameBlockDialog: React.FC<AddFrameBlockDialogProps> = ({
