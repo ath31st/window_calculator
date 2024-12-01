@@ -1,6 +1,6 @@
 import { BlockTable, BlockTableFull } from '@/types/api';
 import { Box, Card, CardContent, Typography } from '@mui/material';
-import { BlockTableEditDeleteButtons } from './buttons/BlockTableEditDeleteButtons';
+import { BlockTableEditDeleteButtons } from '../buttons/BlockTableEditDeleteButtons';
 
 interface BlockTableCardProps {
   table: BlockTableFull;

@@ -4,7 +4,7 @@ import { Box, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import { useFrameBlockStore } from '@/stores/frame.block.store';
-import FrameBlockList from '@/components/FrameBlockList';
+import FrameBlockList from '@/components/lists/FrameBlockList';
 import AddFrameBlockDialog from '@/components/dialogs/frame.block/AddFrameBlockDialog';
 import { useFrameStore } from '@/stores/frame.store';
 

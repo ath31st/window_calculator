@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { BlockTable, BlockTableFull } from '@/types/api';
-import BlockTableCard from './BlockTableCard';
+import BlockTableCard from '../cards/BlockTableCard';
 
 interface BlockTableListProps {
   blockTablesFull: BlockTableFull[];

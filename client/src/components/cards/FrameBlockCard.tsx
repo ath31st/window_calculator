@@ -7,11 +7,11 @@ import {
   IconButton,
 } from '@mui/material';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
-import { FrameBlockEditDeleteButtons } from './buttons/FrameBlockEditDeleteButtons';
+import { FrameBlockEditDeleteButtons } from '../buttons/FrameBlockEditDeleteButtons';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import AddBlockTableDialog from './dialogs/block.table/AddBlockTableDialog';
-import BlockTableList from './BlockTableList';
+import AddBlockTableDialog from '../dialogs/block.table/AddBlockTableDialog';
+import BlockTableList from '../lists/BlockTableList';
 import useBlockTableStore from '@/stores/block.table.store';
 
 interface FrameBlockCardProps {

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import FrameBlockCard from './FrameBlockCard';
+import FrameBlockCard from '../cards/FrameBlockCard';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 
 interface FrameBlockListProps {
