@@ -71,6 +71,7 @@ export interface BlockTableFull {
 
 export interface TableButton {
   id: number;
+  blockTableId: number;
   name: string;
   value: number;
 }

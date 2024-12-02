@@ -19,7 +19,7 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
   onDelete,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const { addTableButton, updateTableButton, deleteTableButton } =
+  const { addTableButton, updateTableButton, deleteTableButton, tableButtons } =
     useTableButtonStore();
 
   return (
@@ -31,7 +31,9 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
           </Typography>
 
           <TableButtonList
-            tableButtons={table.tableButtons}
+            tableButtons={tableButtons.filter(
+              (tb) => tb.blockTableId === table.id,
+            )}
             updateTableButton={(tableButton) => updateTableButton(tableButton)}
             deleteTableButton={(id) => deleteTableButton(id)}
             buttonType={table.buttonType}

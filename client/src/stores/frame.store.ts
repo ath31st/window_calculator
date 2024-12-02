@@ -10,6 +10,7 @@ import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { useFrameBlockStore } from './frame.block.store';
 import useBlockTableStore from './block.table.store';
+import { useTableButtonStore } from './table.button.store';
 
 interface FrameStore {
   frames: Frame[];
@@ -108,6 +109,12 @@ export const useFrameStore = create<FrameStore>((set) => ({
         (block) => block.blockTables || [],
       );
       useBlockTableStore.getState().setBlockTables(blockTables);
+
+      const tableButtons = blockTables.flatMap(
+        (blockTable) => blockTable.tableButtons || [],
+      );
+      useTableButtonStore.getState().setTableButtons(tableButtons);
+
       console.log(frameFull);
 
       set({ frameFull, activeFrameId: id, loading: false });
