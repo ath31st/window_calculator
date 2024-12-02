@@ -62,11 +62,11 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             updateBlockTable={(table) => updateBlockTable(table)}
           />
 
-          <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-            {block.isWindowSizeEnabled
-              ? 'Размер окна включен'
-              : 'Размер окна отключен'}
-          </Typography>
+          <Box>
+            <IconButton onClick={() => setDialogOpen(true)}>
+              <AddIcon />
+            </IconButton>
+          </Box>
 
           {block.isWindowSizeEnabled && (
             <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
@@ -98,12 +98,6 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             }
             fullWidth
           />
-
-          <Box>
-            <IconButton onClick={() => setDialogOpen(true)}>
-              <AddIcon />
-            </IconButton>
-          </Box>
 
           <AddBlockTableDialog
             isOpen={isDialogOpen}

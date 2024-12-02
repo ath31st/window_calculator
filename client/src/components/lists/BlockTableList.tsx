@@ -15,13 +15,13 @@ const BlockTableList: React.FC<BlockTableListProps> = ({
 }) => {
   return (
     <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        padding: 2,
-        overflowY: 'auto',
-      }}
+    sx={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+      gap: 1,
+      padding: 1,
+      overflowY: 'auto',
+    }}
     >
       {blockTablesFull.map((table) => (
         <BlockTableCard

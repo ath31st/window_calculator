@@ -23,7 +23,7 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
     useTableButtonStore();
 
   return (
-    <Card sx={{ width: '100%', mb: 2, position: 'relative' }}>
+    <Card sx={{ width: '100%', position: 'relative' }}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant="h6" sx={{ mb: 1 }}>
@@ -38,10 +38,6 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
             deleteTableButton={(id) => deleteTableButton(id)}
             buttonType={table.buttonType}
           />
-
-          <Typography variant="body2" sx={{ mb: 2 }}>
-            {table.buttonType}
-          </Typography>
 
           <Box>
             <IconButton onClick={() => setDialogOpen(true)}>
