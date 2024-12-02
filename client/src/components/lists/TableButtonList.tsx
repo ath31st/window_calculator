@@ -1,7 +1,14 @@
 import { TableButton } from '@/types/api';
-import TableButtonCard from '../cards/TableButtonCard';
 import { ButtonType } from '@/constants/button.type';
-import { Box } from '@mui/material';
+import {
+  Box,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Checkbox,
+} from '@mui/material';
+import { useState } from 'react';
+import TableButtonEditDeleteButtons from '../buttons/TableButtonEditDeleteButtons';
 
 interface TableButtonListProps {
   tableButtons: TableButton[];
@@ -16,25 +23,75 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
   deleteTableButton,
   updateTableButton,
 }) => {
+  const isModifier = buttonType === 'MODIFIER';
+  const [selectedButton, setSelectedButton] = useState<number | null>(null);
+
+  const handleRadioChange = (id: number) => {
+    setSelectedButton(id);
+  };
+
   return (
     <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 2,
-        padding: 2,
+        gap: 1,
         overflowY: 'auto',
       }}
     >
-      {tableButtons.map((button) => (
-        <TableButtonCard
-          key={button.id}
-          button={button}
-          onDelete={deleteTableButton}
-          onEdit={updateTableButton}
-          buttonType={buttonType}
-        />
-      ))}
+      {isModifier ? (
+        <RadioGroup
+          value={selectedButton}
+          onChange={(e) => handleRadioChange(Number(e.target.value))}
+        >
+          {tableButtons.map((button) => (
+            <Box
+              key={button.id}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <FormControlLabel
+                value={button.id}
+                control={<Radio />}
+                label={`${button.name} (${button.value})`}
+              />
+              <Box>
+                <TableButtonEditDeleteButtons
+                  currentTableButton={button}
+                  onEdit={updateTableButton}
+                  onDelete={deleteTableButton}
+                />
+              </Box>
+            </Box>
+          ))}
+        </RadioGroup>
+      ) : (
+        tableButtons.map((button) => (
+          <Box
+            key={button.id}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <FormControlLabel
+              control={<Checkbox />}
+              label={`${button.name} (${button.value})`}
+            />
+            <Box>
+              <TableButtonEditDeleteButtons
+                currentTableButton={button}
+                onEdit={updateTableButton}
+                onDelete={deleteTableButton}
+              />
+            </Box>
+          </Box>
+        ))
+      )}
     </Box>
   );
 };
