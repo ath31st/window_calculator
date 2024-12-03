@@ -8,11 +8,13 @@ import {
 } from '@mui/material';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { FrameBlockEditDeleteButtons } from '../buttons/FrameBlockEditDeleteButtons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import AddBlockTableDialog from '../dialogs/block.table/AddBlockTableDialog';
 import BlockTableList from '../lists/BlockTableList';
-import useBlockTableStore from '@/stores/block.table.store';
+import { useSummaryCalculation } from '@/hooks/use.summary.calculation';
+import { useDimensions } from '@/hooks/use.dimensions';
+import { useBlockTables } from '@/hooks/use.block.tables';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -26,25 +28,39 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   onDelete,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [multiplier, setMultiplier] = useState<number>(1);
-  const [widthInMM, setWidthInMM] = useState<number>(0);
-  const [heightInMM, setHeightInMM] = useState<number>(0);
-  const { blockTablesFull, addBlockTable, updateBlockTable, deleteBlockTable } =
-    useBlockTableStore();
+  const { widthInMM, heightInMM, multiplier, handleDimensionChange } =
+    useDimensions();
 
-  const handleDimensionChange = (
-    key: 'width' | 'height' | 'multiplier',
-    value: string,
-  ) => {
-    const numericValue = parseInt(value, 10) || 0;
-    if (key === 'width') {
-      setWidthInMM(numericValue);
-    } else if (key === 'height') {
-      setHeightInMM(numericValue);
-    } else if (key === 'multiplier') {
-      setMultiplier(numericValue);
-    }
-  };
+  const [selectedModifiers, setSelectedModifiers] = useState<
+    Record<number, number>
+  >({});
+  const [selectedValues, setSelectedValues] = useState<
+    Record<number, number[]>
+  >({});
+
+  const {
+    blockTablesFull,
+    addBlockTable,
+    updateBlockTable,
+    deleteBlockTable,
+    handleTableButtonChange,
+  } = useBlockTables(
+    selectedModifiers,
+    setSelectedModifiers,
+    selectedValues,
+    setSelectedValues,
+  );
+
+  const calculateSummary = useSummaryCalculation(
+    selectedModifiers,
+    selectedValues,
+    multiplier,
+  );
+  const [summary, setSummary] = useState<number>(0);
+
+  useEffect(() => {
+    setSummary(calculateSummary());
+  }, [selectedModifiers, selectedValues, multiplier, calculateSummary]);
 
   return (
     <Card sx={{ width: '100%', mb: 2, position: 'relative' }}>
@@ -60,6 +76,9 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             )}
             deleteBlockTable={(id) => deleteBlockTable(id)}
             updateBlockTable={(table) => updateBlockTable(table)}
+            onChange={(buttonType, id, value) =>
+              handleTableButtonChange(buttonType, id, value)
+            }
           />
 
           <Box>
@@ -110,6 +129,10 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
 
           <Typography variant="body2" sx={{ mb: 2 }}>
             {block.description}
+          </Typography>
+
+          <Typography variant="body2" sx={{ mb: 2 }}>
+            {`Стоимость: ${summary}`}
           </Typography>
 
           <Box
