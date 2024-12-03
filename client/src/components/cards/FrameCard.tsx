@@ -25,13 +25,13 @@ const FrameCard: React.FC<FrameCardProps> = ({
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{}}>
       <FrameBlockList
         frameBlocksFull={frameBlocksFull}
         deleteFrameBlock={onDelete}
         updateFrameBlock={onEdit}
       />
-      
+
       {activeFrameId && (
         <IconButton onClick={() => setDialogOpen(true)}>
           <AddIcon />

@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         padding: 1,
         bgcolor: 'background.paper',

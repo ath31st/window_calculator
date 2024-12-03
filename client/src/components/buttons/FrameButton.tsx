@@ -13,8 +13,8 @@ interface FrameButtonProps {
   name: string;
   isActive: boolean;
   onSelect: () => void;
-  onDelete: () => void; 
-  onEdit: (newName: string) => void; 
+  onDelete: () => void;
+  onEdit: (newName: string) => void;
 }
 
 const FrameButton: React.FC<FrameButtonProps> = ({
@@ -48,7 +48,7 @@ const FrameButton: React.FC<FrameButtonProps> = ({
       }}
     >
       <Box sx={{ flexGrow: 1 }} onClick={onSelect}>
-        <Typography variant="body2" noWrap>
+        <Typography variant="button" noWrap>
           {name}
         </Typography>
       </Box>

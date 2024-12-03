@@ -6,6 +6,7 @@ import {
   Radio,
   RadioGroup,
   Checkbox,
+  Typography,
 } from '@mui/material';
 import { useTableButtonState } from '@/hooks/use.table.button.state';
 import TableButtonEditDeleteButtons from '../buttons/TableButtonEditDeleteButtons';
@@ -44,8 +45,6 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 1,
-        overflowY: 'auto',
       }}
     >
       {buttonType === 'MODIFIER' ? (
@@ -57,6 +56,7 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
             <Box
               key={button.id}
               sx={{
+                height: 25,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -65,7 +65,11 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
               <FormControlLabel
                 value={button.id}
                 control={<Radio />}
-                label={`${button.name} (${button.value})`}
+                label={
+                  <Typography variant="body2">
+                    {`${button.name} (${button.value})`}
+                  </Typography>
+                }
               />
               <Box>
                 <TableButtonEditDeleteButtons
@@ -82,6 +86,7 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
           <Box
             key={button.id}
             sx={{
+              height: 25,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -94,7 +99,11 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
                   onChange={() => handleCheckboxChange(button.id)}
                 />
               }
-              label={`${button.name} (${button.value})`}
+              label={
+                <Typography variant="body2">
+                  {`${button.name} (${button.value})`}
+                </Typography>
+              }
             />
             <Box>
               <TableButtonEditDeleteButtons

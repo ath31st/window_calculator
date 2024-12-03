@@ -29,7 +29,7 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
     <Card sx={{ width: '100%', position: 'relative' }}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6" sx={{ mb: 1 }}>
+          <Typography variant="body1" sx={{ mb: 1 }}>
             {table.name}
           </Typography>
 

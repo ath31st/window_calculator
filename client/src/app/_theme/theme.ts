@@ -34,7 +34,7 @@ const theme = createTheme({
     borderRadius: 3,
   },
   typography: {
-    fontSize: 13,
+    fontSize: 12,
   },
   transitions: {
     duration: {
