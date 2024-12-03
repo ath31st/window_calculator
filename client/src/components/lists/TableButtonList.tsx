@@ -7,28 +7,37 @@ import {
   RadioGroup,
   Checkbox,
 } from '@mui/material';
-import { useState } from 'react';
+import { useTableButtonState } from '@/hooks/use.table.button.state';
 import TableButtonEditDeleteButtons from '../buttons/TableButtonEditDeleteButtons';
 
 interface TableButtonListProps {
+  tableId: number;
   tableButtons: TableButton[];
   buttonType: ButtonType;
   deleteTableButton: (id: number) => void;
   updateTableButton: (button: TableButton) => void;
+  onChange: (buttonType: ButtonType, id: number, value: number) => void;
 }
 
 const TableButtonList: React.FC<TableButtonListProps> = ({
+  tableId,
   tableButtons,
   buttonType,
   deleteTableButton,
   updateTableButton,
+  onChange,
 }) => {
-  const isModifier = buttonType === 'MODIFIER';
-  const [selectedButton, setSelectedButton] = useState<number | null>(null);
-
-  const handleRadioChange = (id: number) => {
-    setSelectedButton(id);
-  };
+  const {
+    selectedButton,
+    selectedCheckboxes,
+    handleRadioChange,
+    handleCheckboxChange,
+  } = useTableButtonState({
+    tableButtons,
+    buttonType,
+    tableId,
+    onChange,
+  });
 
   return (
     <Box
@@ -39,7 +48,7 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
         overflowY: 'auto',
       }}
     >
-      {isModifier ? (
+      {buttonType === 'MODIFIER' ? (
         <RadioGroup
           value={selectedButton}
           onChange={(e) => handleRadioChange(Number(e.target.value))}
@@ -79,7 +88,12 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
             }}
           >
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  checked={selectedCheckboxes.includes(button.id)}
+                  onChange={() => handleCheckboxChange(button.id)}
+                />
+              }
               label={`${button.name} (${button.value})`}
             />
             <Box>
