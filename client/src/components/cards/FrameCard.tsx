@@ -31,9 +31,12 @@ const FrameCard: React.FC<FrameCardProps> = ({
         deleteFrameBlock={onDelete}
         updateFrameBlock={onEdit}
       />
-      <IconButton onClick={() => setDialogOpen(true)}>
-        <AddIcon />
-      </IconButton>
+      
+      {activeFrameId && (
+        <IconButton onClick={() => setDialogOpen(true)}>
+          <AddIcon />
+        </IconButton>
+      )}
 
       <AddFrameBlockDialog
         frameId={activeFrameId || 0}
