@@ -1,8 +1,11 @@
 'use client';
 
 import { Box } from '@mui/material';
+import { useCartInitialization } from '@/hooks/use.cart.initialization';
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
+  useCartInitialization();
+
   return (
     <Box
       sx={{

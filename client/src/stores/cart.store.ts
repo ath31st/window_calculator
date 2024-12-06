@@ -1,5 +1,5 @@
-import { CartItem } from '@/types/models';
 import { create } from 'zustand';
+import { CartItem } from '@/types/models';
 
 interface CartStore {
   cartItems: CartItem[];
@@ -7,24 +7,16 @@ interface CartStore {
   removeFromCart: (blockId: number) => void;
   clearCart: () => void;
   isInCart: (blockId: number) => boolean;
+  setCartItems: (items: CartItem[]) => void;
 }
 
-const loadCartFromLocalStorage = (): CartItem[] => {
-  const cartData = localStorage.getItem('cart');
-  return cartData ? JSON.parse(cartData) : [];
-};
-
-const saveCartToLocalStorage = (cartItems: CartItem[]) => {
-  localStorage.setItem('cart', JSON.stringify(cartItems));
-};
-
 export const useCartStore = create<CartStore>((set) => ({
-  cartItems: loadCartFromLocalStorage(),
+  cartItems: [],
 
   addToCart: (item) =>
     set((state) => {
       const updatedCartItems = [...state.cartItems, item];
-      saveCartToLocalStorage(updatedCartItems);
+      localStorage.setItem('cart', JSON.stringify(updatedCartItems));
       return { cartItems: updatedCartItems };
     }),
 
@@ -33,13 +25,13 @@ export const useCartStore = create<CartStore>((set) => ({
       const updatedCartItems = state.cartItems.filter(
         (item) => item.blockId !== blockId,
       );
-      saveCartToLocalStorage(updatedCartItems);
+      localStorage.setItem('cart', JSON.stringify(updatedCartItems));
       return { cartItems: updatedCartItems };
     }),
 
   clearCart: () =>
     set(() => {
-      saveCartToLocalStorage([]);
+      localStorage.setItem('cart', JSON.stringify([]));
       return { cartItems: [] };
     }),
 
@@ -47,4 +39,6 @@ export const useCartStore = create<CartStore>((set) => ({
     const state = useCartStore.getState();
     return state.cartItems.some((item) => item.blockId === blockId);
   },
+
+  setCartItems: (items) => set({ cartItems: items }),
 }));
