@@ -6,6 +6,8 @@ import {
   TextField,
   IconButton,
 } from '@mui/material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { FrameBlockEditDeleteButtons } from '../buttons/FrameBlockEditDeleteButtons';
 import { useState, useEffect } from 'react';
@@ -15,6 +17,7 @@ import BlockTableList from '../lists/BlockTableList';
 import { useSummaryCalculation } from '@/hooks/use.summary.calculation';
 import { useDimensions } from '@/hooks/use.dimensions';
 import { useBlockTables } from '@/hooks/use.block.tables';
+import { useCartStore } from '@/stores/cart.store';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -59,6 +62,16 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
     widthInMM,
   );
   const [summary, setSummary] = useState<number>(0);
+
+  const { addToCart, removeFromCart, isInCart } = useCartStore();
+
+  const handleCartAction = () => {
+    if (isInCart(block.id)) {
+      removeFromCart(block.id);
+    } else {
+      addToCart({ blockId: block.id, name: block.name, summary });
+    }
+  };
 
   useEffect(() => {
     setSummary(calculateSummary());
@@ -133,7 +146,22 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             {block.description}
           </Typography>
 
-          <Typography variant="body2">{`Стоимость: ${summary}`}</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="body2">{`Стоимость: ${summary}`}</Typography>
+            <IconButton
+              color="primary"
+              onClick={handleCartAction}
+              disabled={summary === 0}
+            >
+              {isInCart(block.id) ? <DeleteIcon /> : <ShoppingCartIcon />}
+            </IconButton>
+          </Box>
 
           <Box
             sx={{
