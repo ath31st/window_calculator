@@ -1,10 +1,13 @@
 'use client';
 
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, Badge } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { useCartStore } from '@/stores/cart.store';
 
 const Header: React.FC = () => {
+  const { cartItems } = useCartStore();
+
   const handleUserClick = () => {
     console.log('User icon clicked');
   };
@@ -35,7 +38,9 @@ const Header: React.FC = () => {
         onClick={handleCartClick}
         sx={{ bgcolor: 'background.paper', boxShadow: 2 }}
       >
-        <ShoppingCartIcon />
+        <Badge badgeContent={cartItems.length} color="primary">
+          <ShoppingCartIcon />
+        </Badge>
       </IconButton>
     </Box>
   );
