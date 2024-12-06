@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 export const useDimensions = () => {
-  const [widthInMM, setWidthInMM] = useState<number>(0);
-  const [heightInMM, setHeightInMM] = useState<number>(0);
+  const [widthInMM, setWidthInMM] = useState<number>(1000);
+  const [heightInMM, setHeightInMM] = useState<number>(1000);
   const [multiplier, setMultiplier] = useState<number>(1);
 
   const handleDimensionChange = (
