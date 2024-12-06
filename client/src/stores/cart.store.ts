@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 interface CartItem {
+  blockId: number;
   name: string;
   summary: number;
 }
@@ -8,8 +9,9 @@ interface CartItem {
 interface CartStore {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
-  removeFromCart: (name: string) => void;
+  removeFromCart: (blockId: number) => void;
   clearCart: () => void;
+  isInCart: (blockId: number) => boolean;
 }
 
 export const useCartStore = create<CartStore>((set) => ({
@@ -20,10 +22,15 @@ export const useCartStore = create<CartStore>((set) => ({
       cartItems: [...state.cartItems, item],
     })),
 
-  removeFromCart: (name) =>
+  removeFromCart: (blockId) =>
     set((state) => ({
-      cartItems: state.cartItems.filter((item) => item.name !== name),
+      cartItems: state.cartItems.filter((item) => item.blockId !== blockId),
     })),
 
   clearCart: () => set({ cartItems: [] }),
+
+  isInCart: (blockId): boolean => {
+    const state = useCartStore.getState();
+    return state.cartItems.some((item) => item.blockId === blockId);
+  },
 }));
