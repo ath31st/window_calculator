@@ -5,14 +5,14 @@ import { useFrameStore } from '@/stores/frame.store';
 import FrameCard from '@/components/cards/FrameCard';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
-import MainLayout from '@/components/layouts/MainLayout';
+import CommonLayout from '@/components/layouts/CommonLayout';
 
 const Home: React.FC = () => {
   const { addFrameBlock, frameBlocksFull, deleteFrameBlock, updateFrameBlock } =
     useFrameBlockStore();
   const { activeFrameId } = useFrameStore();
   return (
-    <MainLayout>
+    <CommonLayout>
       <Header />
       <FrameCard
         activeFrameId={activeFrameId}
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
         onEdit={(block) => updateFrameBlock(block)}
       />
       <Footer />
-    </MainLayout>
+    </CommonLayout>
   );
 };
 

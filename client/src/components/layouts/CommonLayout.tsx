@@ -2,7 +2,7 @@
 
 import { Box } from '@mui/material';
 
-const MainLayout = ({ children }: { children: React.ReactNode }) => {
+const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box
       sx={{
@@ -23,4 +23,4 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default MainLayout;
+export default CommonLayout;
