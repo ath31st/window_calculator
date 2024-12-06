@@ -4,6 +4,8 @@ export const useSummaryCalculation = (
   selectedModifiers: Record<number, number>,
   selectedValues: Record<number, number[]>,
   multiplier: number,
+  heightInMM: number,
+  widthInMM: number,
 ) => {
   const calculateSummary = useCallback(() => {
     let modifierProduct = 1;
@@ -21,8 +23,13 @@ export const useSummaryCalculation = (
       }
     });
 
-    return modifierProduct * valueSum * multiplier;
-  }, [selectedModifiers, selectedValues, multiplier]);
+    const areaInSquareMeters =
+      heightInMM > 0 && widthInMM > 0
+        ? Math.round(((heightInMM * widthInMM) / 1_000_000) * 10) / 10
+        : 1;
+
+    return modifierProduct * valueSum * multiplier * areaInSquareMeters;
+  }, [selectedModifiers, selectedValues, heightInMM, widthInMM, multiplier]);
 
   return calculateSummary;
 };
