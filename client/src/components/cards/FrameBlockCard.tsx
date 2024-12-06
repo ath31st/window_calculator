@@ -55,6 +55,8 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
     selectedModifiers,
     selectedValues,
     multiplier,
+    heightInMM,
+    widthInMM,
   );
   const [summary, setSummary] = useState<number>(0);
 
@@ -87,7 +89,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             </IconButton>
           </Box>
 
-          {block.isWindowSizeEnabled && (
+          {block.isWindowSizeEnabled ? (
             <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
               <TextField
                 label="Ширина (мм)"
@@ -106,17 +108,17 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
                 fullWidth
               />
             </Box>
+          ) : (
+            <TextField
+              label={block.inputTitle}
+              type="number"
+              value={multiplier}
+              onChange={(e) =>
+                handleDimensionChange('multiplier', e.target.value)
+              }
+              fullWidth
+            />
           )}
-
-          <TextField
-            label={block.inputTitle}
-            type="number"
-            value={multiplier}
-            onChange={(e) =>
-              handleDimensionChange('multiplier', e.target.value)
-            }
-            fullWidth
-          />
 
           <AddBlockTableDialog
             isOpen={isDialogOpen}
@@ -131,9 +133,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             {block.description}
           </Typography>
 
-          <Typography variant="body2">
-            {`Стоимость: ${summary}`}
-          </Typography>
+          <Typography variant="body2">{`Стоимость: ${summary}`}</Typography>
 
           <Box
             sx={{
