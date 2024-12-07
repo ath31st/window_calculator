@@ -6,8 +6,11 @@ import CartItemList from '@/components/lists/CartItemList';
 import { useCartStore } from '@/stores/cart.store';
 import { Typography, Box, Button } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { useState } from 'react';
+import ClearCartItemsDialog from '@/components/dialogs/cart/ClearCartItemsDialog';
 
 const Cart: React.FC = () => {
+  const [isDialogOpen, setDialogOpen] = useState(false);
   const { removeFromCart, clearCart } = useCartStore();
   const cartItems = useCartStore((state) => state.cartItems);
 
@@ -42,10 +45,20 @@ const Cart: React.FC = () => {
               Общая стоимость:{' '}
               {cartItems.reduce((acc, item) => acc + item.summary, 0)}
             </Typography>
-            <Button variant="contained" color="secondary" onClick={clearCart}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setDialogOpen(true)}
+            >
               Очистить корзину
             </Button>
           </Box>
+
+          <ClearCartItemsDialog
+            isOpen={isDialogOpen}
+            onClose={() => setDialogOpen(false)}
+            onClear={clearCart}
+          />
         </>
       )}
     </CommonLayout>
