@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import sidim.doma.wc.dto.user.ChangePasswordDto;
 import sidim.doma.wc.dto.user.NewUserDto;
 import sidim.doma.wc.dto.user.UpdateUserDto;
 import sidim.doma.wc.dto.user.UserDto;
@@ -29,6 +31,9 @@ class UserServiceTest {
 
   @Mock
   private UserMapper userMapper;
+
+  @Mock
+  private PasswordEncoder encoder;
 
   @Mock
   private UserRepository userRepository;
@@ -56,6 +61,9 @@ class UserServiceTest {
     expectedUserDto = new UserDto(id, name, email, Role.USER.name(), isActive, LocalDate.now());
     updateUserDto = new UpdateUserDto(id, updateName, updateEmail, role, isActive);
     user = new User();
+    user.setId(id);
+    user.setEmail(email);
+    user.setPassword(password);
   }
 
   @Test
@@ -186,5 +194,51 @@ class UserServiceTest {
 
     assertEquals("User with id " + id + " not found!", exception.getMessage());
     assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+  }
+
+  @Test
+  void changePassword_success() {
+    val newPassword = "new_password";
+    val changePasswordDto = new ChangePasswordDto(id, password, newPassword);
+
+    when(encoder.matches(any(String.class), any(String.class))).thenReturn(true);
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.of(user));
+    when(userRepository.save(any(User.class))).thenReturn(user);
+
+    userService.changePassword(changePasswordDto, email);
+
+    verify(userRepository).save(user);
+  }
+
+  @Test
+  void changePassword_whenUserNotFound_thenThrowException() {
+    val newPassword = "new_password";
+    val changePasswordDto = new ChangePasswordDto(id, password, newPassword);
+
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.empty());
+
+    val exception = assertThrows(UserServiceException.class,
+        () -> userService.changePassword(changePasswordDto, email));
+
+    assertEquals("User with id " + id + " not found!", exception.getMessage());
+    assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+  }
+
+  @Test
+  void changePassword_whenOldPasswordIsNotCorrect_thenThrowException() {
+    val newPassword = "new_password";
+    val changePasswordDto = new ChangePasswordDto(id, "wrong_password", newPassword);
+
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.of(user));
+    when(encoder.matches(any(String.class), any(String.class))).thenReturn(false);
+
+    val exception = assertThrows(UserServiceException.class,
+        () -> userService.changePassword(changePasswordDto, email));
+
+    assertEquals("Old password is not correct!", exception.getMessage());
+    assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
   }
 }

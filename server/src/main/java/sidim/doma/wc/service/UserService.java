@@ -1,9 +1,12 @@
 package sidim.doma.wc.service;
 
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sidim.doma.wc.dto.user.ChangePasswordDto;
 import sidim.doma.wc.dto.user.NewUserDto;
 import sidim.doma.wc.dto.user.UpdateUserDto;
 import sidim.doma.wc.dto.user.UserDto;
@@ -16,6 +19,7 @@ import sidim.doma.wc.repository.UserRepository;
 @RequiredArgsConstructor
 public class UserService {
   private final UserRepository userRepository;
+  private final PasswordEncoder encoder;
   private final UserMapper userMapper;
 
   public UserDto createNewUser(NewUserDto dto) {
@@ -65,5 +69,22 @@ public class UserService {
     user.setIsActive(dto.isActive());
 
     return userMapper.fromEntityToDto(userRepository.save(user));
+  }
+
+  public void changePassword(ChangePasswordDto dto, String authName) {
+    val user = getUserById(dto.id());
+
+    if (!Objects.equals(authName, user.getEmail())) {
+      throw new UserServiceException("You can change only your own password!",
+          HttpStatus.BAD_REQUEST);
+    }
+
+    if (!encoder.matches(dto.oldPassword(), user.getPassword())) {
+      throw new UserServiceException("Old password is not correct!",
+          HttpStatus.BAD_REQUEST);
+    }
+
+    user.setPassword(encoder.encode(dto.newPassword()));
+    userRepository.save(user);
   }
 }
