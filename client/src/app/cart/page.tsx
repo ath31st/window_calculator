@@ -1,9 +1,9 @@
 'use client';
 
-import CartItemCard from '@/components/cards/CartItemCard';
 import CommonLayout from '@/components/layouts/CommonLayout';
+import CartItemList from '@/components/lists/CartItemList';
 import { useCartStore } from '@/stores/cart.store';
-import { Box } from '@mui/material';
+import { Typography } from '@mui/material';
 
 const Cart: React.FC = () => {
   const { removeFromCart } = useCartStore();
@@ -11,15 +11,12 @@ const Cart: React.FC = () => {
 
   return (
     <CommonLayout>
-      <Box>
-        {cartItems.map((item) => (
-          <CartItemCard
-            key={item.blockId}
-            item={item}
-            onRemove={removeFromCart}
-          />
-        ))}
-      </Box>
+      <Typography variant="h5">Корзина товаров и услуг</Typography>
+      <CartItemList items={cartItems} onRemove={removeFromCart} />
+      <Typography variant="h6">
+        Общая стоимость:{' '}
+        {cartItems.reduce((acc, item) => acc + item.summary, 0)}
+      </Typography>
     </CommonLayout>
   );
 };
