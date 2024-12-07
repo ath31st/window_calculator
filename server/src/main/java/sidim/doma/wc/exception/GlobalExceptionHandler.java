@@ -40,6 +40,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return new ResponseEntity<>(buildResponse(e), e.getStatus());
   }
 
+  @ExceptionHandler(UserServiceException.class)
+  protected ResponseEntity<ExceptionResponse> handleException(UserServiceException e) {
+    return new ResponseEntity<>(buildResponse(e), e.getStatus());
+  }
+
+  @ExceptionHandler(UserRoleException.class)
+  protected ResponseEntity<ExceptionResponse> handleException(UserRoleException e) {
+    return new ResponseEntity<>(buildResponse(e), e.getStatus());
+  }
+
   @ExceptionHandler(PropertyReferenceException.class)
   protected ResponseEntity<ExceptionResponse> handleException(PropertyReferenceException e) {
 
