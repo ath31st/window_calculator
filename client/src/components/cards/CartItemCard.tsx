@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Card, CardContent, Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CartItem } from '@/types/models';
+import DeleteCartItemDialog from '../dialogs/cart/DeleteCartItemDialog';
 
 interface CartItemCardProps {
   item: CartItem;
@@ -11,6 +12,8 @@ interface CartItemCardProps {
 }
 
 const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
+  const [isDialogOpen, setDialogOpen] = useState(false);
+
   return (
     <Card sx={{ width: '100%' }}>
       <CardContent
@@ -25,9 +28,16 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
           <Typography variant="body2">{`Стоимость: ${item.summary}`}</Typography>
         </Box>
 
-        <IconButton color="error" onClick={() => onRemove(item.blockId)}>
+        <IconButton color="error" onClick={() => setDialogOpen(true)}>
           <DeleteIcon />
         </IconButton>
+
+        <DeleteCartItemDialog
+          isOpen={isDialogOpen}
+          onClose={() => setDialogOpen(false)}
+          onDelete={onRemove}
+          blockTableId={item.blockId}
+        />
       </CardContent>
     </Card>
   );
