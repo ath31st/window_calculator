@@ -58,7 +58,7 @@ class TableButtonControllerTest {
   void createNewTableButton_whenValidDataProvided() throws Exception {
     val blockTable = new BlockTable();
     val newTableButton = new NewTableButtonDto(blockTableId, name, value);
-    val saveTableButtonDto = new TableButtonDto(tableButtonId, name, value);
+    val saveTableButtonDto = new TableButtonDto(tableButtonId, blockTableId, name, value);
 
     when(blockTableService.getBlockTable(blockTableId)).thenReturn(blockTable);
     when(tableButtonService.createTableButton(newTableButton, blockTable))
@@ -85,7 +85,7 @@ class TableButtonControllerTest {
     val blockTable = new BlockTable();
     val nameWithSpaces = "  " + name + "  ";
     val newTableButton = new NewTableButtonDto(blockTableId, nameWithSpaces, value);
-    val saveTableButtonDto = new TableButtonDto(tableButtonId, name, value);
+    val saveTableButtonDto = new TableButtonDto(tableButtonId, blockTableId, name, value);
 
     when(blockTableService.getBlockTable(blockTableId)).thenReturn(blockTable);
     when(tableButtonService.createTableButton(any(NewTableButtonDto.class), any(BlockTable.class)))
@@ -147,7 +147,7 @@ class TableButtonControllerTest {
     val newName = "new_table_button_name";
     val newValue = BigDecimal.TEN;
     val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, newName, newValue);
-    val savedTableButtonDto = new TableButtonDto(tableButtonId, newName, newValue);
+    val savedTableButtonDto = new TableButtonDto(tableButtonId, blockTableId, newName, newValue);
 
     when(tableButtonService.updateTableButton(updateTableButtonDto))
         .thenReturn(savedTableButtonDto);
@@ -171,7 +171,7 @@ class TableButtonControllerTest {
     val newName = "new_table_button_name";
     val newValue = BigDecimal.TEN;
     val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, newNameWithSpaces, newValue);
-    val savedTableButtonDto = new TableButtonDto(tableButtonId, newName, newValue);
+    val savedTableButtonDto = new TableButtonDto(tableButtonId, blockTableId, newName, newValue);
 
     when(tableButtonService.updateTableButton(any(UpdateTableButtonDto.class)))
         .thenReturn(savedTableButtonDto);

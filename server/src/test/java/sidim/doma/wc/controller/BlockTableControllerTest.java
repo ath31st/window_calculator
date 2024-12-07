@@ -58,7 +58,7 @@ class BlockTableControllerTest {
   void createNewBlockTable_whenValidDataProvided() throws Exception {
     val frameBlock = new FrameBlock();
     val newBlockTable = new NewBlockTableDto(frameBlockId, name, ButtonType.VALUE);
-    val saveBlockTableDto = new BlockTableDto(blockTableId, name, ButtonType.VALUE);
+    val saveBlockTableDto = new BlockTableDto(blockTableId, frameBlockId, name, ButtonType.VALUE);
 
     when(frameBlockService.getFrameBlock(frameBlockId)).thenReturn(frameBlock);
     when(blockTableService.createNewBlockTable(newBlockTable, frameBlock))
@@ -86,7 +86,7 @@ class BlockTableControllerTest {
     val trimmedName = "test_block_table";
     val frameBlock = new FrameBlock();
     val newBlockTable = new NewBlockTableDto(frameBlockId, trimmedName, ButtonType.VALUE);
-    val saveBlockTableDto = new BlockTableDto(blockTableId, trimmedName, ButtonType.VALUE);
+    val saveBlockTableDto = new BlockTableDto(blockTableId, frameBlockId, trimmedName, ButtonType.VALUE);
 
     when(frameBlockService.getFrameBlock(frameBlockId)).thenReturn(frameBlock);
     when(blockTableService.createNewBlockTable(
@@ -176,7 +176,7 @@ class BlockTableControllerTest {
     val updateBlockTableDto = new UpdateBlockTableDto(blockTableId, newName, ButtonType.MODIFIER);
 
     when(blockTableService.updateBlockTable(updateBlockTableDto))
-        .thenReturn(new BlockTableDto(blockTableId, newName, ButtonType.MODIFIER));
+        .thenReturn(new BlockTableDto(blockTableId, frameBlockId, newName, ButtonType.MODIFIER));
 
     val result = mockMvc.perform(put(BASE_URL)
             .contentType("application/json")
@@ -198,7 +198,7 @@ class BlockTableControllerTest {
     val updateBlockTableDto = new UpdateBlockTableDto(blockTableId, newName, ButtonType.MODIFIER);
 
     when(blockTableService.updateBlockTable(any(UpdateBlockTableDto.class)))
-        .thenReturn(new BlockTableDto(blockTableId, trimmedNewName, ButtonType.MODIFIER));
+        .thenReturn(new BlockTableDto(blockTableId, frameBlockId, trimmedNewName, ButtonType.MODIFIER));
 
     val result = mockMvc.perform(put(BASE_URL)
             .contentType("application/json")

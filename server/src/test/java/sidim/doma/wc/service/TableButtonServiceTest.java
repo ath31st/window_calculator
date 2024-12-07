@@ -61,7 +61,7 @@ class TableButtonServiceTest {
         .value(value)
         .build();
 
-    tableButtonDto = new TableButtonDto(tableButtonId, tableButtonName, value);
+    tableButtonDto = new TableButtonDto(tableButtonId, blockTable.getId(), tableButtonName, value);
   }
 
   @Test
@@ -86,7 +86,7 @@ class TableButtonServiceTest {
     val updateTableButtonDto = new UpdateTableButtonDto(tableButtonId, newTableButtonName, newValue);
     tableButton.setName(newTableButtonName);
     tableButton.setValue(newValue);
-    val updatedTableButtonDto = new TableButtonDto(tableButtonId, newTableButtonName, newValue);
+    val updatedTableButtonDto = new TableButtonDto(tableButtonId, blockTable.getId(), newTableButtonName, newValue);
 
     when(tableButtonRepository.existsById(tableButtonId)).thenReturn(true);
     when(tableButtonRepository.findById(tableButtonId)).thenReturn(Optional.ofNullable(tableButton));

@@ -50,7 +50,7 @@ class BlockTableServiceTest {
         .buttonType(ButtonType.VALUE)
         .build();
 
-    blockTableDto = new BlockTableDto(2, blockTableName, ButtonType.VALUE);
+    blockTableDto = new BlockTableDto(2, 1, blockTableName, ButtonType.VALUE);
   }
 
   @Test
@@ -93,12 +93,12 @@ class BlockTableServiceTest {
     val updateBlockTable = new UpdateBlockTableDto(id, newName, ButtonType.MODIFIER);
     blockTable.setName(newName);
     blockTable.setButtonType(ButtonType.MODIFIER);
-    val updatedBlockTableDto = new BlockTableDto(id, newName, ButtonType.MODIFIER);
+    val updatedBlockTableDto = new BlockTableDto(id, 1, newName, ButtonType.MODIFIER);
 
     when(blockTableRepository.existsById(id)).thenReturn(true);
     when(blockTableRepository.findById(id)).thenReturn(Optional.of(blockTable));
     when(blockTableMapper.fromEntityToDto(any(BlockTable.class))).thenReturn(
-        new BlockTableDto(id, newName, ButtonType.MODIFIER)
+        new BlockTableDto(id, 1, newName, ButtonType.MODIFIER)
     );
     when(blockTableRepository.save(any(BlockTable.class))).thenReturn(blockTable);
 
