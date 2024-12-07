@@ -12,7 +12,7 @@ interface CartItemCardProps {
 
 const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
   return (
-    <Card sx={{ width: '100%', mb: 2 }}>
+    <Card sx={{ width: '100%' }}>
       <CardContent
         sx={{
           display: 'flex',
