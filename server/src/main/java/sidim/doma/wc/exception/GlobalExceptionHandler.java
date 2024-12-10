@@ -21,38 +21,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler(FrameServiceException.class)
-  protected ResponseEntity<ExceptionResponse> handleException(FrameServiceException e) {
-    return new ResponseEntity<>(buildResponse(e), e.getStatus());
-  }
-
-  @ExceptionHandler(FrameBlockServiceException.class)
-  protected ResponseEntity<ExceptionResponse> handleException(FrameBlockServiceException e) {
-    return new ResponseEntity<>(buildResponse(e), e.getStatus());
-  }
-
-  @ExceptionHandler(BlockTableServiceException.class)
-  protected ResponseEntity<ExceptionResponse> handleException(BlockTableServiceException e) {
-    return new ResponseEntity<>(buildResponse(e), e.getStatus());
-  }
-
-  @ExceptionHandler(TableButtonServiceException.class)
-  protected ResponseEntity<ExceptionResponse> handleException(TableButtonServiceException e) {
-    return new ResponseEntity<>(buildResponse(e), e.getStatus());
-  }
-
-  @ExceptionHandler(UserServiceException.class)
-  protected ResponseEntity<ExceptionResponse> handleException(UserServiceException e) {
-    return new ResponseEntity<>(buildResponse(e), e.getStatus());
-  }
-
-  @ExceptionHandler(UserRoleException.class)
-  protected ResponseEntity<ExceptionResponse> handleException(UserRoleException e) {
-    return new ResponseEntity<>(buildResponse(e), e.getStatus());
-  }
-
-  @ExceptionHandler(RefreshTokenPayloadException.class)
-  protected ResponseEntity<ExceptionResponse> handleException(RefreshTokenPayloadException e) {
+  @ExceptionHandler({
+      FrameServiceException.class, FrameBlockServiceException.class,
+      BlockTableServiceException.class, TableButtonServiceException.class,
+      UserServiceException.class, UserRoleException.class, RefreshTokenPayloadException.class})
+  protected ResponseEntity<ExceptionResponse> handleException(AbstractException e) {
     return new ResponseEntity<>(buildResponse(e), e.getStatus());
   }
 
