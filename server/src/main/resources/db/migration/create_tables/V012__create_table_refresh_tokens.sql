@@ -1,8 +1,8 @@
-CREATE TABLE refresh_tokens
+CREATE TABLE refresh_token_payloads
 (
     id          BIGSERIAL PRIMARY KEY,
     user_id     INTEGER REFERENCES users (id) ON DELETE CASCADE,
-    token       TEXT      NOT NULL,
+    payload     UUID      NOT NULL,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expiry_date TIMESTAMP NOT NULL
 );
