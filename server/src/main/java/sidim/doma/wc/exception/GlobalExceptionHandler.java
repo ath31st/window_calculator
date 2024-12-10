@@ -1,5 +1,6 @@
 package sidim.doma.wc.exception;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
@@ -48,6 +49,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(UserRoleException.class)
   protected ResponseEntity<ExceptionResponse> handleException(UserRoleException e) {
     return new ResponseEntity<>(buildResponse(e), e.getStatus());
+  }
+
+  @ExceptionHandler(RefreshTokenPayloadException.class)
+  protected ResponseEntity<ExceptionResponse> handleException(RefreshTokenPayloadException e) {
+    return new ResponseEntity<>(buildResponse(e), e.getStatus());
+  }
+
+  @ExceptionHandler(JWTVerificationException.class)
+  protected ResponseEntity<ExceptionResponse> handleJwtException(JWTVerificationException e) {
+    ExceptionResponse response = ExceptionResponse.builder()
+        .timestamp(LocalDateTime.now().toString())
+        .error(e.getMessage())
+        .status(HttpStatus.UNAUTHORIZED)
+        .build();
+
+    return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
   }
 
   @ExceptionHandler(PropertyReferenceException.class)
