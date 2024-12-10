@@ -1,6 +1,14 @@
 server:
   port: 8081
 
+jwt:
+  access:
+    secret: VERY_SECRET_PHRASE_OOOF
+    duration: 50 # minutes
+  refresh:
+    secret: VERY_SECRET_PHRASE_FOR_REFRESH_TOKEN_OOOF
+    duration: 30 # days
+
 spring:
   application:
     name: window_calculator
