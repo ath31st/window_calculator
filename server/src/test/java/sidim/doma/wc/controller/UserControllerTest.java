@@ -2,6 +2,7 @@ package sidim.doma.wc.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,6 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.security.Principal;
 import java.time.LocalDate;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
+import sidim.doma.wc.dto.user.ChangePasswordDto;
 import sidim.doma.wc.dto.user.NewUserDto;
 import sidim.doma.wc.dto.user.UpdateUserDto;
 import sidim.doma.wc.dto.user.UserDto;
@@ -225,5 +228,60 @@ class UserControllerTest {
 
     mockMvc.perform(delete(BASE_URL + "/{id}", id))
         .andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  void changePassword_validDataProvided() throws Exception {
+    val newPassword = "new_password";
+    val changePasswordDto = new ChangePasswordDto(id, password, newPassword);
+    Principal mockPrincipal = () -> email;
+
+    mockMvc.perform(put(BASE_URL + "/password")
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(changePasswordDto))
+        .principal(mockPrincipal)
+    ).andExpect(status().isNoContent()).andReturn();
+  }
+
+  @Test
+  void changePassword_whenUserNotFound_thenThrowException() throws Exception {
+    val newPassword = "new_password";
+    val changePasswordDto = new ChangePasswordDto(id, password, newPassword);
+    Principal mockPrincipal = () -> email;
+
+    doThrow(new UserServiceException("User with id " + id + " not found!", HttpStatus.NOT_FOUND))
+        .when(userService).changePassword(any(ChangePasswordDto.class), anyString());
+
+    mockMvc.perform(put(BASE_URL + "/password")
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(changePasswordDto))
+        .principal(mockPrincipal)
+    ).andExpect(status().isNotFound()).andReturn();
+  }
+
+  @Test
+  void changePassword_whenInvalidDataProvided_thenThrowException() throws Exception {
+    val changePasswordDto = new ChangePasswordDto(id, password, null);
+
+    mockMvc.perform(put(BASE_URL + "/password")
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(changePasswordDto))
+    ).andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
+  void changePassword_whenUserEmailDoesNotMatch_thenThrowException() throws Exception {
+    val newPassword = "new_password";
+    val changePasswordDto = new ChangePasswordDto(id, password, newPassword);
+    Principal mockPrincipal = () -> "wrong_email";
+
+    doThrow(new UserServiceException("You can change only your own password!", HttpStatus.BAD_REQUEST))
+        .when(userService).changePassword(changePasswordDto, "wrong_email");
+
+    mockMvc.perform(put(BASE_URL + "/password")
+        .contentType("application/json")
+        .content(objectMapper.writeValueAsString(changePasswordDto))
+        .principal(mockPrincipal)
+    ).andExpect(status().isBadRequest()).andReturn();
   }
 }

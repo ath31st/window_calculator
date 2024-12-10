@@ -1,6 +1,7 @@
 package sidim.doma.wc.controller;
 
 import jakarta.validation.Valid;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sidim.doma.wc.dto.user.ChangePasswordDto;
 import sidim.doma.wc.dto.user.NewUserDto;
 import sidim.doma.wc.dto.user.UpdateUserDto;
 import sidim.doma.wc.dto.user.UserDto;
@@ -42,6 +44,15 @@ public class UserController {
   @DeleteMapping("/users/{id}")
   public ResponseEntity<HttpStatus> deleteUser(@PathVariable Integer id) {
     userService.deleteUser(id);
+
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @PutMapping("/users/password")
+  public ResponseEntity<HttpStatus> changePassword(
+      @RequestBody @Valid ChangePasswordDto dto, Principal principal) {
+    val trimmedDto = ChangePasswordDto.from(dto);
+    userService.changePassword(trimmedDto, principal.getName());
 
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
