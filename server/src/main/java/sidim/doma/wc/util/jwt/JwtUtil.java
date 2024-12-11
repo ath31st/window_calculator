@@ -17,6 +17,7 @@ import sidim.doma.wc.entity.User;
 import sidim.doma.wc.exception.CustomJwtVerificationException;
 import sidim.doma.wc.exception.RefreshTokenPayloadException;
 import sidim.doma.wc.repository.RefreshTokenPayloadRepository;
+import sidim.doma.wc.util.Role;
 
 @Component
 @RequiredArgsConstructor
@@ -30,19 +31,21 @@ public class JwtUtil {
   @Value("${jwt.refresh.secret}")
   private String refreshSecret;
   private static final String SUBJECT = "User Details";
-  private static final String CLAIM_FOR_TOKEN = "email";
+  private static final String ROLE = "role";
+  private static final String EMAIL = "email";
   private static final String ISSUER_FOR_TOKEN = "Win calc";
 
   private final RefreshTokenPayloadRepository payloadRepository;
 
-  public String generateAccessToken(String username) {
+  public String generateAccessToken(User user) {
     val now = LocalDateTime.now();
     val accessExpirationInstant =
         now.plusMinutes(accessDuration).atZone(ZoneId.systemDefault()).toInstant();
 
     return JWT.create()
         .withSubject(SUBJECT)
-        .withClaim(CLAIM_FOR_TOKEN, username)
+        .withClaim(ROLE, Role.getRoleByValue(user.getRole()).name())
+        .withClaim(EMAIL, user.getEmail())
         .withExpiresAt(accessExpirationInstant)
         .withIssuer(ISSUER_FOR_TOKEN)
         .sign(Algorithm.HMAC256(secret));
@@ -69,7 +72,8 @@ public class JwtUtil {
 
     return JWT.create()
         .withSubject(SUBJECT)
-        .withClaim(CLAIM_FOR_TOKEN, user.getEmail())
+        .withClaim(ROLE, Role.getRoleByValue(user.getRole()).name())
+        .withClaim(EMAIL, user.getEmail())
         .withExpiresAt(refreshExpirationInstant)
         .withIssuer(ISSUER_FOR_TOKEN)
         .withPayload(Collections.singletonMap("UUID", uuid))
@@ -82,7 +86,7 @@ public class JwtUtil {
         .withIssuer(ISSUER_FOR_TOKEN)
         .build();
     val jwt = verifier.verify(token);
-    return jwt.getClaim(CLAIM_FOR_TOKEN).asString();
+    return jwt.getClaim(EMAIL).asString();
   }
 
   public String validateRefreshTokenAndRetrieveSubject(String token) {
@@ -91,7 +95,7 @@ public class JwtUtil {
         .withIssuer(ISSUER_FOR_TOKEN)
         .build();
     val jwt = verifier.verify(token);
-    val email = jwt.getClaim(CLAIM_FOR_TOKEN).asString();
+    val email = jwt.getClaim(EMAIL).asString();
 
     Optional<RefreshTokenPayload> rtp =
         payloadRepository.findByUserEmailIgnoreCase(email);
