@@ -76,7 +76,7 @@ public class JwtUtil {
         .withClaim(EMAIL, user.getEmail())
         .withExpiresAt(refreshExpirationInstant)
         .withIssuer(ISSUER_FOR_TOKEN)
-        .withPayload(Collections.singletonMap("UUID", uuid))
+        .withPayload(Collections.singletonMap("UUID", uuid.toString()))
         .sign(Algorithm.HMAC256(refreshSecret));
   }
 
@@ -100,7 +100,7 @@ public class JwtUtil {
     Optional<RefreshTokenPayload> rtp =
         payloadRepository.findByUserEmailIgnoreCase(email);
     if (rtp.isEmpty()) {
-      throw new RefreshTokenPayloadException("Payload piece not found!", HttpStatus.NOT_FOUND);
+      throw new RefreshTokenPayloadException("Payload not found!", HttpStatus.NOT_FOUND);
     }
 
     val savedUuid = rtp.get().getPayload();
