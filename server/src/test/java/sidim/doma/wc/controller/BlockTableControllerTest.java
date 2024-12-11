@@ -29,8 +29,10 @@ import sidim.doma.wc.dto.block_table.UpdateBlockTableDto;
 import sidim.doma.wc.entity.FrameBlock;
 import sidim.doma.wc.exception.FrameBlockServiceException;
 import sidim.doma.wc.service.BlockTableService;
+import sidim.doma.wc.service.CustomUserDetailsService;
 import sidim.doma.wc.service.FrameBlockService;
 import sidim.doma.wc.util.ButtonType;
+import sidim.doma.wc.util.jwt.JwtUtil;
 
 @WebMvcTest(BlockTableController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -43,6 +45,12 @@ class BlockTableControllerTest {
 
   @MockBean
   private FrameBlockService frameBlockService;
+
+  @MockBean
+  private CustomUserDetailsService customUserDetailsService;
+
+  @MockBean
+  private JwtUtil jwtUtil;
 
   @Autowired
   private MockMvc mockMvc;

@@ -28,8 +28,10 @@ import sidim.doma.wc.dto.frame_block.UpdateFrameBlockDto;
 import sidim.doma.wc.entity.Frame;
 import sidim.doma.wc.exception.FrameBlockServiceException;
 import sidim.doma.wc.exception.FrameServiceException;
+import sidim.doma.wc.service.CustomUserDetailsService;
 import sidim.doma.wc.service.FrameBlockService;
 import sidim.doma.wc.service.FrameService;
+import sidim.doma.wc.util.jwt.JwtUtil;
 
 @WebMvcTest(controllers = FrameBlockController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -42,6 +44,12 @@ class FrameBlockControllerTest {
 
   @MockBean
   private FrameService frameService;
+
+  @MockBean
+  private CustomUserDetailsService customUserDetailsService;
+
+  @MockBean
+  private JwtUtil jwtUtil;
 
   @Autowired
   private MockMvc mockMvc;

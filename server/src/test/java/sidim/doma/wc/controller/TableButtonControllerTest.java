@@ -29,7 +29,9 @@ import sidim.doma.wc.entity.BlockTable;
 import sidim.doma.wc.exception.BlockTableServiceException;
 import sidim.doma.wc.exception.TableButtonServiceException;
 import sidim.doma.wc.service.BlockTableService;
+import sidim.doma.wc.service.CustomUserDetailsService;
 import sidim.doma.wc.service.TableButtonService;
+import sidim.doma.wc.util.jwt.JwtUtil;
 
 @WebMvcTest(TableButtonController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -42,6 +44,12 @@ class TableButtonControllerTest {
 
   @MockBean
   private BlockTableService blockTableService;
+
+  @MockBean
+  private CustomUserDetailsService customUserDetailsService;
+
+  @MockBean
+  private JwtUtil jwtUtil;
 
   @Autowired
   private MockMvc mockMvc;

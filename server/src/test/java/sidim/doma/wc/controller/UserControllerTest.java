@@ -29,8 +29,10 @@ import sidim.doma.wc.dto.user.UpdateUserDto;
 import sidim.doma.wc.dto.user.UserDto;
 import sidim.doma.wc.entity.User;
 import sidim.doma.wc.exception.UserServiceException;
+import sidim.doma.wc.service.CustomUserDetailsService;
 import sidim.doma.wc.service.UserService;
 import sidim.doma.wc.util.Role;
+import sidim.doma.wc.util.jwt.JwtUtil;
 
 @WebMvcTest(UserController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -40,6 +42,12 @@ class UserControllerTest {
 
   @MockBean
   private UserService userService;
+
+  @MockBean
+  private CustomUserDetailsService customUserDetailsService;
+
+  @MockBean
+  private JwtUtil jwtUtil;
 
   @Autowired
   private MockMvc mockMvc;

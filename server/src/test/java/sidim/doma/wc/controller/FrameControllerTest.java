@@ -25,12 +25,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import sidim.doma.wc.dto.frame.FrameDto;
 import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
 import sidim.doma.wc.exception.FrameServiceException;
+import sidim.doma.wc.service.CustomUserDetailsService;
 import sidim.doma.wc.service.FrameService;
+import sidim.doma.wc.util.jwt.JwtUtil;
 
 @WebMvcTest(controllers = FrameController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -40,6 +43,12 @@ class FrameControllerTest {
 
   @MockBean
   private FrameService frameService;
+
+  @MockBean
+  private CustomUserDetailsService customUserDetailsService;
+
+  @MockBean
+  private JwtUtil jwtUtil;
 
   @Autowired
   private MockMvc mockMvc;
