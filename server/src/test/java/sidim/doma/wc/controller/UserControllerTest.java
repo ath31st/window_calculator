@@ -7,13 +7,16 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -291,5 +294,67 @@ class UserControllerTest {
         .content(objectMapper.writeValueAsString(changePasswordDto))
         .principal(mockPrincipal)
     ).andExpect(status().isBadRequest()).andReturn();
+  }
+
+  @Test
+  void getUsers_validDataProvided_1() throws Exception {
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", "USER", true, LocalDate.now());
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", "ADMIN", true, LocalDate.now());
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", "USER", true, LocalDate.now());
+
+    List<UserDto> expectedUserDtos = List.of(userDto1, userDto2, userDto3);
+
+    when(userService.getUsers(null, true)).thenReturn(expectedUserDtos);
+
+    val result = mockMvc.perform(get(BASE_URL))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val userDtos = objectMapper.readValue(content, new TypeReference<List<UserDto>>() {
+    });
+
+    assertEquals(expectedUserDtos, userDtos);
+  }
+
+  @Test
+  void getUsers_filterByEmail() throws Exception {
+    val userDto = new UserDto(1, "Alice", "alice@example.com", "USER", true, LocalDate.now());
+    List<UserDto> expectedUserDtos = List.of(userDto);
+
+    when(userService.getUsers("alice@example.com", true)).thenReturn(expectedUserDtos);
+
+    val result = mockMvc.perform(get(BASE_URL)
+            .param("email", "alice@example.com"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val userDtos = objectMapper.readValue(content, new TypeReference<List<UserDto>>() {
+    });
+
+    assertEquals(expectedUserDtos, userDtos);
+  }
+
+  @Test
+  void getUsers_sortDescending() throws Exception {
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", "USER", true, LocalDate.now());
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", "ADMIN", true, LocalDate.now());
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", "USER", true, LocalDate.now());
+
+    List<UserDto> expectedUserDtos = List.of(userDto3, userDto2, userDto1);
+
+    when(userService.getUsers(null, false)).thenReturn(expectedUserDtos);
+
+    val result = mockMvc.perform(get(BASE_URL)
+            .param("ascending", "false"))
+        .andExpect(status().isOk())
+        .andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val userDtos = objectMapper.readValue(content, new TypeReference<List<UserDto>>() {
+    });
+
+    assertEquals(expectedUserDtos, userDtos);
   }
 }
