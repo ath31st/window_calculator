@@ -1,8 +1,10 @@
 package sidim.doma.wc.service;
 
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -87,4 +89,19 @@ public class UserService {
     user.setPassword(encoder.encode(dto.newPassword()));
     userRepository.save(user);
   }
+
+  public List<UserDto> getUsers(String email, boolean ascending) {
+    Sort.Direction direction = ascending ? Sort.Direction.ASC : Sort.Direction.DESC;
+    Sort sort = Sort.by(direction, "email");
+
+    List<User> users;
+    if (email != null && !email.isEmpty()) {
+      users = userRepository.findByEmailContainingIgnoreCase(email, sort);
+    } else {
+      users = userRepository.findAll(sort);
+    }
+
+    return users.stream().map(userMapper::fromEntityToDto).toList();
+  }
+
 }

@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sidim.doma.wc.dto.user.ChangePasswordDto;
@@ -240,5 +242,60 @@ class UserServiceTest {
 
     assertEquals("Old password is not correct!", exception.getMessage());
     assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
+  }
+
+  @Test
+  void getUsers_success_1() {
+    val sort = Sort.by(Sort.Direction.ASC, "email");
+
+    val user1 = new User(1, "Alice", "alice@example.com", "password1", 2, true, null, null);
+    val user2 = new User(2, "Bob", "bob@example.com", "password2", 1, true, null, null);
+    val user3 = new User(3, "Charlie", "charlie@example.com", "password3", 2, true, null, null);
+
+    val sortedUsers = List.of(user1, user2, user3);
+
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", "USER", true, LocalDate.now());
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", "ADMIN", true, LocalDate.now());
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", "USER", true, LocalDate.now());
+
+    when(userRepository.findAll(sort)).thenReturn(sortedUsers);
+    when(userMapper.fromEntityToDto(user1)).thenReturn(userDto1);
+    when(userMapper.fromEntityToDto(user2)).thenReturn(userDto2);
+    when(userMapper.fromEntityToDto(user3)).thenReturn(userDto3);
+
+    val result = userService.getUsers(null, true);
+
+    verify(userRepository).findAll(sort);
+    assertEquals(List.of(userDto1, userDto2, userDto3), result);
+  }
+
+  @Test
+  void getUsers_success_2() {
+    val sort = Sort.by(Sort.Direction.DESC, "email");
+    val users = List.of(user);
+
+    when(userRepository.findAll(sort)).thenReturn(users);
+    when(userMapper.fromEntityToDto(any(User.class))).thenReturn(expectedUserDto);
+
+    val result = userService.getUsers(null, false);
+
+    verify(userRepository).findAll(sort);
+    assertEquals(List.of(expectedUserDto), result);
+  }
+
+  @Test
+  void getUsers_success_3() {
+    val sort = Sort.by(Sort.Direction.ASC, "email");
+    val user1 = new User(1, "Alice", email, "password1", role, true, null, null);
+    val userDto1 = new UserDto(1, "Alice", email, "USER", true, LocalDate.now());
+    val sortedUsers = List.of(user1);
+
+    when(userRepository.findByEmailContainingIgnoreCase(email, sort)).thenReturn(sortedUsers);
+    when(userMapper.fromEntityToDto(user1)).thenReturn(userDto1);
+
+    val result = userService.getUsers(email, true);
+
+    verify(userRepository).findByEmailContainingIgnoreCase(email, sort);
+    assertEquals(List.of(userDto1), result);
   }
 }
