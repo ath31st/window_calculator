@@ -3,3 +3,9 @@ export interface CartItem {
   name: string;
   summary: number;
 }
+
+export interface JwtUser {
+  userId: string;
+  email: string | null;
+  role: string;
+}
