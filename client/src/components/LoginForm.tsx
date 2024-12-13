@@ -1,59 +1,55 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
 
-const LoginForm = () => {
+interface LoginFormProps {
+  onSubmit: (credentials: { email: string; password: string }) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-
-    try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!res.ok) {
-        throw new Error('Invalid credentials');
-      }
-
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      setError(err.message);
+    if (email && password) {
+      onSubmit({ email: email.trim(), password: password.trim() });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button type="submit">Login</button>
-    </form>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        width: '100%',
+        maxWidth: 400,
+      }}
+    >
+      <TextField
+        label="Email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        fullWidth
+      />
+      <TextField
+        label="Пароль"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        fullWidth
+      />
+      <Button type="submit" variant="contained" fullWidth>
+        Войти
+      </Button>
+    </Box>
   );
 };
 
