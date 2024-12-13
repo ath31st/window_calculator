@@ -21,6 +21,7 @@ const AddUserDialog: React.FC<AddUserDialogProps> = ({
   onClose,
   onAdd,
 }) => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState(2);
@@ -28,14 +29,16 @@ const AddUserDialog: React.FC<AddUserDialogProps> = ({
   const handleAdd = () => {
     if (email.trim() && password.trim()) {
       const newUser: NewUser = {
+        name: name.trim(),
         email: email.trim(),
         password: password.trim(),
         role: role,
       };
       onAdd(newUser);
       setEmail('');
+      setName('');
       setPassword('');
-      setRole(0);
+      setRole(2);
       onClose();
     }
   };
@@ -51,6 +54,13 @@ const AddUserDialog: React.FC<AddUserDialogProps> = ({
         }}
       >
         <Typography variant="h6">Добавить пользователя</Typography>
+        <TextField
+          label="Имя пользователя"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          fullWidth
+        />
+
         <TextField
           label="Email пользователя"
           value={email}

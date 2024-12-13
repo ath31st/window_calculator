@@ -36,6 +36,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
 
   useEffect(() => {
     if (isOpen) {
+      setName(currentUser.name);
       setEmail(currentUser.email);
       setRole(currentUser.role);
       setActive(currentUser.isActive);
