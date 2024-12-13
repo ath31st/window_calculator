@@ -4,6 +4,7 @@ import { Box, IconButton, Badge } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HomeIcon from '@mui/icons-material/Home';
+import GroupIcon from '@mui/icons-material/Group';
 import { useCartStore } from '@/stores/cart.store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -20,7 +21,7 @@ const Header: React.FC = () => {
     {
       path: '/',
       icon: <HomeIcon />,
-      showOn: ['/cart', '/profile'],
+      showOn: ['/cart', '/profile', '/users'],
     },
     {
       path: '/cart',
@@ -29,6 +30,11 @@ const Header: React.FC = () => {
           <ShoppingCartIcon />
         </Badge>
       ),
+      showOn: ['/'],
+    },
+    {
+      path: '/users',
+      icon: <GroupIcon />,
       showOn: ['/'],
     },
   ];
