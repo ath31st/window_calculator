@@ -30,7 +30,7 @@ export const deleteUser = async (id: number): Promise<void> => {
   await axios.delete(`${API_URL}/${id}`);
 };
 
-export const changePassword = async (
+export const changeUserPassword = async (
   changePassword: ChangePassword,
 ): Promise<void> => {
   await axios.put(`${API_URL}/password`, changePassword);
