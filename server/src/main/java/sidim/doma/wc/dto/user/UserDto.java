@@ -7,7 +7,7 @@ public record UserDto(
     Integer id,
     String name,
     String email,
-    String role,
+    Integer role,
     Boolean isActive,
     LocalDate createdAt
 ) implements Serializable {

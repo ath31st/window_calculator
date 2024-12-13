@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import sidim.doma.wc.dto.user.NewUserDto;
 import sidim.doma.wc.dto.user.UserDto;
 import sidim.doma.wc.entity.User;
-import sidim.doma.wc.util.Role;
 
 @Component
 @RequiredArgsConstructor
@@ -29,7 +28,7 @@ public class UserMapper {
         user.getId(),
         user.getName(),
         user.getEmail(),
-        Role.getRoleByValue(user.getRole()).name(),
+        user.getRole(),
         user.getIsActive(),
         user.getCreatedAt().atZone(ZoneId.systemDefault()).toLocalDate()
     );
