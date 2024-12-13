@@ -20,9 +20,12 @@ const UserList: React.FC<UserListProps> = ({ users, onEdit, onDelete }) => {
       }}
     >
       {users.map((user) => (
-        <li key={user.id}>
-          <UserCard user={user} onEdit={onEdit} onDelete={onDelete} />
-        </li>
+        <UserCard
+          key={user.id}
+          user={user}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       ))}
     </Box>
   );

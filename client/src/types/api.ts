@@ -85,6 +85,7 @@ export interface NewTableButton {
 // user types
 
 export interface NewUser {
+  name: string;
   email: string;
   password: string;
   role: number;
