@@ -1,5 +1,7 @@
 package sidim.doma.wc.mapper;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,7 @@ public class UserMapper {
         .password(encoder.encode(dto.password()))
         .role(dto.role())
         .isActive(true)
+        .createdAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
         .build();
   }
 
