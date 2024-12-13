@@ -34,7 +34,6 @@ import sidim.doma.wc.entity.User;
 import sidim.doma.wc.exception.UserServiceException;
 import sidim.doma.wc.service.CustomUserDetailsService;
 import sidim.doma.wc.service.UserService;
-import sidim.doma.wc.util.Role;
 import sidim.doma.wc.util.jwt.JwtUtil;
 
 @WebMvcTest(UserController.class)
@@ -70,14 +69,13 @@ class UserControllerTest {
   private NewUserDto newUserDto;
   private UserDto expectedUserDto;
   private UpdateUserDto updateUserDto;
-  private User user;
 
   @BeforeEach
   void setUp() {
     newUserDto = new NewUserDto(name, email, password, role);
-    expectedUserDto = new UserDto(id, name, email, Role.USER.name(), isActive, LocalDate.now());
+    expectedUserDto = new UserDto(id, name, email, role, isActive, LocalDate.now());
     updateUserDto = new UpdateUserDto(id, updateName, updateEmail, role, isActive);
-    user = new User();
+    User user = new User();
     user.setId(id);
     user.setEmail(email);
     user.setPassword(password);
@@ -98,7 +96,7 @@ class UserControllerTest {
     assertEquals(id, userDto.id());
     assertEquals(name, userDto.name());
     assertEquals(email, userDto.email());
-    assertEquals(Role.USER.name(), userDto.role());
+    assertEquals(role, userDto.role());
     assertEquals(isActive, userDto.isActive());
 
     verify(userService).createNewUser(any(NewUserDto.class));
@@ -123,7 +121,7 @@ class UserControllerTest {
     assertEquals(id, userDtoResult.id());
     assertEquals(name, userDtoResult.name());
     assertEquals(email, userDtoResult.email());
-    assertEquals(Role.USER.name(), userDtoResult.role());
+    assertEquals(role, userDtoResult.role());
     assertEquals(isActive, userDtoResult.isActive());
 
     verify(userService).createNewUser(any(NewUserDto.class));
@@ -157,7 +155,7 @@ class UserControllerTest {
 
   @Test
   void updateUser_validDataProvided() throws Exception {
-    val updatedUserDto = new UserDto(id, updateName, updateEmail, Role.USER.name(), isActive, LocalDate.now());
+    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive, LocalDate.now());
 
     when(userService.updateUser(any(UpdateUserDto.class))).thenReturn(updatedUserDto);
 
@@ -172,7 +170,7 @@ class UserControllerTest {
     assertEquals(id, userDto.id());
     assertEquals(updateName, userDto.name());
     assertEquals(updateEmail, userDto.email());
-    assertEquals(Role.USER.name(), userDto.role());
+    assertEquals(role, userDto.role());
     assertEquals(isActive, userDto.isActive());
 
     verify(userService).updateUser(any(UpdateUserDto.class));
@@ -298,9 +296,9 @@ class UserControllerTest {
 
   @Test
   void getUsers_validDataProvided_1() throws Exception {
-    val userDto1 = new UserDto(1, "Alice", "alice@example.com", "USER", true, LocalDate.now());
-    val userDto2 = new UserDto(2, "Bob", "bob@example.com", "ADMIN", true, LocalDate.now());
-    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", "USER", true, LocalDate.now());
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now());
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", role, true, LocalDate.now());
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now());
 
     List<UserDto> expectedUserDtos = List.of(userDto1, userDto2, userDto3);
 
@@ -319,7 +317,7 @@ class UserControllerTest {
 
   @Test
   void getUsers_filterByEmail() throws Exception {
-    val userDto = new UserDto(1, "Alice", "alice@example.com", "USER", true, LocalDate.now());
+    val userDto = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now());
     List<UserDto> expectedUserDtos = List.of(userDto);
 
     when(userService.getUsers("alice@example.com", true)).thenReturn(expectedUserDtos);
@@ -338,9 +336,9 @@ class UserControllerTest {
 
   @Test
   void getUsers_sortDescending() throws Exception {
-    val userDto1 = new UserDto(1, "Alice", "alice@example.com", "USER", true, LocalDate.now());
-    val userDto2 = new UserDto(2, "Bob", "bob@example.com", "ADMIN", true, LocalDate.now());
-    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", "USER", true, LocalDate.now());
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now());
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", 1, true, LocalDate.now());
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now());
 
     List<UserDto> expectedUserDtos = List.of(userDto3, userDto2, userDto1);
 
