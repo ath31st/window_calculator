@@ -31,6 +31,7 @@ public class JwtUtil {
   @Value("${jwt.refresh.secret}")
   private String refreshSecret;
   private static final String SUBJECT = "User Details";
+  private static final String USER_ID = "userId";
   private static final String ROLE = "role";
   private static final String EMAIL = "email";
   private static final String ISSUER_FOR_TOKEN = "Win calc";
@@ -44,6 +45,7 @@ public class JwtUtil {
 
     return JWT.create()
         .withSubject(SUBJECT)
+        .withClaim(USER_ID, user.getId())
         .withClaim(ROLE, Role.getRoleByValue(user.getRole()).name())
         .withClaim(EMAIL, user.getEmail())
         .withExpiresAt(accessExpirationInstant)
@@ -72,6 +74,7 @@ public class JwtUtil {
 
     return JWT.create()
         .withSubject(SUBJECT)
+        .withClaim(USER_ID, user.getId())
         .withClaim(ROLE, Role.getRoleByValue(user.getRole()).name())
         .withClaim(EMAIL, user.getEmail())
         .withExpiresAt(refreshExpirationInstant)
