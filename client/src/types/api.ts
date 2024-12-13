@@ -81,3 +81,50 @@ export interface NewTableButton {
   name: string;
   value: number;
 }
+
+// user types
+
+export interface NewUser {
+  email: string;
+  password: string;
+  role: number;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface UserUpdate {
+  id: number;
+  name: string;
+  email: string;
+  role: number;
+  isActive: boolean;
+}
+
+export interface ChangePassword {
+  id: number;
+  oldPassword: string;
+  newPassword: string;
+}
+
+// auth types
+
+export interface JwtResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface RefreshJwtRequest {
+  refreshToken: string;
+}
+
+export interface Credentials {
+  email: string;
+  password: string;
+}
