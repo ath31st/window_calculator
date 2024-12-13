@@ -99,7 +99,7 @@ export interface User {
   createdAt: string;
 }
 
-export interface UserUpdate {
+export interface UpdateUser {
   id: number;
   name: string;
   email: string;
