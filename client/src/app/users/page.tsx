@@ -4,14 +4,18 @@ import AddIcon from '@mui/icons-material/Add';
 import Header from '@/components/Header';
 import CommonLayout from '@/components/layouts/CommonLayout';
 import { useUserStore } from '@/stores/user.store';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddUserDialog from '@/components/dialogs/user/AddUserDialog';
 import UserList from '@/components/lists/UserList';
 import { IconButton } from '@mui/material';
 
 const Users: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const { addUser, updateUser, deleteUser, users } = useUserStore();
+  const { addUser, updateUser, fetchUsers, deleteUser, users } = useUserStore();
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   return (
     <CommonLayout>
