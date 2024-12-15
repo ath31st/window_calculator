@@ -3,10 +3,9 @@ import { LOCAL_STORAGE_KEY } from '@/constants/auth';
 import { useAuthStore } from '@/stores/auth.store';
 import { isTokenExpired } from '@/services/jwt.service';
 
-const setupAxiosInterceptor = (setServerStatus: (status: boolean) => void) => {
+const setupAxiosInterceptor = () => {
   axios.interceptors.response.use(
     (response) => {
-      setServerStatus(true);
       return response;
     },
     async (error) => {
@@ -30,10 +29,6 @@ const setupAxiosInterceptor = (setServerStatus: (status: boolean) => void) => {
         }
         await useAuthStore.getState().logout();
         return Promise.reject(error);
-      }
-
-      if (!error.response) {
-        setServerStatus(false);
       }
 
       return Promise.reject(error);
