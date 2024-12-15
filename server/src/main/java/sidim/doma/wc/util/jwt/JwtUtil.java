@@ -34,6 +34,7 @@ public class JwtUtil {
   private static final String USER_ID = "userId";
   private static final String ROLE = "role";
   private static final String EMAIL = "email";
+  private static final String NAME = "name";
   private static final String ISSUER_FOR_TOKEN = "Win calc";
 
   private final RefreshTokenPayloadRepository payloadRepository;
@@ -48,6 +49,7 @@ public class JwtUtil {
         .withClaim(USER_ID, user.getId())
         .withClaim(ROLE, Role.getRoleByValue(user.getRole()).name())
         .withClaim(EMAIL, user.getEmail())
+        .withClaim(NAME, user.getName())
         .withExpiresAt(accessExpirationInstant)
         .withIssuer(ISSUER_FOR_TOKEN)
         .sign(Algorithm.HMAC256(secret));
@@ -77,6 +79,7 @@ public class JwtUtil {
         .withClaim(USER_ID, user.getId())
         .withClaim(ROLE, Role.getRoleByValue(user.getRole()).name())
         .withClaim(EMAIL, user.getEmail())
+        .withClaim(NAME, user.getName())
         .withExpiresAt(refreshExpirationInstant)
         .withIssuer(ISSUER_FOR_TOKEN)
         .withPayload(Collections.singletonMap("UUID", uuid.toString()))
