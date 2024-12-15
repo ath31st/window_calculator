@@ -4,6 +4,8 @@ import theme from './_theme/theme';
 import './_styles/variables.css';
 import { Roboto } from 'next/font/google';
 import { CssBaseline } from '@mui/material';
+import AxiosInterceptorProvider from '@/providers/AxiosInterceptorProvider';
+import AuthProvider from '@/providers/AuthProvider';
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -32,8 +34,12 @@ export default function RootLayout({
       <body className={roboto.variable}>
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
+            <AxiosInterceptorProvider>
+              <AuthProvider>
+                <CssBaseline />
+                {children}
+              </AuthProvider>
+            </AxiosInterceptorProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
