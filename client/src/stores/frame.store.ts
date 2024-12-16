@@ -115,8 +115,6 @@ export const useFrameStore = create<FrameStore>((set) => ({
       );
       useTableButtonStore.getState().setTableButtons(tableButtons);
 
-      console.log(frameFull);
-
       set({ frameFull, activeFrameId: id, loading: false });
     } catch (err) {
       set({ loading: false });

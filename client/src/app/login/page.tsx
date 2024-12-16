@@ -16,7 +16,6 @@ const LoginPage: React.FC = () => {
     password: string;
   }) => {
     try {
-      console.log('Logging in...');
       await login(credentials);
       router.push('/');
     } catch {
