@@ -40,7 +40,7 @@ public class AuthController {
   @DeleteMapping("/logout")
   public ResponseEntity<HttpStatus> logout(Principal principal) {
     if (principal == null) {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     authService.logout(principal);
