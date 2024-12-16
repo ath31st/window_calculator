@@ -108,6 +108,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         error: null,
       });
       localStorage.removeItem(LOCAL_STORAGE_KEY);
+
+      window.location.href = '/401';
     }
   },
 
