@@ -26,29 +26,33 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   accessToken: null,
   refreshToken: null,
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
   error: null,
 
   hydrate: async () => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (storedData) {
-      const { accessToken, refreshToken, user } = JSON.parse(storedData);
-      if (accessToken && !isTokenExpired(accessToken)) {
-        set({
-          accessToken,
-          refreshToken,
-          user,
-          isAuthenticated: true,
-          error: null,
-        });
+
+    if (!storedData) {
+      set({ isLoading: false });
+      return;
+    }
+
+    const { accessToken, refreshToken, user } = JSON.parse(storedData);
+    if (accessToken && !isTokenExpired(accessToken)) {
+      set({
+        accessToken,
+        refreshToken,
+        user,
+        isAuthenticated: true,
+        error: null,
+      });
+    } else {
+      if (refreshToken && !isTokenExpired(refreshToken)) {
+        set({ refreshToken });
+        await get().refreshAccessToken();
       } else {
-        if (refreshToken && !isTokenExpired(refreshToken)) {
-          set({ refreshToken });
-          await get().refreshAccessToken();
-        } else {
-          console.log('Invalid access token or refresh token');
-          localStorage.removeItem(LOCAL_STORAGE_KEY);
-        }
+        console.log('Invalid access token or refresh token');
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
       }
     }
     set({ isLoading: false });

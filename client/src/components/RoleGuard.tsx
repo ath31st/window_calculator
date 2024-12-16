@@ -8,10 +8,14 @@ interface RoleGuardProps {
 }
 
 const RoleGuard: React.FC<RoleGuardProps> = ({ roles, children }) => {
-  const { user, isAuthenticated } = useAuthStore();
+  const { user, isAuthenticated, isLoading } = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
     if (!isAuthenticated) {
       router.push('/401');
       return;
@@ -19,10 +23,11 @@ const RoleGuard: React.FC<RoleGuardProps> = ({ roles, children }) => {
 
     if (user && !roles.includes(user.role)) {
       router.push('/403');
+      return;
     }
-  }, [isAuthenticated, user, roles, router]);
+  }, [isAuthenticated, user, roles, router, isLoading]);
 
-  if (!isAuthenticated || (user && !roles.includes(user.role))) {
+  if (isLoading || !isAuthenticated || (user && !roles.includes(user.role))) {
     return null;
   }
 
