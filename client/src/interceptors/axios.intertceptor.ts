@@ -38,6 +38,10 @@ const setupAxiosInterceptor = () => {
       const originalRequest = error.config;
       const { status } = error.response;
 
+      if (status === 403) {
+        window.location.href = '/403';
+      }
+
       if (status === 401 && !originalRequest._retry) {
         const refreshToken = useAuthStore.getState().refreshToken;
 
