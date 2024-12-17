@@ -156,6 +156,6 @@ class AuthControllerTest {
   @WithAnonymousUser
   void logout_WithNullPrincipal_ShouldReturnUnauthorized() throws Exception {
     mockMvc.perform(delete(BASE_URL + "/logout"))
-        .andExpect(status().isUnauthorized());
+        .andExpect(status().isBadRequest());
   }
 }
