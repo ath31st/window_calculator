@@ -4,16 +4,19 @@ import { Box, IconButton, Badge } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HomeIcon from '@mui/icons-material/Home';
+import EditIcon from '@mui/icons-material/Edit';
 import GroupIcon from '@mui/icons-material/Group';
 import { useCartStore } from '@/stores/cart.store';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/stores/auth.store';
+import { useEditModeStore } from '@/stores/edit.mode.store';
 import { useState } from 'react';
 import UserProfileDialog from './dialogs/user/UserProfileDialog';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuthStore();
+  const { isEditMode, toggleEditMode } = useEditModeStore();
   const { cartItems } = useCartStore();
   const pathname = usePathname();
   const isAdmin = user?.role === 'ADMIN';
@@ -45,6 +48,19 @@ const Header: React.FC = () => {
       showOn: ['/'],
       isAdminOnly: true,
     },
+    {
+      path: '/edit-mode',
+      icon: (
+        <EditIcon
+          sx={{
+            color: isEditMode ? 'white' : 'inherit',
+          }}
+        />
+      ),
+      showOn: ['/', '/cart', '/users'],
+      isAdminOnly: true,
+      isEditModeButton: true,
+    },
   ];
 
   return (
@@ -69,18 +85,28 @@ const Header: React.FC = () => {
 
         {routes
           .filter(({ isAdminOnly }) => !isAdminOnly || isAdmin)
-          .map(
-            ({ path, icon, showOn }) =>
-              showOn.includes(pathname) && (
-                <Link key={path} href={path} passHref>
-                  <IconButton
-                    sx={{ bgcolor: 'background.paper', boxShadow: 2 }}
-                  >
-                    {icon}
-                  </IconButton>
-                </Link>
-              ),
-          )}
+          .map(({ path, icon, showOn, isEditModeButton }) => {
+            if (!showOn.includes(pathname)) return null;
+
+            return isEditModeButton ? (
+              <IconButton
+                key={path}
+                onClick={toggleEditMode}
+                sx={{
+                  bgcolor: isEditMode ? 'primary.main' : 'background.paper',
+                  boxShadow: 2,
+                }}
+              >
+                {icon}
+              </IconButton>
+            ) : (
+              <Link key={path} href={path} passHref>
+                <IconButton sx={{ bgcolor: 'background.paper', boxShadow: 2 }}>
+                  {icon}
+                </IconButton>
+              </Link>
+            );
+          })}
       </Box>
 
       <UserProfileDialog
