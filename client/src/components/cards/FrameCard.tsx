@@ -13,6 +13,7 @@ interface FrameCardProps {
   onAdd: (frameBlock: NewFrameBlock) => void;
   onDelete: (id: number) => void;
   onEdit: (block: FrameBlock) => void;
+  isEditMode: boolean;
 }
 
 const FrameCard: React.FC<FrameCardProps> = ({
@@ -21,6 +22,7 @@ const FrameCard: React.FC<FrameCardProps> = ({
   onAdd,
   onDelete,
   onEdit,
+  isEditMode,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -30,9 +32,10 @@ const FrameCard: React.FC<FrameCardProps> = ({
         frameBlocksFull={frameBlocksFull}
         deleteFrameBlock={onDelete}
         updateFrameBlock={onEdit}
+        isEditMode={isEditMode}
       />
 
-      {activeFrameId && (
+      {isEditMode && activeFrameId && (
         <IconButton onClick={() => setDialogOpen(true)}>
           <AddIcon />
         </IconButton>

@@ -8,6 +8,7 @@ interface BlockTableListProps {
   deleteBlockTable: (id: number) => void;
   updateBlockTable: (table: BlockTable) => void;
   onChange: (buttonType: ButtonType, id: number, value: number) => void;
+  isEditMode: boolean;
 }
 
 const BlockTableList: React.FC<BlockTableListProps> = ({
@@ -15,6 +16,7 @@ const BlockTableList: React.FC<BlockTableListProps> = ({
   deleteBlockTable,
   updateBlockTable,
   onChange,
+  isEditMode,
 }) => {
   return (
     <Box
@@ -33,6 +35,7 @@ const BlockTableList: React.FC<BlockTableListProps> = ({
           onEdit={updateBlockTable}
           onDelete={deleteBlockTable}
           onChange={onChange}
+          isEditMode={isEditMode}
         />
       ))}
     </Box>

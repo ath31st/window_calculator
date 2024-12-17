@@ -7,12 +7,14 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import CommonLayout from '@/components/layouts/CommonLayout';
 import RoleGuard from '@/components/RoleGuard';
+import { useEditModeStore } from '@/stores/edit.mode.store';
 
 const Home: React.FC = () => {
   const roles = ['ADMIN', 'USER'];
   const { addFrameBlock, frameBlocksFull, deleteFrameBlock, updateFrameBlock } =
     useFrameBlockStore();
   const { activeFrameId } = useFrameStore();
+  const { isEditMode } = useEditModeStore();
 
   return (
     <RoleGuard roles={roles}>
@@ -24,6 +26,7 @@ const Home: React.FC = () => {
           onAdd={(newFrameBlock) => addFrameBlock(newFrameBlock)}
           onDelete={(id) => deleteFrameBlock(id)}
           onEdit={(block) => updateFrameBlock(block)}
+          isEditMode={isEditMode}
         />
         <Footer />
       </CommonLayout>

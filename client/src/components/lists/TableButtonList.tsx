@@ -18,6 +18,7 @@ interface TableButtonListProps {
   deleteTableButton: (id: number) => void;
   updateTableButton: (button: TableButton) => void;
   onChange: (buttonType: ButtonType, id: number, value: number) => void;
+  isEditMode: boolean;
 }
 
 const TableButtonList: React.FC<TableButtonListProps> = ({
@@ -27,6 +28,7 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
   deleteTableButton,
   updateTableButton,
   onChange,
+  isEditMode,
 }) => {
   const {
     selectedButton,
@@ -67,17 +69,21 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
                 control={<Radio />}
                 label={
                   <Typography variant="body2">
-                    {`${button.name} (${button.value})`}
+                    {isEditMode
+                      ? `${button.name} (${button.value})`
+                      : button.name}
                   </Typography>
                 }
               />
-              <Box>
-                <TableButtonEditDeleteButtons
-                  currentTableButton={button}
-                  onEdit={updateTableButton}
-                  onDelete={deleteTableButton}
-                />
-              </Box>
+              {isEditMode && (
+                <Box>
+                  <TableButtonEditDeleteButtons
+                    currentTableButton={button}
+                    onEdit={updateTableButton}
+                    onDelete={deleteTableButton}
+                  />
+                </Box>
+              )}
             </Box>
           ))}
         </RadioGroup>
@@ -101,17 +107,21 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
               }
               label={
                 <Typography variant="body2">
-                  {`${button.name} (${button.value})`}
+                  {isEditMode
+                    ? `${button.name} (${button.value})`
+                    : button.name}
                 </Typography>
               }
             />
-            <Box>
-              <TableButtonEditDeleteButtons
-                currentTableButton={button}
-                onEdit={updateTableButton}
-                onDelete={deleteTableButton}
-              />
-            </Box>
+            {isEditMode && (
+              <Box>
+                <TableButtonEditDeleteButtons
+                  currentTableButton={button}
+                  onEdit={updateTableButton}
+                  onDelete={deleteTableButton}
+                />
+              </Box>
+            )}
           </Box>
         ))
       )}

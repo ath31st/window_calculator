@@ -23,12 +23,14 @@ interface FrameBlockCardProps {
   block: FrameBlockFull;
   onEdit: (block: FrameBlock) => void;
   onDelete: (id: number) => void;
+  isEditMode: boolean;
 }
 
 const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   block,
   onEdit,
   onDelete,
+  isEditMode,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const { widthInMM, heightInMM, multiplier, handleDimensionChange } =
@@ -94,13 +96,16 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             onChange={(buttonType, id, value) =>
               handleTableButtonChange(buttonType, id, value)
             }
+            isEditMode={isEditMode}
           />
 
-          <Box>
-            <IconButton onClick={() => setDialogOpen(true)}>
-              <AddIcon />
-            </IconButton>
-          </Box>
+          {isEditMode && (
+            <Box>
+              <IconButton onClick={() => setDialogOpen(true)}>
+                <AddIcon />
+              </IconButton>
+            </Box>
+          )}
 
           {block.isWindowSizeEnabled ? (
             <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
@@ -163,22 +168,24 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             </IconButton>
           </Box>
 
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-              display: 'flex',
-              gap: 1,
-            }}
-          >
-            <FrameBlockEditDeleteButtons
-              id={block.id}
-              currentFrameBlock={block}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          </Box>
+          {isEditMode && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                display: 'flex',
+                gap: 1,
+              }}
+            >
+              <FrameBlockEditDeleteButtons
+                id={block.id}
+                currentFrameBlock={block}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            </Box>
+          )}
         </Box>
       </CardContent>
     </Card>

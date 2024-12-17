@@ -6,12 +6,14 @@ interface FrameBlockListProps {
   frameBlocksFull: FrameBlockFull[];
   deleteFrameBlock: (id: number) => void;
   updateFrameBlock: (block: FrameBlock) => void;
+  isEditMode: boolean;
 }
 
 const FrameBlockList: React.FC<FrameBlockListProps> = ({
   frameBlocksFull,
   deleteFrameBlock,
   updateFrameBlock,
+  isEditMode,
 }) => {
   return (
     <Box
@@ -29,6 +31,7 @@ const FrameBlockList: React.FC<FrameBlockListProps> = ({
           block={block}
           onEdit={updateFrameBlock}
           onDelete={deleteFrameBlock}
+          isEditMode={isEditMode}
         />
       ))}
     </Box>

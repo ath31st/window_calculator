@@ -13,6 +13,7 @@ interface BlockTableCardProps {
   onEdit: (table: BlockTable) => void;
   onDelete: (id: number) => void;
   onChange: (buttonType: ButtonType, id: number, value: number) => void;
+  isEditMode: boolean;
 }
 
 const BlockTableCard: React.FC<BlockTableCardProps> = ({
@@ -20,6 +21,7 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
   onEdit,
   onDelete,
   onChange,
+  isEditMode,
 }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
   const { addTableButton, updateTableButton, deleteTableButton, tableButtons } =
@@ -42,13 +44,16 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
             deleteTableButton={(id) => deleteTableButton(id)}
             buttonType={table.buttonType}
             onChange={onChange}
+            isEditMode={isEditMode}
           />
 
-          <Box>
-            <IconButton onClick={() => setDialogOpen(true)}>
-              <AddIcon />
-            </IconButton>
-          </Box>
+          {isEditMode && (
+            <Box>
+              <IconButton onClick={() => setDialogOpen(true)}>
+                <AddIcon />
+              </IconButton>
+            </Box>
+          )}
 
           <AddTableButtonDialog
             isOpen={isDialogOpen}
@@ -57,22 +62,25 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
             blockTableId={table.id}
           />
 
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-              display: 'flex',
-              gap: 1,
-            }}
-          >
-            <BlockTableEditDeleteButtons
-              id={table.id}
-              currentBlockTable={table}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            />
-          </Box>
+          {isEditMode && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                display: 'flex',
+                gap: 1,
+              }}
+            >
+              <BlockTableEditDeleteButtons
+                id={table.id}
+                currentBlockTable={table}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
+            </Box>
+          )}
+
         </Box>
       </CardContent>
     </Card>
