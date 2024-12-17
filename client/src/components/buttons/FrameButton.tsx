@@ -1,12 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Box, IconButton, Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditFrameDialog from '@/components/dialogs/frame/EditFrameDialog';
-import DeleteFrameDialog from '@/components/dialogs/frame/DeleteFrameDialog';
+import React from 'react';
+import { Box, Typography } from '@mui/material';
 import theme from '@/app/_theme/theme';
+import { FrameEditDeleteButtons } from './FrameEditDeleteButtons';
 
 interface FrameButtonProps {
   id: number;
@@ -27,12 +24,6 @@ const FrameButton: React.FC<FrameButtonProps> = ({
   onEdit,
   isEditMode,
 }) => {
-  const [dialogType, setDialogType] = useState<'edit' | 'delete' | null>(null);
-
-  const openEditDialog = () => setDialogType('edit');
-  const openDeleteDialog = () => setDialogType('delete');
-  const closeDialog = () => setDialogType(null);
-
   return (
     <Box
       sx={{
@@ -56,29 +47,13 @@ const FrameButton: React.FC<FrameButtonProps> = ({
       </Box>
 
       {isEditMode && (
-        <Box sx={{ display: 'flex', gap: 0.5 }}>
-          <IconButton size="small" onClick={openEditDialog}>
-            <EditIcon fontSize="small" />
-          </IconButton>
-          <IconButton size="small" onClick={openDeleteDialog}>
-            <DeleteIcon fontSize="small" />
-          </IconButton>
-        </Box>
+        <FrameEditDeleteButtons
+          id={id}
+          currentName={name}
+          onEdit={onEdit}
+          onDelete={onDelete}
+        />
       )}
-
-      <EditFrameDialog
-        isOpen={dialogType === 'edit'}
-        onClose={closeDialog}
-        onUpdate={onEdit}
-        currentName={name}
-      />
-
-      <DeleteFrameDialog
-        isOpen={dialogType === 'delete'}
-        onClose={closeDialog}
-        onDelete={onDelete}
-        frameId={id}
-      />
     </Box>
   );
 };
