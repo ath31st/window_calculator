@@ -62,17 +62,17 @@ public class JwtUtil {
     val uuid = UUID.randomUUID();
 
     if (payloadRepository.existsByUserEmailIgnoreCase(user.getEmail())) {
-      payloadRepository.updatePayloadByEmailIgnoreCase(uuid, user.getEmail());
-    } else {
-      val payload = RefreshTokenPayload.builder()
-          .user(user)
-          .payload(uuid)
-          .createdAt(now.atZone(ZoneId.systemDefault()).toInstant())
-          .expiryDate(refreshExpirationInstant)
-          .build();
-
-      payloadRepository.save(payload);
+      deleteRefreshTokenPayload(user.getEmail());
     }
+
+    val payload = RefreshTokenPayload.builder()
+        .user(user)
+        .payload(uuid)
+        .createdAt(now.atZone(ZoneId.systemDefault()).toInstant())
+        .expiryDate(refreshExpirationInstant)
+        .build();
+
+    payloadRepository.save(payload);
 
     return JWT.create()
         .withSubject(SUBJECT)
