@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           }}
         />
       ),
-      showOn: ['/', '/cart', '/users'],
+      showOn: ['/'],
       isAdminOnly: true,
       isEditModeButton: true,
     },
