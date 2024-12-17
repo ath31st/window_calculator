@@ -5,6 +5,7 @@ import { Credentials } from '@/types/api';
 import { JwtUser } from '@/types/models';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
+import { useCartStore } from './cart.store';
 
 interface AuthState {
   user: JwtUser | null;
@@ -111,6 +112,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticated: false,
         error: null,
       });
+
+      useCartStore.getState().clearCart();
+
       localStorage.removeItem(LOCAL_STORAGE_KEY);
 
       window.location.href = '/401';
