@@ -16,6 +16,7 @@ const Header: React.FC = () => {
   const { user, logout } = useAuthStore();
   const { cartItems } = useCartStore();
   const pathname = usePathname();
+  const isAdmin = user?.role === 'ADMIN';
 
   const [isProfileOpen, setProfileOpen] = useState(false);
 
@@ -27,7 +28,7 @@ const Header: React.FC = () => {
     {
       path: '/',
       icon: <HomeIcon />,
-      showOn: ['/cart', '/profile', '/users'],
+      showOn: ['/cart', '/users'],
     },
     {
       path: '/cart',
@@ -42,6 +43,7 @@ const Header: React.FC = () => {
       path: '/users',
       icon: <GroupIcon />,
       showOn: ['/'],
+      isAdminOnly: true,
     },
   ];
 
@@ -65,18 +67,22 @@ const Header: React.FC = () => {
           <AccountCircleIcon />
         </IconButton>
 
-        {routes.map(
-          ({ path, icon, showOn }) =>
-            showOn.includes(pathname) && (
-              <Link key={path} href={path} passHref>
-                <IconButton sx={{ bgcolor: 'background.paper', boxShadow: 2 }}>
-                  {icon}
-                </IconButton>
-              </Link>
-            ),
-        )}
+        {routes
+          .filter(({ isAdminOnly }) => !isAdminOnly || isAdmin)
+          .map(
+            ({ path, icon, showOn }) =>
+              showOn.includes(pathname) && (
+                <Link key={path} href={path} passHref>
+                  <IconButton
+                    sx={{ bgcolor: 'background.paper', boxShadow: 2 }}
+                  >
+                    {icon}
+                  </IconButton>
+                </Link>
+              ),
+          )}
       </Box>
-      
+
       <UserProfileDialog
         user={user}
         isOpen={isProfileOpen}
