@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useFrameStore } from '@/stores/frame.store';
 import FrameButton from './buttons/FrameButton';
 import AddFrameDialog from './dialogs/frame/AddFrameDialog';
+import { useEditModeStore } from '@/stores/edit.mode.store';
 
 const Footer: React.FC = () => {
   const {
@@ -18,6 +19,7 @@ const Footer: React.FC = () => {
     fetchFrameFull,
   } = useFrameStore();
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const { isEditMode } = useEditModeStore();
 
   useEffect(() => {
     fetchFrames();
@@ -66,11 +68,16 @@ const Footer: React.FC = () => {
             onSelect={() => handleFrameSelect(frame.id)}
             onEdit={(newName) => updateFrame(frame.id, newName)}
             onDelete={() => deleteFrame(frame.id)}
+            isEditMode={isEditMode}
           />
         ))}
-        <IconButton onClick={() => setDialogOpen(true)}>
-          <AddIcon />
-        </IconButton>
+
+        {isEditMode && (
+          <IconButton onClick={() => setDialogOpen(true)}>
+            <AddIcon />
+          </IconButton>
+        )}
+        
       </Box>
       <AddFrameDialog
         isOpen={isDialogOpen}

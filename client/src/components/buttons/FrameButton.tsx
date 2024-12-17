@@ -15,6 +15,7 @@ interface FrameButtonProps {
   onSelect: () => void;
   onDelete: () => void;
   onEdit: (newName: string) => void;
+  isEditMode: boolean;
 }
 
 const FrameButton: React.FC<FrameButtonProps> = ({
@@ -24,6 +25,7 @@ const FrameButton: React.FC<FrameButtonProps> = ({
   onSelect,
   onDelete,
   onEdit,
+  isEditMode,
 }) => {
   const [dialogType, setDialogType] = useState<'edit' | 'delete' | null>(null);
 
@@ -52,14 +54,17 @@ const FrameButton: React.FC<FrameButtonProps> = ({
           {name}
         </Typography>
       </Box>
-      <Box sx={{ display: 'flex', gap: 0.5 }}>
-        <IconButton size="small" onClick={openEditDialog}>
-          <EditIcon fontSize="small" />
-        </IconButton>
-        <IconButton size="small" onClick={openDeleteDialog}>
-          <DeleteIcon fontSize="small" />
-        </IconButton>
-      </Box>
+
+      {isEditMode && (
+        <Box sx={{ display: 'flex', gap: 0.5 }}>
+          <IconButton size="small" onClick={openEditDialog}>
+            <EditIcon fontSize="small" />
+          </IconButton>
+          <IconButton size="small" onClick={openDeleteDialog}>
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </Box>
+      )}
 
       <EditFrameDialog
         isOpen={dialogType === 'edit'}
