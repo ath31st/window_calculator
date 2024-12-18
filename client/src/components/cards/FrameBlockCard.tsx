@@ -82,10 +82,8 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   return (
     <Card sx={{ width: '100%', position: 'relative' }}>
       <CardContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6" sx={{ mb: 1 }}>
-            {block.name}
-          </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <Typography variant="h6">{block.name}</Typography>
 
           <BlockTableList
             blockTablesFull={blockTablesFull.filter(
@@ -108,7 +106,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
           )}
 
           {block.isWindowSizeEnabled ? (
-            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+            <Box sx={{ display: 'flex', gap: 2 }}>
               <TextField
                 label="Ширина (мм)"
                 type="number"
@@ -147,9 +145,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             frameBlockId={block.id}
           />
 
-          <Typography variant="subtitle2" sx={{ mb: 2 }}>
-            {block.description}
-          </Typography>
+          <Typography variant="subtitle2">{block.description}</Typography>
 
           <Box
             sx={{
