@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import CommonLayout from '@/components/layouts/CommonLayout';
 import RoleGuard from '@/components/RoleGuard';
 import { useEditModeStore } from '@/stores/edit.mode.store';
+import { Box } from '@mui/material';
 
 const Home: React.FC = () => {
   const roles = ['ADMIN', 'USER'];
@@ -20,14 +21,22 @@ const Home: React.FC = () => {
     <RoleGuard roles={roles}>
       <CommonLayout>
         <Header />
-        <FrameCard
-          activeFrameId={activeFrameId}
-          frameBlocksFull={frameBlocksFull}
-          onAdd={(newFrameBlock) => addFrameBlock(newFrameBlock)}
-          onDelete={(id) => deleteFrameBlock(id)}
-          onEdit={(block) => updateFrameBlock(block)}
-          isEditMode={isEditMode}
-        />
+        <Box
+          sx={{
+            flex: 1,
+            pb: '60px',
+            overflow: 'auto',
+          }}
+        >
+          <FrameCard
+            activeFrameId={activeFrameId}
+            frameBlocksFull={frameBlocksFull}
+            onAdd={(newFrameBlock) => addFrameBlock(newFrameBlock)}
+            onDelete={(id) => deleteFrameBlock(id)}
+            onEdit={(block) => updateFrameBlock(block)}
+            isEditMode={isEditMode}
+          />
+        </Box>
         <Footer />
       </CommonLayout>
     </RoleGuard>
