@@ -6,36 +6,31 @@ import {
 import { BlockTable, BlockTableFull, NewBlockTable } from '@/types/api';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
+import { useGlobalErrorStore } from './global.error.store';
 
 interface BlockTableStore {
   blockTablesFull: BlockTableFull[];
   loading: boolean;
-  error: string | null;
   setBlockTables(blockTablesFull: BlockTableFull[]): void;
   addBlockTable: (blockTable: NewBlockTable) => Promise<void>;
   updateBlockTable: (blockTable: BlockTable) => Promise<void>;
   deleteBlockTable: (id: number) => Promise<void>;
-  clearError: () => void;
   handleError: (error: unknown) => void;
 }
 
 const useBlockTableStore = create<BlockTableStore>((set) => ({
   blockTablesFull: [],
   loading: false,
-  error: null,
 
   handleError: (error: unknown) => {
+    console.log(error);
     if (error instanceof AxiosError) {
       const statusCode = error.response?.status;
-      const message = `${error.response?.data?.message} ${statusCode}`;
-      set({ error: message });
+      const message = `${error.response?.data?.error} ${statusCode}`;
+      useGlobalErrorStore.getState().setError(message);
     } else {
-      set({ error: 'Unknown error' });
+      useGlobalErrorStore.getState().setError('Unknown error');
     }
-  },
-
-  clearError: () => {
-    set({ error: null });
   },
 
   addBlockTable: async (blockTable: NewBlockTable) => {
