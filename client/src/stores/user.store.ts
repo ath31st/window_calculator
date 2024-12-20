@@ -33,7 +33,7 @@ export const useUserStore = create<UserStore>((set) => ({
     console.log(error);
     if (error instanceof AxiosError) {
       const statusCode = error.response?.status;
-      const message = `${error.response?.data?.error} ${statusCode}`;
+      const message = `Error code: ${statusCode}. ${error.response?.data?.error}`;
       useGlobalErrorStore.getState().setError(message);
     } else {
       useGlobalErrorStore.getState().setError('Unknown error');
