@@ -6,6 +6,7 @@ import { Roboto } from 'next/font/google';
 import { CssBaseline } from '@mui/material';
 import AxiosInterceptorProvider from '@/providers/AxiosInterceptorProvider';
 import AuthProvider from '@/providers/AuthProvider';
+import ErrorSnackbar from '@/components/errors/ErrorSnackbar';
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -37,6 +38,7 @@ export default function RootLayout({
             <AxiosInterceptorProvider>
               <AuthProvider>
                 <CssBaseline />
+                <ErrorSnackbar />
                 {children}
               </AuthProvider>
             </AxiosInterceptorProvider>
