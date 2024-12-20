@@ -9,19 +9,18 @@ import {
 import { ChangePassword, NewUser, UpdateUser, User } from '@/types/api';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
+import { useGlobalErrorStore } from './global.error.store';
 
 interface UserStore {
   user: User | null;
   users: User[];
   loading: boolean;
-  error: string | null;
   fetchUser: (id: number) => void;
   fetchUsers: () => void;
   addUser: (user: NewUser) => void;
   updateUser: (user: UpdateUser) => void;
   changeUserPassword: (changePassword: ChangePassword) => void;
   deleteUser: (id: number) => void;
-  clearError: () => void;
   handleError: (error: unknown) => void;
 }
 
@@ -29,21 +28,16 @@ export const useUserStore = create<UserStore>((set) => ({
   user: null,
   users: [],
   loading: false,
-  error: null,
 
   handleError: (error: unknown) => {
     console.log(error);
     if (error instanceof AxiosError) {
       const statusCode = error.response?.status;
-      const message = `${error.response?.data?.message} ${statusCode}`;
-      set({ error: message });
+      const message = `${error.response?.data?.error} ${statusCode}`;
+      useGlobalErrorStore.getState().setError(message);
     } else {
-      set({ error: 'Unknown error' });
+      useGlobalErrorStore.getState().setError('Unknown error');
     }
-  },
-
-  clearError: () => {
-    set({ error: null });
   },
 
   fetchUser: async (id: number) => {
