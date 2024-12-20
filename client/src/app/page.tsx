@@ -9,6 +9,7 @@ import CommonLayout from '@/components/layouts/CommonLayout';
 import RoleGuard from '@/components/RoleGuard';
 import { useEditModeStore } from '@/stores/edit.mode.store';
 import { Box } from '@mui/material';
+import SelectFrameNotify from '@/components/notifications/SelectFrameNotify';
 
 const Home: React.FC = () => {
   const roles = ['ADMIN', 'USER'];
@@ -28,6 +29,8 @@ const Home: React.FC = () => {
             overflow: 'auto',
           }}
         >
+          {activeFrameId === null && <SelectFrameNotify />}
+
           <FrameCard
             activeFrameId={activeFrameId}
             frameBlocksFull={frameBlocksFull}
