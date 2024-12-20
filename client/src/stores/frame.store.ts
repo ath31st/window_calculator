@@ -11,20 +11,19 @@ import { create } from 'zustand';
 import { useFrameBlockStore } from './frame.block.store';
 import useBlockTableStore from './block.table.store';
 import { useTableButtonStore } from './table.button.store';
+import { useGlobalErrorStore } from './global.error.store';
 
 interface FrameStore {
   frames: Frame[];
   frameFull: FrameFull | null;
   activeFrameId: number | null;
   loading: boolean;
-  error: string | null;
   fetchFrames: () => void;
   fetchFrameFull: (id: number) => void;
   addFrame: (name: string) => void;
   deleteFrame: (id: number) => void;
   updateFrame: (id: number, newName: string) => void;
   handleError: (error: unknown) => void;
-  clearError: () => void;
 }
 
 export const useFrameStore = create<FrameStore>((set) => ({
@@ -32,20 +31,16 @@ export const useFrameStore = create<FrameStore>((set) => ({
   frameFull: null,
   activeFrameId: null,
   loading: false,
-  error: null,
 
   handleError: (error: unknown) => {
+    console.log(error);
     if (error instanceof AxiosError) {
       const statusCode = error.response?.status;
-      const message = `${error.response?.data?.message} ${statusCode}`;
-      set({ error: message });
+      const message = `${error.response?.data?.error} ${statusCode}`;
+      useGlobalErrorStore.getState().setError(message);
     } else {
-      set({ error: 'Unknown error' });
+      useGlobalErrorStore.getState().setError('Unknown error');
     }
-  },
-
-  clearError: () => {
-    set({ error: null });
   },
 
   fetchFrames: async () => {
