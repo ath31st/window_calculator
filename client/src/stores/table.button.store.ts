@@ -6,33 +6,30 @@ import {
 import { NewTableButton, TableButton } from '@/types/api';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
+import { useGlobalErrorStore } from './global.error.store';
 
 interface TableButtonStore {
   tableButtons: TableButton[];
   loading: boolean;
-  error: string | null;
   setTableButtons: (tableButtons: TableButton[]) => void;
   addTableButton: (tableButton: NewTableButton) => void;
   updateTableButton: (tableButton: TableButton) => void;
   deleteTableButton: (id: number) => void;
-  clearError: () => void;
   handleError: (error: unknown) => void;
 }
 
 export const useTableButtonStore = create<TableButtonStore>((set) => ({
   tableButtons: [],
   loading: false,
-  error: null,
-
-  clearError: () => set({ error: null }),
 
   handleError: (error: unknown) => {
+    console.log(error);
     if (error instanceof AxiosError) {
       const statusCode = error.response?.status;
-      const message = `${error.response?.data?.message} ${statusCode}`;
-      set({ error: message });
+      const message = `${error.response?.data?.error} ${statusCode}`;
+      useGlobalErrorStore.getState().setError(message);
     } else {
-      set({ error: 'Unknown error' });
+      useGlobalErrorStore.getState().setError('Unknown error');
     }
   },
 
