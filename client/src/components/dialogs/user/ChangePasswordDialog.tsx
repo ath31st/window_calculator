@@ -24,10 +24,22 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
 }) => {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [errors, setErrors] = useState({
+    oldPassword: false,
+    newPassword: false,
+  });
+
+  const validate = () => {
+    const newErrors = {
+      oldPassword: !oldPassword.trim(),
+      newPassword: !newPassword.trim(),
+    };
+    setErrors(newErrors);
+    return !newErrors.oldPassword && !newErrors.newPassword;
+  };
 
   const handleChangePassword = () => {
-    if (!oldPassword || !newPassword) {
-      alert('Both fields are required');
+    if (!validate()) {
       return;
     }
 
@@ -45,6 +57,7 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
   const handleClose = () => {
     setOldPassword('');
     setNewPassword('');
+    setErrors({ oldPassword: false, newPassword: false });
     onClose();
   };
 
@@ -61,6 +74,9 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
           fullWidth
           value={oldPassword}
           onChange={(e) => setOldPassword(e.target.value)}
+          error={errors.oldPassword} 
+          helperText={errors.oldPassword ? 'Введите текущий пароль' : ''}
+          required
         />
         <TextField
           margin="dense"
@@ -70,6 +86,9 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
           fullWidth
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
+          error={errors.newPassword}
+          helperText={errors.newPassword ? 'Введите новый пароль' : ''}
+          required
         />
       </DialogContent>
       <DialogActions>
