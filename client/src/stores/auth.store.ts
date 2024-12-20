@@ -6,6 +6,7 @@ import { JwtUser } from '@/types/models';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { useCartStore } from './cart.store';
+import { useGlobalErrorStore } from './global.error.store';
 
 interface AuthState {
   user: JwtUser | null;
@@ -13,13 +14,11 @@ interface AuthState {
   refreshToken: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  error: string | null;
   login: (credentials: Credentials) => Promise<void>;
   logout: () => Promise<void>;
   refreshAccessToken: () => Promise<void>;
   hydrate: () => void;
   handleError: (error: unknown) => void;
-  clearError: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -28,7 +27,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   refreshToken: null,
   isAuthenticated: false,
   isLoading: true,
-  error: null,
 
   hydrate: async () => {
     const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -45,7 +43,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         refreshToken,
         user,
         isAuthenticated: true,
-        error: null,
       });
     } else {
       if (refreshToken && !isTokenExpired(refreshToken)) {
@@ -60,17 +57,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   handleError: (error: unknown) => {
+    console.log(error);
     if (error instanceof AxiosError) {
       const statusCode = error.response?.status;
-      const message = `${error.response?.data?.message} ${statusCode}`;
-      set({ error: message });
+      const message = `${error.response?.data?.error} ${statusCode}`;
+      useGlobalErrorStore.getState().setError(message);
     } else {
-      set({ error: 'Unknown error' });
+      useGlobalErrorStore.getState().setError('Unknown error');
     }
-  },
-
-  clearError: () => {
-    set({ error: null });
   },
 
   login: async (credentials: Credentials) => {
@@ -83,7 +77,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         refreshToken,
         user,
         isAuthenticated: true,
-        error: null,
       });
 
       localStorage.setItem(
@@ -110,7 +103,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         refreshToken: null,
         user: null,
         isAuthenticated: false,
-        error: null,
       });
 
       useCartStore.getState().clearCart();
@@ -133,7 +125,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         accessToken: newAccessToken,
         isAuthenticated: true,
         user,
-        error: null,
       });
 
       localStorage.setItem(
