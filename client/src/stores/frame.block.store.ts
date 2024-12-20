@@ -6,36 +6,31 @@ import {
 import { FrameBlock, FrameBlockFull, NewFrameBlock } from '@/types/api';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
+import { useGlobalErrorStore } from './global.error.store';
 
 interface FrameBlockStore {
   frameBlocksFull: FrameBlockFull[];
   loading: boolean;
-  error: string | null;
   addFrameBlock: (frameBlock: NewFrameBlock) => Promise<void>;
   updateFrameBlock: (frameBlock: FrameBlock) => Promise<void>;
   deleteFrameBlock: (id: number) => Promise<void>;
   setFrameBlocks: (blocks: FrameBlockFull[]) => void;
-  clearError: () => void;
   handleError: (error: unknown) => void;
 }
 
 export const useFrameBlockStore = create<FrameBlockStore>((set) => ({
   frameBlocksFull: [],
   loading: false,
-  error: null,
 
   handleError: (error: unknown) => {
+    console.log(error);
     if (error instanceof AxiosError) {
       const statusCode = error.response?.status;
-      const message = `${error.response?.data?.message} ${statusCode}`;
-      set({ error: message });
+      const message = `${error.response?.data?.error} ${statusCode}`;
+      useGlobalErrorStore.getState().setError(message);
     } else {
-      set({ error: 'Unknown error' });
+      useGlobalErrorStore.getState().setError('Unknown error');
     }
-  },
-
-  clearError: () => {
-    set({ error: null });
   },
 
   setFrameBlocks: (blocks: FrameBlockFull[]) => {
