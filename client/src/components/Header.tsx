@@ -13,9 +13,11 @@ import { useAuthStore } from '@/stores/auth.store';
 import { useEditModeStore } from '@/stores/edit.mode.store';
 import { useState } from 'react';
 import UserProfileDialog from './dialogs/user/UserProfileDialog';
+import { useUserStore } from '@/stores/user.store';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuthStore();
+  const { changeUserPassword } = useUserStore();
   const { isEditMode, toggleEditMode } = useEditModeStore();
   const { cartItems } = useCartStore();
   const pathname = usePathname();
@@ -114,6 +116,7 @@ const Header: React.FC = () => {
         isOpen={isProfileOpen}
         onClose={() => setProfileOpen(false)}
         onLogout={logout}
+        onChangePassword={changeUserPassword}
       />
     </>
   );
