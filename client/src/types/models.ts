@@ -5,7 +5,7 @@ export interface CartItem {
 }
 
 export interface JwtUser {
-  userId: string;
+  userId: number;
   name: string;
   email: string;
   role: string;
