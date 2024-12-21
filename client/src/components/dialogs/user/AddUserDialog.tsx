@@ -1,14 +1,14 @@
 import { NewUser } from '@/types/api';
 import {
-  Box,
   Button,
-  Dialog,
+  FormControl,
+  InputLabel,
   MenuItem,
   Select,
   TextField,
-  Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import BaseDialog from '../BaseDialog';
 
 interface AddUserDialogProps {
   isOpen: boolean;
@@ -43,50 +43,44 @@ const AddUserDialog: React.FC<AddUserDialogProps> = ({
     }
   };
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          minWidth: 300,
-        }}
-      >
-        <Typography variant="h6">Добавить пользователя</Typography>
-        <TextField
-          label="Имя пользователя"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-        />
+    <BaseDialog
+      isOpen={isOpen}
+      title="Добавление пользователя"
+      onClose={onClose}
+      actions={<Button onClick={handleAdd}>Добавить</Button>}
+    >
+      <TextField
+        label="Имя пользователя"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+      />
 
-        <TextField
-          label="Email пользователя"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          label="Введите пароль для пользователя"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-        />
+      <TextField
+        label="Email пользователя"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        fullWidth
+      />
+      <TextField
+        label="Введите пароль для пользователя"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        fullWidth
+      />
+      <FormControl fullWidth>
+        <InputLabel id="role-label">Роль</InputLabel>
         <Select
+          labelId="role-label"
           value={role}
           onChange={(e) => setRole(Number(e.target.value))}
-          fullWidth
-          displayEmpty
+          label="Роль"
         >
           <MenuItem value={2}>Пользователь</MenuItem>
           <MenuItem value={1}>Администратор</MenuItem>
         </Select>
-        <Button variant="contained" onClick={handleAdd}>
-          Добавить
-        </Button>
-      </Box>
-    </Dialog>
+      </FormControl>
+    </BaseDialog>
   );
 };
 

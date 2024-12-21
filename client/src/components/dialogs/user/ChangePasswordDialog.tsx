@@ -1,13 +1,7 @@
 import { ChangePassword } from '@/types/api';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import BaseDialog from '../BaseDialog';
 
 interface ChangePasswordDialogProps {
   userId: number;
@@ -62,40 +56,43 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={handleClose}>
-      <DialogTitle>Изменение пароля</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="oldPassword"
-          label="Текущий пароль"
-          type="password"
-          fullWidth
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
-          error={errors.oldPassword} 
-          helperText={errors.oldPassword ? 'Введите текущий пароль' : ''}
-          required
-        />
-        <TextField
-          margin="dense"
-          id="newPassword"
-          label="Новый пароль"
-          type="password"
-          fullWidth
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          error={errors.newPassword}
-          helperText={errors.newPassword ? 'Введите новый пароль' : ''}
-          required
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Отменить</Button>
-        <Button onClick={handleChangePassword}>Изменить</Button>
-      </DialogActions>
-    </Dialog>
+    <BaseDialog
+      isOpen={isOpen}
+      title="Изменение пароля"
+      onClose={handleClose}
+      actions={
+        <>
+          <Button onClick={handleClose}>Отменить</Button>
+          <Button onClick={handleChangePassword}>Изменить</Button>
+        </>
+      }
+    >
+      <TextField
+        autoFocus
+        margin="dense"
+        id="oldPassword"
+        label="Текущий пароль"
+        type="password"
+        fullWidth
+        value={oldPassword}
+        onChange={(e) => setOldPassword(e.target.value)}
+        error={errors.oldPassword}
+        helperText={errors.oldPassword ? 'Введите текущий пароль' : ''}
+        required
+      />
+      <TextField
+        margin="dense"
+        id="newPassword"
+        label="Новый пароль"
+        type="password"
+        fullWidth
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+        error={errors.newPassword}
+        helperText={errors.newPassword ? 'Введите новый пароль' : ''}
+        required
+      />
+    </BaseDialog>
   );
 };
 

@@ -1,17 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { JwtUser } from '@/types/models';
 import { ChangePassword } from '@/types/api';
 import ChangePasswordDialog from './ChangePasswordDialog';
+import BaseDialog from '../BaseDialog';
 
 interface UserProfileDialogProps {
   user: JwtUser | null;
@@ -31,32 +25,18 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({
   const [isOpenChangePassword, setIsOpenChangePassword] = useState(false);
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle>Изменение пароля</DialogTitle>
-      <DialogContent
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          minWidth: 300,
-        }}
-      >
-        {user ? (
-          <>
-            <Typography>
-              <strong>Имя:</strong> {user.name || 'Не указано'}
-            </Typography>
-            <Typography>
-              <strong>Email:</strong> {user.email || 'Не указано'}
-            </Typography>
-            <Typography>
-              <strong>Роль:</strong> {user.role}
-            </Typography>
-            <DialogActions
+    <>
+      <BaseDialog
+        isOpen={isOpen}
+        title="Профиль пользователя"
+        onClose={onClose}
+        actions={
+          user && (
+            <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
+                width: '100%',
               }}
             >
               <Button onClick={() => setIsOpenChangePassword(true)}>
@@ -71,20 +51,34 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({
               >
                 Выйти
               </Button>
-
-              <ChangePasswordDialog
-                userId={user.userId}
-                isOpen={isOpenChangePassword}
-                onClose={() => setIsOpenChangePassword(false)}
-                onChangePassword={onChangePassword}
-              />
-            </DialogActions>
+            </Box>
+          )
+        }
+      >
+        {user ? (
+          <>
+            <Typography>
+              <strong>Имя:</strong> {user.name || 'Не указано'}
+            </Typography>
+            <Typography>
+              <strong>Email:</strong> {user.email || 'Не указано'}
+            </Typography>
+            <Typography>
+              <strong>Роль:</strong> {user.role}
+            </Typography>
           </>
         ) : (
           <Typography>Данные пользователя недоступны</Typography>
         )}
-      </DialogContent>
-    </Dialog>
+      </BaseDialog>
+
+      <ChangePasswordDialog
+        userId={user?.userId || 0}
+        isOpen={isOpenChangePassword}
+        onClose={() => setIsOpenChangePassword(false)}
+        onChangePassword={onChangePassword}
+      />
+    </>
   );
 };
 
