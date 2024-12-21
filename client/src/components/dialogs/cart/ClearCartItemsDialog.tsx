@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Box, Dialog, Typography, Button } from '@mui/material';
+import { Typography, Button } from '@mui/material';
+import BaseDialog from '../BaseDialog';
 
 interface ClearCartItemsDialogProps {
   isOpen: boolean;
@@ -20,27 +21,16 @@ const ClearCartItemsDialog: React.FC<ClearCartItemsDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">Очистить корзину</Typography>
-        <Typography variant="body2">
-          Вы уверены, что хотите очистить корзину?
-        </Typography>
-        <Button variant="contained" color="error" onClick={handleClear}>
-          Очистить
-        </Button>
-        <Button variant="outlined" onClick={onClose}>
-          Отмена
-        </Button>
-      </Box>
-    </Dialog>
+    <BaseDialog
+      isOpen={isOpen}
+      title="Очистка корзины"
+      onClose={onClose}
+      actions={<Button onClick={handleClear}>Удалить все</Button>}
+    >
+      <Typography variant="body2">
+        Вы уверены, что хотите очистить корзину?
+      </Typography>
+    </BaseDialog>
   );
 };
 
