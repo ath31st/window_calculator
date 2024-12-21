@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Dialog, TextField, Typography, Button } from '@mui/material';
+import { TextField, Button } from '@mui/material';
+import BaseDialog from '../BaseDialog';
 
 interface EditFrameDialogProps {
   isOpen: boolean;
@@ -27,27 +28,19 @@ const EditFrameDialog: React.FC<EditFrameDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">Изменить фрейм</Typography>
-        <TextField
-          label={currentName}
-          value={frameName}
-          onChange={(e) => setFrameName(e.target.value)}
-          fullWidth
-        />
-        <Button variant="contained" onClick={handleUpdate}>
-          Изменить
-        </Button>
-      </Box>
-    </Dialog>
+    <BaseDialog
+      isOpen={isOpen}
+      title="Изменение фрейма"
+      onClose={onClose}
+      actions={<Button onClick={handleUpdate}>Изменить</Button>}
+    >
+      <TextField
+        label={currentName}
+        value={frameName}
+        onChange={(e) => setFrameName(e.target.value)}
+        fullWidth
+      />
+    </BaseDialog>
   );
 };
 

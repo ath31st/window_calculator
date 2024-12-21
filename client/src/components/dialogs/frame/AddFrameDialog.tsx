@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Dialog, TextField, Typography, Button } from '@mui/material';
+import { TextField, Button } from '@mui/material';
+import BaseDialog from '../BaseDialog';
 
 interface AddFrameDialogProps {
   isOpen: boolean;
@@ -25,27 +26,19 @@ const AddFrameDialog: React.FC<AddFrameDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">Добавить фрейм</Typography>
-        <TextField
-          label="Название фрейма"
-          value={frameName}
-          onChange={(e) => setFrameName(e.target.value)}
-          fullWidth
-        />
-        <Button variant="contained" onClick={handleAdd}>
-          Добавить
-        </Button>
-      </Box>
-    </Dialog>
+    <BaseDialog
+      isOpen={isOpen}
+      title="Добавление фрейма"
+      onClose={onClose}
+      actions={<Button onClick={handleAdd}>Добавить</Button>}
+    >
+      <TextField
+        label="Наименование фрейма"
+        value={frameName}
+        onChange={(e) => setFrameName(e.target.value)}
+        fullWidth
+      />
+    </BaseDialog>
   );
 };
 
