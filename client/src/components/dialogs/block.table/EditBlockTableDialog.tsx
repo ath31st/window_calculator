@@ -2,10 +2,7 @@
 
 import React, { useState } from 'react';
 import {
-  Box,
-  Dialog,
   TextField,
-  Typography,
   Button,
   FormControl,
   InputLabel,
@@ -14,6 +11,7 @@ import {
 } from '@mui/material';
 import { BlockTable } from '@/types/api';
 import { ButtonType } from '@/constants/button.type';
+import BaseDialog from '../BaseDialog';
 
 interface EditBlockTableDialogProps {
   isOpen: boolean;
@@ -43,42 +41,34 @@ const EditBlockTableDialog: React.FC<EditBlockTableDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">Изменить таблицу блока</Typography>
-        <TextField
-          label="Имя"
-          value={blockTable.name}
-          onChange={(e) => handleChange('name', e.target.value)}
-          fullWidth
-        />
+    <BaseDialog
+      isOpen={isOpen}
+      title="Изменение блока"
+      onClose={onClose}
+      actions={<Button onClick={handleUpdate}>Изменить</Button>}
+    >
+      <TextField
+        label="Наименование блока"
+        value={blockTable.name}
+        onChange={(e) => handleChange('name', e.target.value)}
+        fullWidth
+      />
 
-        <FormControl fullWidth>
-          <InputLabel id="button-type-label">Тип</InputLabel>
-          <Select
-            labelId="button-type-label"
-            value={blockTable.buttonType}
-            onChange={(e) =>
-              handleChange('buttonType', e.target.value as ButtonType)
-            }
-          >
-            <MenuItem value="MODIFIER">Модификатор</MenuItem>
-            <MenuItem value="VALUE">Значение</MenuItem>
-          </Select>
-        </FormControl>
-
-        <Button variant="contained" onClick={handleUpdate}>
-          Изменить
-        </Button>
-      </Box>
-    </Dialog>
+      <FormControl fullWidth>
+        <InputLabel id="button-type-label">Тип</InputLabel>
+        <Select
+          labelId="button-type-label"
+          value={blockTable.buttonType}
+          onChange={(e) =>
+            handleChange('buttonType', e.target.value as ButtonType)
+          }
+          label="Тип"
+        >
+          <MenuItem value="MODIFIER">Модификатор</MenuItem>
+          <MenuItem value="VALUE">Значение</MenuItem>
+        </Select>
+      </FormControl>
+    </BaseDialog>
   );
 };
 

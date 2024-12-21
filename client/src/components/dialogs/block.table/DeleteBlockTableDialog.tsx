@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Box, Dialog, Typography, Button } from '@mui/material';
+import { Typography, Button } from '@mui/material';
+import BaseDialog from '../BaseDialog';
 
 interface DeleteBlockTableDialogProps {
   isOpen: boolean;
@@ -22,27 +23,16 @@ const DeleteBlockTableDialog: React.FC<DeleteBlockTableDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">Удалить таблицу блока</Typography>
-        <Typography variant="body2">
-          Вы уверены, что хотите удалить эту таблицу?
-        </Typography>
-        <Button variant="contained" color="error" onClick={handleDelete}>
-          Удалить
-        </Button>
-        <Button variant="outlined" onClick={onClose}>
-          Отмена
-        </Button>
-      </Box>
-    </Dialog>
+    <BaseDialog
+      isOpen={isOpen}
+      title="Удаление блока"
+      onClose={onClose}
+      actions={<Button onClick={handleDelete}>Удалить</Button>}
+    >
+      <Typography variant="body2">
+        Вы уверены, что хотите удалить эту таблицу?
+      </Typography>
+    </BaseDialog>
   );
 };
 

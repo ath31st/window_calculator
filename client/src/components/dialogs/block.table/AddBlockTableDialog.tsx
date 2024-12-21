@@ -2,10 +2,7 @@
 
 import React, { useState } from 'react';
 import {
-  Box,
-  Dialog,
   TextField,
-  Typography,
   Button,
   FormControl,
   InputLabel,
@@ -14,6 +11,7 @@ import {
 } from '@mui/material';
 import { NewBlockTable } from '@/types/api';
 import { ButtonType } from '@/constants/button.type';
+import BaseDialog from '../BaseDialog';
 
 interface AddBlockTableDialogProps {
   isOpen: boolean;
@@ -45,40 +43,32 @@ const AddBlockTableDialog: React.FC<AddBlockTableDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <Typography variant="h6">Добавить таблицу блока</Typography>
-        <TextField
-          label="Название таблицы блока"
-          value={blockTableName}
-          onChange={(e) => setBlockTableName(e.target.value)}
-          fullWidth
-        />
+    <BaseDialog
+      isOpen={isOpen}
+      title="Добавление блока"
+      onClose={onClose}
+      actions={<Button onClick={handleAdd}>Добавить</Button>}
+    >
+      <TextField
+        label="Название таблицы блока"
+        value={blockTableName}
+        onChange={(e) => setBlockTableName(e.target.value)}
+        fullWidth
+      />
 
-        <FormControl fullWidth>
-          <InputLabel id="button-type-label">Тип</InputLabel>
-          <Select
-            labelId="button-type-label"
-            value={buttonType}
-            onChange={(e) => setButtonType(e.target.value as ButtonType)}
-          >
-            <MenuItem value="MODIFIER">Модификатор</MenuItem>
-            <MenuItem value="VALUE">Значение</MenuItem>
-          </Select>
-        </FormControl>
-
-        <Button variant="contained" onClick={handleAdd}>
-          Добавить
-        </Button>
-      </Box>
-    </Dialog>
+      <FormControl fullWidth>
+        <InputLabel id="button-type-label">Тип</InputLabel>
+        <Select
+          labelId="button-type-label"
+          value={buttonType}
+          onChange={(e) => setButtonType(e.target.value as ButtonType)}
+          label="Тип"
+        >
+          <MenuItem value="MODIFIER">Модификатор</MenuItem>
+          <MenuItem value="VALUE">Значение</MenuItem>
+        </Select>
+      </FormControl>
+    </BaseDialog>
   );
 };
 
