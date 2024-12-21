@@ -28,9 +28,10 @@ const SelectFrameNotify: React.FC = () => {
         <Image
           src="/images/arrow_double_down.png"
           alt="Select a frame"
-          layout="fill"
-          objectFit="contain"
+          fill
+          style={{ objectFit: 'contain' }}
           priority
+          sizes="(max-width: 600px) 100vw, 50vw"
         />
       </Box>
     </Box>
