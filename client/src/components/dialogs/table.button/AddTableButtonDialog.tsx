@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Dialog, TextField, Typography, Button } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { NewTableButton } from '@/types/api';
+import BaseDialog from '../BaseDialog';
 
 interface AddTableButtonDialogProps {
   isOpen: boolean;
@@ -35,39 +36,30 @@ const AddTableButtonDialog: React.FC<AddTableButtonDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          minWidth: 300,
+    <BaseDialog
+      isOpen={isOpen}
+      title="Добавление кнопки"
+      onClose={onClose}
+      actions={<Button onClick={handleAdd}>Добавить</Button>}
+    >
+      <TextField
+        label="Название кнопки"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+      />
+      <TextField
+        label="Значение кнопки"
+        value={inputValue}
+        onChange={(e) => setInputValue(parseFloat(e.target.value) || 0)}
+        fullWidth
+        slotProps={{
+          input: {
+            type: 'number',
+          },
         }}
-      >
-        <Typography variant="h6">Добавить кнопку</Typography>
-        <TextField
-          label="Название кнопки"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          label="Значение кнопки"
-          value={inputValue}
-          onChange={(e) => setInputValue(parseFloat(e.target.value) || 0)}
-          fullWidth
-          slotProps={{
-            input: {
-              type: 'number',
-            },
-          }}
-        />
-        <Button variant="contained" onClick={handleAdd}>
-          Добавить
-        </Button>
-      </Box>
-    </Dialog>
+      />
+    </BaseDialog>
   );
 };
 

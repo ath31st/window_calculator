@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Dialog, TextField, Typography, Button } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 import { TableButton } from '@/types/api';
+import BaseDialog from '../BaseDialog';
 
 interface EditTableButtonDialogProps {
   isOpen: boolean;
@@ -33,40 +34,31 @@ const EditTableButtonDialog: React.FC<EditTableButtonDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
+    <BaseDialog
+      isOpen={isOpen}
+      title="Изменение кнопки"
+      onClose={onClose}
+      actions={<Button onClick={handleUpdate}>Изменить</Button>}
+    >
+      <TextField
+        label="Имя"
+        value={tableButton.name}
+        onChange={(e) => handleChange('name', e.target.value)}
+        fullWidth
+      />
+
+      <TextField
+        label="Значение"
+        value={tableButton.value}
+        onChange={(e) => handleChange('value', e.target.value)}
+        fullWidth
+        slotProps={{
+          input: {
+            type: 'number',
+          },
         }}
-      >
-        <Typography variant="h6">Изменить кнопку</Typography>
-        <TextField
-          label="Имя"
-          value={tableButton.name}
-          onChange={(e) => handleChange('name', e.target.value)}
-          fullWidth
-        />
-
-        <TextField
-          label="Значение"
-          value={tableButton.value}
-          onChange={(e) => handleChange('value', e.target.value)}
-          fullWidth
-          slotProps={{
-            input: {
-              type: 'number',
-            },
-          }}
-        />
-
-        <Button variant="contained" onClick={handleUpdate}>
-          Изменить
-        </Button>
-      </Box>
-    </Dialog>
+      />
+    </BaseDialog>
   );
 };
 
