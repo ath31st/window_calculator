@@ -9,6 +9,7 @@ import AddUserDialog from '@/components/dialogs/user/AddUserDialog';
 import UserList from '@/components/lists/UserList';
 import { IconButton } from '@mui/material';
 import RoleGuard from '@/components/RoleGuard';
+import PageHeader from '@/components/headers/PageHeader';
 
 const Users: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -23,7 +24,7 @@ const Users: React.FC = () => {
     <RoleGuard roles={roles}>
       <CommonLayout>
         <Header />
-        <h1>Users</h1>
+        <PageHeader title="Список пользователей" />
 
         <UserList users={users} onEdit={updateUser} onDelete={deleteUser} />
 

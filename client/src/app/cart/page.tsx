@@ -9,6 +9,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useState } from 'react';
 import ClearCartItemsDialog from '@/components/dialogs/cart/ClearCartItemsDialog';
 import RoleGuard from '@/components/RoleGuard';
+import PageHeader from '@/components/headers/PageHeader';
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -22,7 +23,7 @@ const Cart: React.FC = () => {
     <RoleGuard roles={roles}>
       <CommonLayout>
         <Header />
-        <Typography variant="h6">Корзина товаров и услуг</Typography>
+        <PageHeader title="Корзина товаров и услуг" />
         {isCartEmpty ? (
           <Box
             display="flex"
