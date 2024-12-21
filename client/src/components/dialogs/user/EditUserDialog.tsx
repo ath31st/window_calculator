@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
   FormControlLabel,
-  Checkbox,
+  Switch,
 } from '@mui/material';
 import { UpdateUser, User } from '@/types/api';
 import BaseDialog from '../BaseDialog';
@@ -89,7 +89,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
 
       <FormControlLabel
         control={
-          <Checkbox
+          <Switch
             checked={active}
             onChange={(e) => setActive(e.target.checked)}
           />

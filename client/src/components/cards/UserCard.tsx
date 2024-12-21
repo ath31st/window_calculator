@@ -12,11 +12,23 @@ const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
   return (
     <Card sx={{ width: '100%', position: 'relative' }}>
       <CardContent>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography variant="h6">{user.name}</Typography>
-          <Typography variant="body2">{user.email}</Typography>
-          <Typography variant="body2">{user.role}</Typography>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ flexBasis: '30%' }}>
+            <Typography variant="h6">Имя:</Typography>
+            <Typography variant="body2">{user.name}</Typography>
+          </Box>
+
+          <Box sx={{ flexBasis: '70%' }}>
+            <Typography variant="body2">Email: {user.email}</Typography>
+            <Typography variant="body2">
+              Роль: {user.role === 1 ? 'Администратор' : 'Пользователь'}
+            </Typography>
+            <Typography variant="body2">
+              Статус: {user.isActive ? 'Активен' : 'Не активен'}
+            </Typography>
+          </Box>
         </Box>
+
         <Box
           sx={{
             position: 'absolute',
