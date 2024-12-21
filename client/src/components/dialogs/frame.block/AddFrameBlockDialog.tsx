@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Box,
-  Dialog,
   TextField,
   Typography,
   Button,
@@ -11,6 +9,7 @@ import {
   FormControlLabel,
 } from '@mui/material';
 import { NewFrameBlock } from '@/types/api';
+import BaseDialog from '../BaseDialog';
 
 interface AddFrameBlockDialogProps {
   isOpen: boolean;
@@ -49,51 +48,43 @@ const AddFrameBlockDialog: React.FC<AddFrameBlockDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
-      <Box
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          minWidth: 300,
-        }}
-      >
-        <Typography variant="h6">Добавить фрейм-блок</Typography>
-        <TextField
-          label="Название блока"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          label="Заголовок ввода"
-          value={inputTitle}
-          onChange={(e) => setInputTitle(e.target.value)}
-          fullWidth
-        />
-        <TextField
-          label="Описание"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          fullWidth
-          multiline
-          rows={4}
-        />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={isWindowSizeEnabled}
-              onChange={(e) => setIsWindowSizeEnabled(e.target.checked)}
-            />
-          }
-          label="Включить размер окна"
-        />
-        <Button variant="contained" onClick={handleAdd}>
-          Добавить
-        </Button>
-      </Box>
-    </Dialog>
+    <BaseDialog
+      isOpen={isOpen}
+      title="Добавление фрейм блока"
+      onClose={onClose}
+      actions={<Button onClick={handleAdd}>Добавить</Button>}
+    >
+      <Typography variant="h6">Добавить фрейм-блок</Typography>
+      <TextField
+        label="Наименование блока"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+      />
+      <TextField
+        label="Заголовок ввода"
+        value={inputTitle}
+        onChange={(e) => setInputTitle(e.target.value)}
+        fullWidth
+      />
+      <TextField
+        label="Описание"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        fullWidth
+        multiline
+        rows={4}
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={isWindowSizeEnabled}
+            onChange={(e) => setIsWindowSizeEnabled(e.target.checked)}
+          />
+        }
+        label="Включить размер окна"
+      />
+    </BaseDialog>
   );
 };
 
