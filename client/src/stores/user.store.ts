@@ -107,6 +107,9 @@ export const useUserStore = create<UserStore>((set) => ({
     set({ loading: true });
     try {
       await deleteUser(id);
+      set((state) => ({
+        users: state.users.filter((u) => u.id !== id),
+      }));
     } catch (error) {
       useUserStore.getState().handleError(error);
     } finally {
