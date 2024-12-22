@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public record NewUserDto(
     @NotBlank(message = "Name cannot be blank")
@@ -21,9 +23,12 @@ public record NewUserDto(
     @NotNull(message = "Role cannot be null")
     @Min(value = 1, message = "Role must be 1 (Admin) or 2 (User)")
     @Max(value = 2, message = "Role must be 1 (Admin) or 2 (User)")
-    Integer role
+    Integer role,
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    LocalDate accountExpirationDate
 ) implements Serializable {
   public static NewUserDto from(NewUserDto dto) {
-    return new NewUserDto(dto.name.trim(), dto.email.trim(), dto.password.trim(), dto.role);
+    return new NewUserDto(dto.name.trim(), dto.email.trim(),
+        dto.password.trim(), dto.role, dto.accountExpirationDate);
   }
 }

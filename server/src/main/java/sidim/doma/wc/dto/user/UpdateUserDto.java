@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public record UpdateUserDto(
     @NotNull(message = "User ID cannot be null")
@@ -22,7 +24,9 @@ public record UpdateUserDto(
     @Max(value = 2, message = "Role must be 1 (Admin) or 2 (User)")
     Integer role,
     @NotNull(message = "Active status cannot be null")
-    Boolean isActive
+    Boolean isActive,
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    LocalDate accountExpirationDate
 ) implements Serializable {
   public static UpdateUserDto from(UpdateUserDto dto) {
     return new UpdateUserDto(
@@ -30,7 +34,8 @@ public record UpdateUserDto(
         dto.name().trim(),
         dto.email().trim(),
         dto.role(),
-        dto.isActive()
+        dto.isActive(),
+        dto.accountExpirationDate()
     );
   }
 }

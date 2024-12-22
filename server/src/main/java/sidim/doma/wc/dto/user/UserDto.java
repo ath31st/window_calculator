@@ -9,6 +9,8 @@ public record UserDto(
     String email,
     Integer role,
     Boolean isActive,
-    LocalDate createdAt
+    LocalDate createdAt,
+    Boolean accountNonExpired,
+    LocalDate expirationDate
 ) implements Serializable {
 }
