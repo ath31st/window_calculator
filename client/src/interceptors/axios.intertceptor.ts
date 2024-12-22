@@ -36,10 +36,15 @@ const setupAxiosInterceptor = () => {
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
-      const { status } = error.response;
+      const { status, config } = error.response;
 
       if (status === 403) {
         window.location.href = '/403';
+      }
+
+      if (status === 401 && config.url?.endsWith('/logout')) {
+        console.warn('401 error ignored for /logout request');
+        return Promise.resolve();
       }
 
       if (status === 401 && !originalRequest._retry) {
