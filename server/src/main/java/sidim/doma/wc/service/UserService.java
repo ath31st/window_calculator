@@ -1,5 +1,7 @@
 package sidim.doma.wc.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -69,6 +71,14 @@ public class UserService {
     user.setEmail(dto.email());
     user.setRole(dto.role());
     user.setIsActive(dto.isActive());
+    user.setAccountExpirationDate(dto.accountExpirationDate() == null
+        ? null
+        : dto.accountExpirationDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+    if (!user.getAccountNonExpired() && (dto.accountExpirationDate() == null
+        || dto.accountExpirationDate().isAfter(LocalDate.now()))) {
+      user.setAccountNonExpired(true);
+    }
 
     return userMapper.fromEntityToDto(userRepository.save(user));
   }
