@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,5 +52,13 @@ public class User {
   @ColumnDefault("CURRENT_TIMESTAMP")
   @Column(name = "updated_at")
   private Instant updatedAt;
+
+  @NotNull
+  @ColumnDefault("true")
+  @Column(name = "account_non_expired", nullable = false)
+  private Boolean accountNonExpired = false;
+
+  @Column(name = "account_expiration_date")
+  private Instant accountExpirationDate;
 
 }
