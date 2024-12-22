@@ -1,17 +1,21 @@
 package sidim.doma.wc.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -172,6 +176,92 @@ class UserServiceTest {
   }
 
   @Test
+  void updateUser_success_withExpirationDate() {
+    user.setEmail(email);
+    val updateUserDtoWithExpirationDate = new UpdateUserDto(id, updateName, updateEmail, role, isActive,
+        LocalDate.now().plusDays(1));
+    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive,
+        LocalDate.now(), true, LocalDate.now().plusDays(1));
+
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.of(user));
+    when(userRepository.findByEmailIgnoreCase(any(String.class)))
+        .thenReturn(java.util.Optional.empty());
+    when(userRepository.save(any(User.class))).thenReturn(user);
+    when(userMapper.fromEntityToDto(any(User.class))).thenReturn(updatedUserDto);
+
+    val result = userService.updateUser(updateUserDtoWithExpirationDate);
+
+    verify(userRepository).save(user);
+    assertEquals(updatedUserDto, result);
+  }
+
+  @Test
+  void updateUser_success_withExpirationDate_andExpiredAccount() {
+    user.setEmail(email);
+    user.setAccountNonExpired(false);
+
+    val updateUserDtoWithExpirationDate = new UpdateUserDto(id, updateName, updateEmail, role,
+        isActive, LocalDate.now().plusDays(1));
+
+    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive,
+        LocalDate.now(), true, LocalDate.now().plusDays(1));
+
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.of(user));
+    when(userRepository.findByEmailIgnoreCase(any(String.class)))
+        .thenReturn(java.util.Optional.empty());
+    when(userRepository.save(any(User.class))).thenReturn(user);
+    when(userMapper.fromEntityToDto(any(User.class))).thenReturn(updatedUserDto);
+
+    val result = userService.updateUser(updateUserDtoWithExpirationDate);
+
+    ArgumentCaptor<User> userCaptor = forClass(User.class);
+    verify(userRepository).save(userCaptor.capture());
+    User capturedUser = userCaptor.getValue();
+
+    assertEquals(updateName, capturedUser.getName());
+    assertEquals(updateEmail, capturedUser.getEmail());
+    assertEquals(LocalDate.now().plusDays(1),
+        capturedUser.getAccountExpirationDate().atZone(ZoneId.systemDefault()).toLocalDate());
+    assertEquals(true, capturedUser.getAccountNonExpired());
+
+    assertEquals(updatedUserDto, result);
+  }
+
+  @Test
+  void updateUser_success_withoutExpirationDate_andExpiredAccount() {
+    user.setEmail(email);
+    user.setAccountNonExpired(false);
+
+    val updateUserDtoWithExpirationDate = new UpdateUserDto(id, updateName, updateEmail, role,
+        isActive, null);
+
+    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive,
+        LocalDate.now(), true, null);
+
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.of(user));
+    when(userRepository.findByEmailIgnoreCase(any(String.class)))
+        .thenReturn(java.util.Optional.empty());
+    when(userRepository.save(any(User.class))).thenReturn(user);
+    when(userMapper.fromEntityToDto(any(User.class))).thenReturn(updatedUserDto);
+
+    val result = userService.updateUser(updateUserDtoWithExpirationDate);
+
+    ArgumentCaptor<User> userCaptor = forClass(User.class);
+    verify(userRepository).save(userCaptor.capture());
+    User capturedUser = userCaptor.getValue();
+
+    assertEquals(updateName, capturedUser.getName());
+    assertEquals(updateEmail, capturedUser.getEmail());
+    assertNull(capturedUser.getAccountExpirationDate());
+    assertEquals(true, capturedUser.getAccountNonExpired());
+
+    assertEquals(updatedUserDto, result);
+  }
+
+  @Test
   void updateUser_whenUserAlreadyExists_thenThrowException() {
     user.setEmail(email);
 
@@ -225,6 +315,22 @@ class UserServiceTest {
 
     assertEquals("User with id " + id + " not found!", exception.getMessage());
     assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+  }
+
+  @Test
+  void changePassword_whenUserEmailNotMatchWithAuthenticatedUser_thenThrowException() {
+    user.setEmail("another_email");
+    val newPassword = "new_password";
+    val changePasswordDto = new ChangePasswordDto(id, password, newPassword);
+
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.of(user));
+
+    val exception = assertThrows(UserServiceException.class,
+        () -> userService.changePassword(changePasswordDto, email));
+
+    assertEquals("You can change only your own password!", exception.getMessage());
+    assertEquals(HttpStatus.BAD_REQUEST, exception.getStatus());
   }
 
   @Test
