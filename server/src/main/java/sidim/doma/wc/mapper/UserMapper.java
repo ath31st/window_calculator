@@ -1,6 +1,5 @@
 package sidim.doma.wc.mapper;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +22,10 @@ public class UserMapper {
         .role(dto.role())
         .isActive(true)
         .createdAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
+        .accountNonExpired(true)
+        .accountExpirationDate(dto.accountExpirationDate() == null
+            ? null
+            : dto.accountExpirationDate().atStartOfDay(ZoneId.systemDefault()).toInstant())
         .build();
   }
 
@@ -33,7 +36,11 @@ public class UserMapper {
         user.getEmail(),
         user.getRole(),
         user.getIsActive(),
-        user.getCreatedAt().atZone(ZoneId.systemDefault()).toLocalDate()
+        user.getCreatedAt().atZone(ZoneId.systemDefault()).toLocalDate(),
+        user.getAccountNonExpired(),
+        user.getAccountExpirationDate() == null
+            ? null
+            : user.getAccountExpirationDate().atZone(ZoneId.systemDefault()).toLocalDate()
     );
   }
 }
