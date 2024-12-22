@@ -26,7 +26,6 @@ import sidim.doma.wc.entity.User;
 import sidim.doma.wc.exception.UserServiceException;
 import sidim.doma.wc.mapper.UserMapper;
 import sidim.doma.wc.repository.UserRepository;
-import sidim.doma.wc.util.Role;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -59,9 +58,9 @@ class UserServiceTest {
 
   @BeforeEach
   void setUp() {
-    newUserDto = new NewUserDto(name, email, password, role);
-    expectedUserDto = new UserDto(id, name, email, role, isActive, LocalDate.now());
-    updateUserDto = new UpdateUserDto(id, updateName, updateEmail, role, isActive);
+    newUserDto = new NewUserDto(name, email, password, role, LocalDate.now());
+    expectedUserDto = new UserDto(id, name, email, role, isActive, LocalDate.now(), true, null);
+    updateUserDto = new UpdateUserDto(id, updateName, updateEmail, role, isActive, LocalDate.now());
     user = new User();
     user.setId(id);
     user.setEmail(email);
@@ -157,7 +156,7 @@ class UserServiceTest {
   @Test
   void updateUser_success() {
     user.setEmail(email);
-    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive, LocalDate.now());
+    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive, LocalDate.now(), true, null);
 
     when(userRepository.findById(any(Integer.class)))
         .thenReturn(java.util.Optional.of(user));
@@ -248,15 +247,15 @@ class UserServiceTest {
   void getUsers_success_1() {
     val sort = Sort.by(Sort.Direction.ASC, "email");
 
-    val user1 = new User(1, "Alice", "alice@example.com", "password1", 2, true, null, null);
-    val user2 = new User(2, "Bob", "bob@example.com", "password2", 1, true, null, null);
-    val user3 = new User(3, "Charlie", "charlie@example.com", "password3", 2, true, null, null);
+    val user1 = new User(1, "Alice", "alice@example.com", "password1", 2, true, null, null, true, null);
+    val user2 = new User(2, "Bob", "bob@example.com", "password2", 1, true, null, null, true, null);
+    val user3 = new User(3, "Charlie", "charlie@example.com", "password3", 2, true, null, null, true, null);
 
     val sortedUsers = List.of(user1, user2, user3);
 
-    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now());
-    val userDto2 = new UserDto(2, "Bob", "bob@example.com", 1, true, LocalDate.now());
-    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now());
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now(), true, null);
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", 1, true, LocalDate.now(), true, null);
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now(), true, null);
 
     when(userRepository.findAll(sort)).thenReturn(sortedUsers);
     when(userMapper.fromEntityToDto(user1)).thenReturn(userDto1);
@@ -286,8 +285,8 @@ class UserServiceTest {
   @Test
   void getUsers_success_3() {
     val sort = Sort.by(Sort.Direction.ASC, "email");
-    val user1 = new User(1, "Alice", email, "password1", role, true, null, null);
-    val userDto1 = new UserDto(1, "Alice", email, role, true, LocalDate.now());
+    val user1 = new User(1, "Alice", email, "password1", role, true, null, null, true, null);
+    val userDto1 = new UserDto(1, "Alice", email, role, true, LocalDate.now(), true, null);
     val sortedUsers = List.of(user1);
 
     when(userRepository.findByEmailContainingIgnoreCase(email, sort)).thenReturn(sortedUsers);

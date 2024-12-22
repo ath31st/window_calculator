@@ -72,9 +72,9 @@ class UserControllerTest {
 
   @BeforeEach
   void setUp() {
-    newUserDto = new NewUserDto(name, email, password, role);
-    expectedUserDto = new UserDto(id, name, email, role, isActive, LocalDate.now());
-    updateUserDto = new UpdateUserDto(id, updateName, updateEmail, role, isActive);
+    newUserDto = new NewUserDto(name, email, password, role, LocalDate.now());
+    expectedUserDto = new UserDto(id, name, email, role, isActive, LocalDate.now(), true, null);
+    updateUserDto = new UpdateUserDto(id, updateName, updateEmail, role, isActive, LocalDate.now());
     User user = new User();
     user.setId(id);
     user.setEmail(email);
@@ -106,7 +106,8 @@ class UserControllerTest {
   void createUser_validDataProvided_trimmed() throws Exception {
     val nameWithSpaces = "  " + name + "  ";
     val passwordWithSpaces = "  " + password + "  ";
-    val newUserDtoWithSpaces = new NewUserDto(nameWithSpaces, email, passwordWithSpaces, role);
+    val newUserDtoWithSpaces =
+        new NewUserDto(nameWithSpaces, email, passwordWithSpaces, role, LocalDate.now());
 
     when(userService.createNewUser(any(NewUserDto.class))).thenReturn(expectedUserDto);
 
@@ -155,7 +156,7 @@ class UserControllerTest {
 
   @Test
   void updateUser_validDataProvided() throws Exception {
-    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive, LocalDate.now());
+    val updatedUserDto = new UserDto(id, updateName, updateEmail, role, isActive, LocalDate.now(), true, null);
 
     when(userService.updateUser(any(UpdateUserDto.class))).thenReturn(updatedUserDto);
 
@@ -204,7 +205,7 @@ class UserControllerTest {
 
   @Test
   void updateUser_whenInvalidDataProvided_thenThrowException_2() throws Exception {
-    val invalidUpdateUserDto = new UpdateUserDto(id, null, null, role, isActive);
+    val invalidUpdateUserDto = new UpdateUserDto(id, null, null, role, isActive, LocalDate.now());
 
     mockMvc.perform(put(BASE_URL)
         .contentType("application/json")
@@ -214,7 +215,7 @@ class UserControllerTest {
 
   @Test
   void updateUser_whenInvalidDataProvided_thenThrowException_3() throws Exception {
-    val invalidUpdateUserDto = new UpdateUserDto(id, name, email, null, isActive);
+    val invalidUpdateUserDto = new UpdateUserDto(id, name, email, null, isActive, LocalDate.now());
 
     mockMvc.perform(put(BASE_URL)
         .contentType("application/json")
@@ -296,9 +297,9 @@ class UserControllerTest {
 
   @Test
   void getUsers_validDataProvided_1() throws Exception {
-    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now());
-    val userDto2 = new UserDto(2, "Bob", "bob@example.com", role, true, LocalDate.now());
-    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now());
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now(), true, null);
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", role, true, LocalDate.now(), true, null);
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now(), true, null);
 
     List<UserDto> expectedUserDtos = List.of(userDto1, userDto2, userDto3);
 
@@ -317,7 +318,7 @@ class UserControllerTest {
 
   @Test
   void getUsers_filterByEmail() throws Exception {
-    val userDto = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now());
+    val userDto = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now(), true, null);
     List<UserDto> expectedUserDtos = List.of(userDto);
 
     when(userService.getUsers("alice@example.com", true)).thenReturn(expectedUserDtos);
@@ -336,9 +337,9 @@ class UserControllerTest {
 
   @Test
   void getUsers_sortDescending() throws Exception {
-    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now());
-    val userDto2 = new UserDto(2, "Bob", "bob@example.com", 1, true, LocalDate.now());
-    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now());
+    val userDto1 = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now(), true, null);
+    val userDto2 = new UserDto(2, "Bob", "bob@example.com", 1, true, LocalDate.now(), true, null);
+    val userDto3 = new UserDto(3, "Charlie", "charlie@example.com", role, true, LocalDate.now(), true, null);
 
     List<UserDto> expectedUserDtos = List.of(userDto3, userDto2, userDto1);
 
