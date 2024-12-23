@@ -26,7 +26,7 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
   contentStyles,
 }) => {
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Dialog open={isOpen} onClose={onClose} disableRestoreFocus>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent
         sx={{
