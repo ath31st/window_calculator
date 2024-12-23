@@ -57,6 +57,8 @@ const EditBlockTableDialog: React.FC<EditBlockTableDialogProps> = ({
       <FormControl fullWidth>
         <InputLabel id="button-type-label">Тип</InputLabel>
         <Select
+          id="button-type-select"
+          name="buttonType"
           labelId="button-type-label"
           value={blockTable.buttonType}
           onChange={(e) =>

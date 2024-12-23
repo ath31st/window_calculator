@@ -101,6 +101,8 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
             <FormControlLabel
               control={
                 <Checkbox
+                  id={`checkbox-${button.id}`}
+                  name={`checkbox-${button.id}`}
                   checked={selectedCheckboxes.includes(button.id)}
                   onChange={() => handleCheckboxChange(button.id)}
                 />

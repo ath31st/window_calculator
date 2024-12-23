@@ -1,12 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  TextField,
-  Button,
-  FormControlLabel,
-  Switch,
-} from '@mui/material';
+import { TextField, Button, FormControlLabel, Switch } from '@mui/material';
 import { FrameBlock } from '@/types/api';
 import BaseDialog from '../BaseDialog';
 
@@ -57,6 +52,7 @@ const EditFrameBlockDialog: React.FC<EditFrameBlockDialogProps> = ({
         fullWidth
       />
       <TextField
+        name="description"
         label="Описание"
         value={frameBlock.description}
         onChange={(e) => handleChange('description', e.target.value)}
@@ -67,6 +63,7 @@ const EditFrameBlockDialog: React.FC<EditFrameBlockDialogProps> = ({
       <FormControlLabel
         control={
           <Switch
+            id="isWindowSizeEnabled"
             checked={frameBlock.isWindowSizeEnabled}
             onChange={(e) =>
               handleChange('isWindowSizeEnabled', e.target.checked)

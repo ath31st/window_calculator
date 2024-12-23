@@ -77,7 +77,9 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
       <FormControl fullWidth>
         <InputLabel id="role-label">Роль</InputLabel>
         <Select
+          id="role-select"
           labelId="role-label"
+          name="role-select"
           value={role}
           onChange={(e) => setRole(Number(e.target.value))}
           label="Роль"
@@ -90,6 +92,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
       <FormControlLabel
         control={
           <Switch
+            id="active-switch"
             checked={active}
             onChange={(e) => setActive(e.target.checked)}
           />
