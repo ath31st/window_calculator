@@ -10,6 +10,7 @@ import { useState } from 'react';
 import ClearCartItemsDialog from '@/components/dialogs/cart/ClearCartItemsDialog';
 import RoleGuard from '@/components/RoleGuard';
 import PageHeader from '@/components/headers/PageHeader';
+import { generateCartPdf } from '@/utils/generate.cart.pdf';
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -49,6 +50,13 @@ const Cart: React.FC = () => {
                 Общая стоимость:{' '}
                 {cartItems.reduce((acc, item) => acc + item.summary, 0)}
               </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => generateCartPdf(cartItems)}
+              >
+                Скачать PDF
+              </Button>
               <Button
                 variant="contained"
                 color="secondary"
