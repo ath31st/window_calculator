@@ -132,7 +132,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         JSON.stringify({ accessToken: newAccessToken, refreshToken, user }),
       );
     } catch (error: AxiosError | unknown) {
-      if (error instanceof AxiosError && error.status === 401) {
+      if (
+        error instanceof AxiosError &&
+        (error.status === 401 || error.status === 400 || error.status === 403)
+      ) {
         await get().logout();
       } else {
         console.error('Unexpected error during token refresh:', error);
