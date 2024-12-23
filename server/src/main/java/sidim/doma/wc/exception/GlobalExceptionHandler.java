@@ -25,7 +25,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       FrameServiceException.class, FrameBlockServiceException.class,
       BlockTableServiceException.class, TableButtonServiceException.class,
       UserServiceException.class, UserRoleException.class, RefreshTokenPayloadException.class,
-      LoginCredentialException.class})
+      LoginCredentialException.class, CustomJwtVerificationException.class})
   protected ResponseEntity<ExceptionResponse> handleException(AbstractException e) {
     return new ResponseEntity<>(buildResponse(e), e.getStatus());
   }
