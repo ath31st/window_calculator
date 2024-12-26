@@ -22,7 +22,13 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        paddingTop: {
+          xs: '5px',
+          sm: '10px',
+          md: '20px',
+          lg: '50px',
+          xl: '50px',
+        },
         minHeight: '100vh',
       }}
     >
