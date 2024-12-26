@@ -4,34 +4,34 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#0078d7',
+      main: '#005f8a',
     },
     secondary: {
-      main: '#b0c4de',
+      main: '#a7c6ed',
     },
     background: {
-      default: '#f5f5f5',
-      paper: '#e0e0e0',
+      default: '#9ecdfc',
+      paper: '#85b7e9',
     },
     text: {
-      primary: '#333333',
-      secondary: '#666666',
+      primary: '#212d3e',
+      secondary: '#6c7b8c',
     },
     success: {
-      main: '#27ae60',
+      main: '#3cbf7b',
     },
     warning: {
-      main: '#e67e22',
+      main: '#d8903f',
     },
     error: {
-      main: '#c0392b',
+      main: '#e74c3c',
     },
     info: {
-      main: '#2980b9',
+      main: '#3498db',
     },
   },
   shape: {
-    borderRadius: 5,
+    borderRadius: 0,
   },
   typography: {
     fontSize: 14,
