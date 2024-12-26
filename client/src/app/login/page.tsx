@@ -6,6 +6,7 @@ import React from 'react';
 import { useAuthStore } from '@/stores/auth.store';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import BorderedContainer from '@/components/containers/BorderedContainer';
 
 const LoginPage: React.FC = () => {
   const { login, isLoading } = useAuthStore();
@@ -31,16 +32,21 @@ const LoginPage: React.FC = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '100vh',
-          gap: 3,
+          minHeight: '60vh',
         }}
       >
-        <Typography variant="h4">Вход</Typography>
-        {isLoading ? (
-          <CircularProgress />
-        ) : (
-          <LoginForm onSubmit={handleLogin} />
-        )}
+        <BorderedContainer>
+        <Box sx={{ width: '300px' }}>
+            <Typography variant="h1" align="center" gutterBottom>
+              Вход
+            </Typography>
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              <LoginForm onSubmit={handleLogin} />
+            )}
+          </Box>
+        </BorderedContainer>
       </Box>
     </CommonLayout>
   );
