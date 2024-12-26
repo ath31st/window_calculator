@@ -10,6 +10,7 @@ import RoleGuard from '@/components/RoleGuard';
 import { useEditModeStore } from '@/stores/edit.mode.store';
 import { Box } from '@mui/material';
 import SelectFrameNotify from '@/components/notifications/SelectFrameNotify';
+import BorderedContainer from '@/components/containers/BorderedContainer';
 
 const Home: React.FC = () => {
   const roles = ['ADMIN', 'USER'];
@@ -22,24 +23,31 @@ const Home: React.FC = () => {
     <RoleGuard roles={roles}>
       <CommonLayout>
         <Header />
-        <Box
-          sx={{
-            flex: 1,
-            pb: '60px',
-            overflow: 'auto',
-          }}
-        >
-          {activeFrameId === null && <SelectFrameNotify />}
 
-          <FrameCard
-            activeFrameId={activeFrameId}
-            frameBlocksFull={frameBlocksFull}
-            onAdd={(newFrameBlock) => addFrameBlock(newFrameBlock)}
-            onDelete={(id) => deleteFrameBlock(id)}
-            onEdit={(block) => updateFrameBlock(block)}
-            isEditMode={isEditMode}
-          />
-        </Box>
+        {activeFrameId === null && <SelectFrameNotify />}
+
+        {activeFrameId !== null && (
+          <>
+            <BorderedContainer>
+              <FrameCard
+                activeFrameId={activeFrameId}
+                frameBlocksFull={frameBlocksFull}
+                onAdd={(newFrameBlock) => addFrameBlock(newFrameBlock)}
+                onDelete={(id) => deleteFrameBlock(id)}
+                onEdit={(block) => updateFrameBlock(block)}
+                isEditMode={isEditMode}
+              />
+            </BorderedContainer>
+            <Box
+              sx={{
+                flex: 1,
+                pb: '60px',
+                overflow: 'auto',
+              }}
+            ></Box>
+          </>
+        )}
+
         <Footer />
       </CommonLayout>
     </RoleGuard>

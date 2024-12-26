@@ -11,6 +11,7 @@ import ClearCartItemsDialog from '@/components/dialogs/cart/ClearCartItemsDialog
 import RoleGuard from '@/components/RoleGuard';
 import PageHeader from '@/components/headers/PageHeader';
 import { generateCartPdf } from '@/utils/generate.cart.pdf';
+import BorderedContainer from '@/components/containers/BorderedContainer';
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -24,55 +25,48 @@ const Cart: React.FC = () => {
     <RoleGuard roles={roles}>
       <CommonLayout>
         <Header />
-        <PageHeader title="Корзина товаров и услуг" />
-        {isCartEmpty ? (
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            height="50vh"
-          >
-            <ShoppingCartOutlinedIcon sx={{ fontSize: 64, color: 'gray' }} />
-            <Typography variant="subtitle1" color="textSecondary">
-              Ваша корзина пуста
-            </Typography>
-          </Box>
-        ) : (
-          <>
-            <CartItemList items={cartItems} onRemove={removeFromCart} />
+        <BorderedContainer>
+          <PageHeader title="Корзина товаров и услуг" />
+          {isCartEmpty ? (
             <Box
               display="flex"
-              justifyContent="space-between"
-              alignItems={'center'}
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              height="50vh"
             >
-              <Typography variant="h6" sx={{}}>
-                Общая стоимость:{' '}
-                {cartItems.reduce((acc, item) => acc + item.summary, 0)}
+              <ShoppingCartOutlinedIcon sx={{ fontSize: 64, color: 'gray' }} />
+              <Typography variant="subtitle1" color="textSecondary">
+                Ваша корзина пуста
               </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => generateCartPdf(cartItems)}
-              >
-                Скачать PDF
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => setDialogOpen(true)}
-              >
-                Очистить корзину
-              </Button>
             </Box>
+          ) : (
+            <>
+              <CartItemList items={cartItems} onRemove={removeFromCart} />
+              <Box display="flex" justifyContent="space-between" width="100%">
+                <Typography variant="h6" sx={{}}>
+                  Общая стоимость:{' '} 
+                  {cartItems.reduce((acc, item) => acc + item.summary, 0)} руб.
+                </Typography>
+                <Button
+                  color="secondary"
+                  onClick={() => generateCartPdf(cartItems)}
+                >
+                  Скачать PDF
+                </Button>
+                <Button color="secondary" onClick={() => setDialogOpen(true)}>
+                  Очистить корзину
+                </Button>
+              </Box>
 
-            <ClearCartItemsDialog
-              isOpen={isDialogOpen}
-              onClose={() => setDialogOpen(false)}
-              onClear={clearCart}
-            />
-          </>
-        )}
+              <ClearCartItemsDialog
+                isOpen={isDialogOpen}
+                onClose={() => setDialogOpen(false)}
+                onClear={clearCart}
+              />
+            </>
+          )}
+        </BorderedContainer>
       </CommonLayout>
     </RoleGuard>
   );
