@@ -35,6 +35,78 @@ const theme = createTheme({
   },
   typography: {
     fontSize: 14,
+    h1: {
+      fontSize: '20px',
+      [`@media (min-width:576px)`]: { fontSize: '24px' },
+      [`@media (min-width:768px)`]: { fontSize: '30px' },
+      [`@media (min-width:992px)`]: { fontSize: '36px' },
+      [`@media (min-width:1200px)`]: { fontSize: '40px' },
+    },
+    h2: {
+      fontSize: '18px',
+      [`@media (min-width:576px)`]: { fontSize: '22px' },
+      [`@media (min-width:768px)`]: { fontSize: '28px' },
+      [`@media (min-width:992px)`]: { fontSize: '32px' },
+      [`@media (min-width:1200px)`]: { fontSize: '36px' },
+    },
+    h3: {
+      fontSize: '16px',
+      [`@media (min-width:576px)`]: { fontSize: '20px' },
+      [`@media (min-width:768px)`]: { fontSize: '24px' },
+      [`@media (min-width:992px)`]: { fontSize: '28px' },
+      [`@media (min-width:1200px)`]: { fontSize: '32px' },
+    },
+    h4: {
+      fontSize: '14px',
+      [`@media (min-width:576px)`]: { fontSize: '18px' },
+      [`@media (min-width:768px)`]: { fontSize: '22px' },
+      [`@media (min-width:992px)`]: { fontSize: '26px' },
+      [`@media (min-width:1200px)`]: { fontSize: '30px' },
+    },
+    h5: {
+      fontSize: '12px',
+      [`@media (min-width:576px)`]: { fontSize: '16px' },
+      [`@media (min-width:768px)`]: { fontSize: '20px' },
+      [`@media (min-width:992px)`]: { fontSize: '24px' },
+      [`@media (min-width:1200px)`]: { fontSize: '28px' },
+    },
+    h6: {
+      fontSize: '10px',
+      [`@media (min-width:576px)`]: { fontSize: '14px' },
+      [`@media (min-width:768px)`]: { fontSize: '18px' },
+      [`@media (min-width:992px)`]: { fontSize: '22px' },
+      [`@media (min-width:1200px)`]: { fontSize: '26px' },
+    },
+    body1: {
+      fontSize: '12px',
+      [`@media (min-width:576px)`]: {
+        fontSize: '14px',
+      },
+      [`@media (min-width:768px)`]: {
+        fontSize: '16px',
+      },
+      [`@media (min-width:992px)`]: {
+        fontSize: '18px',
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: '20px',
+      },
+    },
+    body2: {
+      fontSize: '10px',
+      [`@media (min-width:576px)`]: {
+        fontSize: '12px',
+      },
+      [`@media (min-width:768px)`]: {
+        fontSize: '14px',
+      },
+      [`@media (min-width:992px)`]: {
+        fontSize: '16px',
+      },
+      [`@media (min-width:1200px)`]: {
+        fontSize: '18px',
+      },
+    },
   },
   transitions: {
     duration: {
