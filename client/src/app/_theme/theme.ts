@@ -31,10 +31,10 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 3,
+    borderRadius: 5,
   },
   typography: {
-    fontSize: 12,
+    fontSize: 14,
   },
   transitions: {
     duration: {
