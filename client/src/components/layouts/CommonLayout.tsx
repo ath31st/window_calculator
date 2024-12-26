@@ -20,12 +20,19 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
         padding: '0 5px',
         width: '100%',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: '100vh',
       }}
     >
-      {children}
+      <Box
+        sx={{
+          width: '100%',
+        }}
+      >
+        {children}
+      </Box>
     </Box>
   );
 };
