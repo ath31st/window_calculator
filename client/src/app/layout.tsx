@@ -7,6 +7,7 @@ import { CssBaseline } from '@mui/material';
 import AxiosInterceptorProvider from '@/providers/AxiosInterceptorProvider';
 import AuthProvider from '@/providers/AuthProvider';
 import ErrorSnackbar from '@/components/errors/ErrorSnackbar';
+import AnimatedBackground from '@/components/backgrounds/AnimatedBackground';
 
 const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -33,6 +34,7 @@ export default function RootLayout({
       </head>
 
       <body className={roboto.variable}>
+        <AnimatedBackground />
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider theme={theme}>
             <AxiosInterceptorProvider>
