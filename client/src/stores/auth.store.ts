@@ -84,8 +84,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         JSON.stringify({ accessToken, refreshToken, user }),
       );
     } catch (error) {
-      console.error('Login error:', error);
       get().handleError(error);
+      console.log('Login error:', error);
     }
   },
 

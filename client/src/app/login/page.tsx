@@ -8,7 +8,7 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 
 const LoginPage: React.FC = () => {
-  const { login, isLoading, error, clearError } = useAuthStore();
+  const { login, isLoading } = useAuthStore();
   const router = useRouter();
 
   const handleLogin = async (credentials: {
@@ -36,15 +36,6 @@ const LoginPage: React.FC = () => {
         }}
       >
         <Typography variant="h4">Вход</Typography>
-        {error && (
-          <Typography
-            color="error"
-            onClick={clearError}
-            sx={{ cursor: 'pointer' }}
-          >
-            {error}
-          </Typography>
-        )}
         {isLoading ? (
           <CircularProgress />
         ) : (
