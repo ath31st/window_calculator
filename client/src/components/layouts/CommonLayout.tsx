@@ -19,6 +19,10 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
         margin: '0 auto',
         padding: '0 5px',
         width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
       }}
     >
       {children}
