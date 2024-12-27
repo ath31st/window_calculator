@@ -16,7 +16,7 @@ const TableButtonCard: React.FC<TableButtonCardProps> = ({
   onDelete,
 }) => {
   return (
-    <Card sx={{ width: '100%', mb: 2, position: 'relative' }}>
+    <Card sx={{ width: '100%', mb: 2, position: 'relative', boxShadow: 4  }}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant="h6" sx={{ mb: 1 }}>

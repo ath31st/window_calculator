@@ -80,7 +80,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   }, [selectedModifiers, selectedValues, multiplier, calculateSummary]);
 
   return (
-    <Card sx={{ width: '100%', position: 'relative' }}>
+    <Card sx={{ width: '100%', position: 'relative', boxShadow: 4  }}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography variant="h6">{block.name}</Typography>
@@ -154,7 +154,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
               alignItems: 'center',
             }}
           >
-            <Typography variant="body2">{`Стоимость: ${summary}`}</Typography>
+            <Typography variant="body2">{`Стоимость: ${summary} ₽`}</Typography>
             <IconButton
               color="primary"
               onClick={handleCartAction}

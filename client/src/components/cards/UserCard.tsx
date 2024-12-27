@@ -10,7 +10,7 @@ interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
   return (
-    <Card sx={{ width: '100%', position: 'relative' }}>
+    <Card sx={{ width: '100%', position: 'relative', boxShadow: 4  }}>
       <CardContent>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <Box sx={{ flexBasis: '30%' }}>

@@ -15,7 +15,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <Card sx={{ width: '100%' }}>
+    <Card sx={{ width: '100%', boxShadow: 4 }}>
       <CardContent
         sx={{
           display: 'flex',
