@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import { TableButton } from '@/types/api';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface EditTableButtonDialogProps {
   isOpen: boolean;
@@ -38,7 +39,7 @@ const EditTableButtonDialog: React.FC<EditTableButtonDialogProps> = ({
       isOpen={isOpen}
       title="Изменение кнопки"
       onClose={onClose}
-      actions={<Button onClick={handleUpdate}>Изменить</Button>}
+      actions={<CommonButton onClick={handleUpdate}>Изменить</CommonButton>}
     >
       <TextField
         label="Имя"

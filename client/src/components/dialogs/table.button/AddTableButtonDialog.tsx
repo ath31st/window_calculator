@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import { NewTableButton } from '@/types/api';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface AddTableButtonDialogProps {
   isOpen: boolean;
@@ -40,7 +41,7 @@ const AddTableButtonDialog: React.FC<AddTableButtonDialogProps> = ({
       isOpen={isOpen}
       title="Добавление кнопки"
       onClose={onClose}
-      actions={<Button onClick={handleAdd}>Добавить</Button>}
+      actions={<CommonButton onClick={handleAdd}>Добавить</CommonButton>}
     >
       <TextField
         label="Название кнопки"
