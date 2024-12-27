@@ -12,6 +12,7 @@ import RoleGuard from '@/components/RoleGuard';
 import PageHeader from '@/components/headers/PageHeader';
 import { generateCartPdf } from '@/utils/generate.cart.pdf';
 import BorderedContainer from '@/components/containers/BorderedContainer';
+import theme from '../_theme/theme';
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -29,14 +30,24 @@ const Cart: React.FC = () => {
           <PageHeader title="Корзина товаров и услуг" />
           {isCartEmpty ? (
             <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              height="50vh"
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                height: { xs: '30vh', md: '50vh' },
+              }}
             >
-              <ShoppingCartOutlinedIcon sx={{ fontSize: 64, color: 'gray' }} />
-              <Typography variant="subtitle1" color="textSecondary">
+              <ShoppingCartOutlinedIcon
+                sx={{
+                  fontSize: { xs: 60, md: 120, lg: 150 },
+                  color: theme.palette.text.primary,
+                }}
+              />
+              <Typography
+                variant="h5"
+                sx={{ color: theme.palette.text.primary }}
+              >
                 Ваша корзина пуста
               </Typography>
             </Box>
@@ -45,7 +56,7 @@ const Cart: React.FC = () => {
               <CartItemList items={cartItems} onRemove={removeFromCart} />
               <Box display="flex" justifyContent="space-between" width="100%">
                 <Typography variant="h6" sx={{}}>
-                  Общая стоимость:{' '} 
+                  Общая стоимость:{' '}
                   {cartItems.reduce((acc, item) => acc + item.summary, 0)} руб.
                 </Typography>
                 <Button
