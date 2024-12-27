@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface AddFrameDialogProps {
   isOpen: boolean;
@@ -30,7 +31,7 @@ const AddFrameDialog: React.FC<AddFrameDialogProps> = ({
       isOpen={isOpen}
       title="Добавление фрейма"
       onClose={onClose}
-      actions={<Button onClick={handleAdd}>Добавить</Button>}
+      actions={<CommonButton onClick={handleAdd}>Добавить</CommonButton>}
     >
       <TextField
         label="Наименование фрейма"

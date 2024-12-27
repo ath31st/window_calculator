@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface EditFrameDialogProps {
   isOpen: boolean;
@@ -32,7 +33,7 @@ const EditFrameDialog: React.FC<EditFrameDialogProps> = ({
       isOpen={isOpen}
       title="Изменение фрейма"
       onClose={onClose}
-      actions={<Button onClick={handleUpdate}>Изменить</Button>}
+      actions={<CommonButton onClick={handleUpdate}>Изменить</CommonButton>}
     >
       <TextField
         label={currentName}
