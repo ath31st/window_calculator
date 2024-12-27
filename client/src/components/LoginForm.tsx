@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
+import GradientButton from './buttons/GradientButton';
 
 interface LoginFormProps {
   onSubmit: (credentials: { email: string; password: string }) => void;
@@ -46,9 +47,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         required
         fullWidth
       />
-      <Button type="submit" variant="contained" fullWidth>
-        Войти
-      </Button>
+      <GradientButton type="submit">Войти</GradientButton>
     </Box>
   );
 };

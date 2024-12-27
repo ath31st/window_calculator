@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import GradientButton from '@/components/buttons/GradientButton';
 
 const UnauthorizedPage: React.FC = () => {
   const router = useRouter();
@@ -22,16 +23,12 @@ const UnauthorizedPage: React.FC = () => {
       <Typography variant="h1" color="error">
         401
       </Typography>
-      <Typography variant="h6">
+      <Typography variant="h4">
         Вы не авторизованы для доступа к этой странице
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => router.push('/login')}
-      >
-        Перейти к авторизации
-      </Button>
+      <GradientButton onClick={() => router.push('/login')}>
+        <Typography variant="body2">Перейти к авторизации</Typography>
+      </GradientButton>
     </Box>
   );
 };
