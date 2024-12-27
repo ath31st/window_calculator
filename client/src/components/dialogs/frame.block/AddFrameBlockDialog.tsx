@@ -1,15 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  TextField,
-  Typography,
-  Button,
-  Switch,
-  FormControlLabel,
-} from '@mui/material';
+import { TextField, Switch, FormControlLabel } from '@mui/material';
 import { NewFrameBlock } from '@/types/api';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface AddFrameBlockDialogProps {
   isOpen: boolean;
@@ -50,13 +45,12 @@ const AddFrameBlockDialog: React.FC<AddFrameBlockDialogProps> = ({
   return (
     <BaseDialog
       isOpen={isOpen}
-      title="Добавление фрейм блока"
+      title="Добавление блока фрейма"
       onClose={onClose}
-      actions={<Button onClick={handleAdd}>Добавить</Button>}
+      actions={<CommonButton onClick={handleAdd}>Добавить</CommonButton>}
     >
-      <Typography variant="h6">Добавить фрейм-блок</Typography>
       <TextField
-        label="Наименование блока"
+        label="Наименование блока фрейма"
         value={name}
         onChange={(e) => setName(e.target.value)}
         fullWidth
@@ -68,7 +62,7 @@ const AddFrameBlockDialog: React.FC<AddFrameBlockDialogProps> = ({
         fullWidth
       />
       <TextField
-        label="Описание"
+        label="Описание (опционально)"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         fullWidth

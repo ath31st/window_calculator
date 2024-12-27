@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography } from '@mui/material';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface DeleteFrameBlockDialogProps {
   isOpen: boolean;
@@ -25,12 +26,12 @@ const DeleteFrameBlockDialog: React.FC<DeleteFrameBlockDialogProps> = ({
   return (
     <BaseDialog
       isOpen={isOpen}
-      title="Удаление фрейм блока"
+      title="Удаление блока фрейма"
       onClose={onClose}
-      actions={<Button onClick={handleDelete}>Удалить</Button>}
+      actions={<CommonButton onClick={handleDelete}>Удалить</CommonButton>}
     >
       <Typography variant="body2">
-        Вы уверены, что хотите удалить этот фрейм блок?
+        Вы уверены, что хотите удалить этот блок фрейма?
       </Typography>
     </BaseDialog>
   );
