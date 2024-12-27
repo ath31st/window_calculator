@@ -77,6 +77,20 @@ const theme = createTheme({
       [`@media (min-width:992px)`]: { fontSize: '22px' },
       [`@media (min-width:1200px)`]: { fontSize: '26px' },
     },
+    subtitle1: {
+      fontSize: '10px',
+      [`@media (min-width:576px)`]: { fontSize: '12px' },
+      [`@media (min-width:768px)`]: { fontSize: '14px' },
+      [`@media (min-width:992px)`]: { fontSize: '16px' },
+      [`@media (min-width:1200px)`]: { fontSize: '18px' },
+    },
+    subtitle2: {
+      fontSize: '10px',
+      [`@media (min-width:576px)`]: { fontSize: '12px' },
+      [`@media (min-width:768px)`]: { fontSize: '13px' },
+      [`@media (min-width:992px)`]: { fontSize: '14px' },
+      [`@media (min-width:1200px)`]: { fontSize: '16px' },
+    },    
     body1: {
       fontSize: '12px',
       [`@media (min-width:576px)`]: {

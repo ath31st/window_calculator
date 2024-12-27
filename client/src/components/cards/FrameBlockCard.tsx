@@ -154,7 +154,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
               alignItems: 'center',
             }}
           >
-            <Typography variant="body2">{`Стоимость: ${summary} ₽`}</Typography>
+            <Typography variant="body1">{`Стоимость: ${summary} ₽`}</Typography>
             <IconButton
               color="primary"
               onClick={handleCartAction}
