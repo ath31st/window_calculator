@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   TextField,
-  Button,
   FormControl,
   InputLabel,
   Select,
@@ -13,6 +12,7 @@ import {
 } from '@mui/material';
 import { UpdateUser, User } from '@/types/api';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface EditUserDialogProps {
   isOpen: boolean;
@@ -58,7 +58,7 @@ const EditUserDialog: React.FC<EditUserDialogProps> = ({
       isOpen={isOpen}
       title="Изменение пользователя"
       onClose={onClose}
-      actions={<Button onClick={handleUpdate}>Изменить</Button>}
+      actions={<CommonButton onClick={handleUpdate}>Изменить</CommonButton>}
     >
       <TextField
         label="Имя"

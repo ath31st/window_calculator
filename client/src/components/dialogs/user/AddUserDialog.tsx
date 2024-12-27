@@ -1,6 +1,5 @@
 import { NewUser } from '@/types/api';
 import {
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -9,6 +8,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface AddUserDialogProps {
   isOpen: boolean;
@@ -47,7 +47,7 @@ const AddUserDialog: React.FC<AddUserDialogProps> = ({
       isOpen={isOpen}
       title="Добавление пользователя"
       onClose={onClose}
-      actions={<Button onClick={handleAdd}>Добавить</Button>}
+      actions={<CommonButton onClick={handleAdd}>Добавить</CommonButton>}
     >
       <TextField
         label="Имя пользователя"

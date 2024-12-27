@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { JwtUser } from '@/types/models';
 import { ChangePassword } from '@/types/api';
 import ChangePasswordDialog from './ChangePasswordDialog';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface UserProfileDialogProps {
   user: JwtUser | null;
@@ -39,10 +40,10 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({
                 width: '100%',
               }}
             >
-              <Button onClick={() => setIsOpenChangePassword(true)}>
+              <CommonButton onClick={() => setIsOpenChangePassword(true)}>
                 Изменить пароль
-              </Button>
-              <Button
+              </CommonButton>
+              <CommonButton
                 color="error"
                 onClick={() => {
                   onLogout();
@@ -50,7 +51,7 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({
                 }}
               >
                 Выйти
-              </Button>
+              </CommonButton>
             </Box>
           )
         }

@@ -1,7 +1,8 @@
 import { ChangePassword } from '@/types/api';
-import { Button, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import React, { useState } from 'react';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface ChangePasswordDialogProps {
   userId: number;
@@ -62,8 +63,8 @@ const ChangePasswordDialog: React.FC<ChangePasswordDialogProps> = ({
       onClose={handleClose}
       actions={
         <>
-          <Button onClick={handleClose}>Отменить</Button>
-          <Button onClick={handleChangePassword}>Изменить</Button>
+          <CommonButton onClick={handleClose}>Отменить</CommonButton>
+          <CommonButton onClick={handleChangePassword}>Изменить</CommonButton>
         </>
       }
     >
