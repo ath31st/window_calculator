@@ -28,7 +28,10 @@ export const useSummaryCalculation = (
         ? Math.round(((heightInMM * widthInMM) / 1_000_000) * 10) / 10
         : 1;
 
-    return modifierProduct * valueSum * multiplier * areaInSquareMeters;
+    const rawResult =
+      modifierProduct * valueSum * multiplier * areaInSquareMeters;
+
+    return rawResult > 0 ? Math.max(100, Math.floor(rawResult / 100) * 100) : 0;
   }, [selectedModifiers, selectedValues, heightInMM, widthInMM, multiplier]);
 
   return calculateSummary;
