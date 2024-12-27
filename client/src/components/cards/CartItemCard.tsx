@@ -25,7 +25,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
       >
         <Box>
           <Typography variant="h6">{item.name}</Typography>
-          <Typography variant="body2">{`Стоимость: ${item.summary}`}</Typography>
+          <Typography variant="body2">{`Стоимость: ${item.summary} ₽`}</Typography>
         </Box>
 
         <IconButton color="error" onClick={() => setDialogOpen(true)}>
