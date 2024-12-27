@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import {
   TextField,
-  Button,
   FormControl,
   InputLabel,
   Select,
@@ -12,6 +11,7 @@ import {
 import { NewBlockTable } from '@/types/api';
 import { ButtonType } from '@/constants/button.type';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface AddBlockTableDialogProps {
   isOpen: boolean;
@@ -45,9 +45,9 @@ const AddBlockTableDialog: React.FC<AddBlockTableDialogProps> = ({
   return (
     <BaseDialog
       isOpen={isOpen}
-      title="Добавление блока"
+      title="Добавление таблицы блока"
       onClose={onClose}
-      actions={<Button onClick={handleAdd}>Добавить</Button>}
+      actions={<CommonButton onClick={handleAdd}>Добавить</CommonButton>}
     >
       <TextField
         label="Название таблицы блока"

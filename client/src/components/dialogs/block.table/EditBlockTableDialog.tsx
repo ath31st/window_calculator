@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import {
   TextField,
-  Button,
   FormControl,
   InputLabel,
   Select,
@@ -12,6 +11,7 @@ import {
 import { BlockTable } from '@/types/api';
 import { ButtonType } from '@/constants/button.type';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface EditBlockTableDialogProps {
   isOpen: boolean;
@@ -43,12 +43,12 @@ const EditBlockTableDialog: React.FC<EditBlockTableDialogProps> = ({
   return (
     <BaseDialog
       isOpen={isOpen}
-      title="Изменение блока"
+      title="Изменение таблицы блока"
       onClose={onClose}
-      actions={<Button onClick={handleUpdate}>Изменить</Button>}
+      actions={<CommonButton onClick={handleUpdate}>Изменить</CommonButton>}
     >
       <TextField
-        label="Наименование блока"
+        label="Наименование таблицы блока"
         value={blockTable.name}
         onChange={(e) => handleChange('name', e.target.value)}
         fullWidth
