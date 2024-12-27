@@ -29,6 +29,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         gap: 2,
         width: '100%',
         maxWidth: 400,
+        '& input:-webkit-autofill': {
+          WebkitBackgroundClip: 'text',
+        },
       }}
     >
       <TextField
