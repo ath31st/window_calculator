@@ -64,7 +64,7 @@ const Cart: React.FC = () => {
                   color="secondary"
                   onClick={() => generateCartPdf(cartItems)}
                 >
-                  Скачать PDF
+                  Сохарнить в PDF
                 </CommonButton>
                 <CommonButton
                   color="secondary"

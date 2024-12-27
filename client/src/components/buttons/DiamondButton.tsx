@@ -18,6 +18,7 @@ const DiamondButton: React.FC<DiamondButtonProps> = ({
 }) => {
   const buttonStyles = {
     bgcolor: isEditModeButton && isActive ? 'primary.main' : 'background.paper',
+    border: `3px solid ${isEditModeButton && isActive ? '#ffffff' : 'rgba(0, 0, 0, 0.12)'}`, // Рамка
     boxShadow: 2,
     borderRadius: '0',
     transform: 'rotate(45deg)',
@@ -26,7 +27,7 @@ const DiamondButton: React.FC<DiamondButtonProps> = ({
       xs: 30,
       sm: 35,
       md: 45,
-      lg: 50,   
+      lg: 50,
     },
     width: {
       xs: 30,
@@ -34,6 +35,9 @@ const DiamondButton: React.FC<DiamondButtonProps> = ({
       md: 45,
       lg: 50,
     },
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   const iconStyles = {

@@ -71,11 +71,11 @@ const Header: React.FC = () => {
       <Box
         sx={{
           position: 'fixed',
-          top: 16,
-          right: 16,
+          top: { xs: 10, md: 26 },
+          right: { xs: 10, md: 26 },
           display: 'flex',
           flexDirection: 'column',
-          gap: 3,
+          gap: { xs: 2, md: 3 },
           zIndex: 1100,
         }}
       >
