@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Typography, Button } from '@mui/material';
+import { Typography } from '@mui/material';
 import BaseDialog from '../BaseDialog';
+import CommonButton from '@/components/buttons/CommonButton';
 
 interface ClearCartItemsDialogProps {
   isOpen: boolean;
@@ -25,7 +26,7 @@ const ClearCartItemsDialog: React.FC<ClearCartItemsDialogProps> = ({
       isOpen={isOpen}
       title="Очистка корзины"
       onClose={onClose}
-      actions={<Button onClick={handleClear}>Удалить все</Button>}
+      actions={<CommonButton onClick={handleClear}>Удалить все</CommonButton>}
     >
       <Typography variant="body2">
         Вы уверены, что хотите очистить корзину?

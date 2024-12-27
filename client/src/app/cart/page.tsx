@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import CommonLayout from '@/components/layouts/CommonLayout';
 import CartItemList from '@/components/lists/CartItemList';
 import { useCartStore } from '@/stores/cart.store';
-import { Typography, Box, Button } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useState } from 'react';
 import ClearCartItemsDialog from '@/components/dialogs/cart/ClearCartItemsDialog';
@@ -13,6 +13,7 @@ import PageHeader from '@/components/headers/PageHeader';
 import { generateCartPdf } from '@/utils/generate.cart.pdf';
 import BorderedContainer from '@/components/containers/BorderedContainer';
 import theme from '../_theme/theme';
+import CommonButton from '@/components/buttons/CommonButton';
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -59,15 +60,18 @@ const Cart: React.FC = () => {
                   Общая стоимость:{' '}
                   {cartItems.reduce((acc, item) => acc + item.summary, 0)} ₽
                 </Typography>
-                <Button
+                <CommonButton
                   color="secondary"
                   onClick={() => generateCartPdf(cartItems)}
                 >
                   Скачать PDF
-                </Button>
-                <Button color="secondary" onClick={() => setDialogOpen(true)}>
+                </CommonButton>
+                <CommonButton
+                  color="secondary"
+                  onClick={() => setDialogOpen(true)}
+                >
                   Очистить корзину
-                </Button>
+                </CommonButton>
               </Box>
 
               <ClearCartItemsDialog
