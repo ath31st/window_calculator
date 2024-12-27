@@ -58,7 +58,6 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
             <Box
               key={button.id}
               sx={{
-                height: 25,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -92,7 +91,6 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
           <Box
             key={button.id}
             sx={{
-              height: 25,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
