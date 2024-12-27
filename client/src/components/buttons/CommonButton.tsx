@@ -21,7 +21,7 @@ const CommonButton: React.FC<CommonButtonProps> = ({
             sm: '10px',
             md: '10px',
             lg: '12px',
-            xl: '12px',
+            xl: '14px',
           },
         }}
       >
