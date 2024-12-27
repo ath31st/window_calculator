@@ -15,7 +15,7 @@ const theme = createTheme({
     },
     text: {
       primary: '#212d3e',
-      secondary: '#6c7b8c',
+      secondary: '#486a92',
     },
     success: {
       main: '#3cbf7b',
@@ -110,7 +110,7 @@ const theme = createTheme({
   },
   transitions: {
     duration: {
-      standard: 300,
+      standard: 600,
     },
   },
   breakpoints: {
