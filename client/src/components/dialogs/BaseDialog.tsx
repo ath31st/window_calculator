@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
+import BorderedContainer from '../containers/BorderedContainer';
 
 interface BaseDialogProps {
   isOpen: boolean;
@@ -27,21 +28,23 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
 }) => {
   return (
     <Dialog open={isOpen} onClose={onClose} disableRestoreFocus>
-      <DialogTitle>{title}</DialogTitle>
-      <DialogContent
-        sx={{
-          padding: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          overflow: 'visible',
-          minWidth: 300,
-          ...contentStyles,
-        }}
-      >
-        {children}
-      </DialogContent>
-      {actions && <DialogActions>{actions}</DialogActions>}
+      <BorderedContainer>
+        <DialogTitle>{title}</DialogTitle>
+        <DialogContent
+          sx={{
+            padding: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            overflow: 'visible',
+            minWidth: 250,
+            ...contentStyles,
+          }}
+        >
+          {children}
+        </DialogContent>
+        {actions && <DialogActions>{actions}</DialogActions>}
+      </BorderedContainer>
     </Dialog>
   );
 };
