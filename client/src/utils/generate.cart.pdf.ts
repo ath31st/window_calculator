@@ -16,7 +16,7 @@ export const generateCartPdf = (cartItems: CartItem[]) => {
       { text: '\n' },
       ...cartItems.flatMap((item, index) => [
         {
-          text: `${index + 1}. ${item.name} - ${item.summary} руб.`,
+          text: `${index + 1}. ${item.name} - ${item.summary} ₽`,
           margin: [0, 5, 0, 5],
         },
         {
@@ -30,7 +30,7 @@ export const generateCartPdf = (cartItems: CartItem[]) => {
         text: `Общая стоимость: ${cartItems.reduce(
           (acc, item) => acc + item.summary,
           0,
-        )} руб.`,
+        )} ₽`,
         style: 'total',
         margin: [0, 10, 0, 0],
       },

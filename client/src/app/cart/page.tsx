@@ -57,7 +57,7 @@ const Cart: React.FC = () => {
               <Box display="flex" justifyContent="space-between" width="100%">
                 <Typography variant="h6" sx={{}}>
                   Общая стоимость:{' '}
-                  {cartItems.reduce((acc, item) => acc + item.summary, 0)} руб.
+                  {cartItems.reduce((acc, item) => acc + item.summary, 0)} ₽
                 </Typography>
                 <Button
                   color="secondary"
