@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, IconButton, Badge } from '@mui/material';
+import { Box, Badge } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HomeIcon from '@mui/icons-material/Home';
@@ -14,6 +14,7 @@ import { useEditModeStore } from '@/stores/edit.mode.store';
 import { useState } from 'react';
 import UserProfileDialog from './dialogs/user/UserProfileDialog';
 import { useUserStore } from '@/stores/user.store';
+import DiamondButton from './buttons/DiamondButton';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuthStore();
@@ -71,19 +72,14 @@ const Header: React.FC = () => {
         sx={{
           position: 'fixed',
           top: 16,
-          right: 8,
+          right: 16,
           display: 'flex',
           flexDirection: 'column',
-          gap: 1,
+          gap: 3,
           zIndex: 1100,
         }}
       >
-        <IconButton
-          onClick={handleUserClick}
-          sx={{ bgcolor: 'background.paper', boxShadow: 2 }}
-        >
-          <AccountCircleIcon />
-        </IconButton>
+        <DiamondButton onClick={handleUserClick} icon={<AccountCircleIcon />} />
 
         {routes
           .filter(({ isAdminOnly }) => !isAdminOnly || isAdmin)
@@ -91,21 +87,16 @@ const Header: React.FC = () => {
             if (!showOn.includes(pathname)) return null;
 
             return isEditModeButton ? (
-              <IconButton
+              <DiamondButton
                 key={path}
                 onClick={toggleEditMode}
-                sx={{
-                  bgcolor: isEditMode ? 'primary.main' : 'background.paper',
-                  boxShadow: 2,
-                }}
-              >
-                {icon}
-              </IconButton>
+                icon={icon}
+                isActive={isEditMode}
+                isEditModeButton
+              />
             ) : (
               <Link key={path} href={path} passHref>
-                <IconButton sx={{ bgcolor: 'background.paper', boxShadow: 2 }}>
-                  {icon}
-                </IconButton>
+                <DiamondButton icon={icon} />
               </Link>
             );
           })}
