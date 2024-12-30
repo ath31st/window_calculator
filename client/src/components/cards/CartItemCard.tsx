@@ -1,11 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Card, CardContent, Typography, IconButton } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  IconButton,
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CartItem } from '@/types/models';
 import DeleteCartItemDialog from '../dialogs/cart/DeleteCartItemDialog';
-import theme from '@/app/_theme/theme';
+import CommonDivider from '../dividers/CommonDivider';
 
 interface CartItemCardProps {
   item: CartItem;
@@ -19,8 +25,8 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
     <Card
       sx={{
         width: '100%',
-        boxShadow: 4,
-        borderRadius: theme.shape.borderRadius,
+        boxShadow: 0,
+        border: 0,
       }}
     >
       <CardContent
@@ -46,6 +52,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
           blockTableId={item.blockId}
         />
       </CardContent>
+      <CommonDivider />
     </Card>
   );
 };

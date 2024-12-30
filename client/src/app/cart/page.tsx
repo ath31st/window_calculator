@@ -14,6 +14,7 @@ import { generateCartPdf } from '@/utils/generate.cart.pdf';
 import BorderedContainer from '@/components/containers/BorderedContainer';
 import theme from '../_theme/theme';
 import CommonButton from '@/components/buttons/CommonButton';
+import BorderedBackgraundedContainer from '@/components/containers/BorderedBackgraundedContainer';
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -28,59 +29,61 @@ const Cart: React.FC = () => {
       <CommonLayout>
         <Header />
         <BorderedContainer>
-          <PageHeader title="Корзина товаров и услуг" />
-          {isCartEmpty ? (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-                height: { xs: '30vh', md: '50vh' },
-              }}
-            >
-              <ShoppingCartOutlinedIcon
+          <BorderedBackgraundedContainer>
+            <PageHeader title="Корзина товаров и услуг" />
+            {isCartEmpty ? (
+              <Box
                 sx={{
-                  fontSize: { xs: 60, md: 120, lg: 150 },
-                  color: theme.palette.text.primary,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  height: { xs: '30vh', md: '50vh' },
                 }}
-              />
-              <Typography
-                variant="h5"
-                sx={{ color: theme.palette.text.primary }}
               >
-                Ваша корзина пуста
-              </Typography>
-            </Box>
-          ) : (
-            <>
-              <CartItemList items={cartItems} onRemove={removeFromCart} />
-              <Box display="flex" justifyContent="space-between" width="100%">
-                <Typography variant="h6" sx={{}}>
-                  Общая стоимость:{' '}
-                  {cartItems.reduce((acc, item) => acc + item.summary, 0)} ₽
+                <ShoppingCartOutlinedIcon
+                  sx={{
+                    fontSize: { xs: 60, md: 120, lg: 150 },
+                    color: theme.palette.text.primary,
+                  }}
+                />
+                <Typography
+                  variant="h5"
+                  sx={{ color: theme.palette.text.primary }}
+                >
+                  Ваша корзина пуста
                 </Typography>
-                <CommonButton
-                  color="secondary"
-                  onClick={() => generateCartPdf(cartItems)}
-                >
-                  Сохарнить в PDF
-                </CommonButton>
-                <CommonButton
-                  color="secondary"
-                  onClick={() => setDialogOpen(true)}
-                >
-                  Очистить корзину
-                </CommonButton>
               </Box>
+            ) : (
+              <>
+                <CartItemList items={cartItems} onRemove={removeFromCart} />
+                <Box display="flex" justifyContent="space-between" width="100%">
+                  <Typography variant="h6" sx={{}}>
+                    Общая стоимость:{' '}
+                    {cartItems.reduce((acc, item) => acc + item.summary, 0)} ₽
+                  </Typography>
+                  <CommonButton
+                    color="secondary"
+                    onClick={() => generateCartPdf(cartItems)}
+                  >
+                    Сохарнить в PDF
+                  </CommonButton>
+                  <CommonButton
+                    color="secondary"
+                    onClick={() => setDialogOpen(true)}
+                  >
+                    Очистить корзину
+                  </CommonButton>
+                </Box>
 
-              <ClearCartItemsDialog
-                isOpen={isDialogOpen}
-                onClose={() => setDialogOpen(false)}
-                onClear={clearCart}
-              />
-            </>
-          )}
+                <ClearCartItemsDialog
+                  isOpen={isDialogOpen}
+                  onClose={() => setDialogOpen(false)}
+                  onClear={clearCart}
+                />
+              </>
+            )}
+          </BorderedBackgraundedContainer>
         </BorderedContainer>
       </CommonLayout>
     </RoleGuard>

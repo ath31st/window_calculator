@@ -1,6 +1,7 @@
 import { UpdateUser, User } from '@/types/api';
-import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import { UserEditDeleteButtons } from '../buttons/UserEditDeleteButtons';
+import CommonDivider from '../dividers/CommonDivider';
 
 interface UserCardProps {
   user: User;
@@ -36,7 +37,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
           </Box>
         </Box>
 
-        <Divider sx={{ mt: 0.5, borderColor: 'var(--color-primary)' }} />
+        <CommonDivider />
 
         <Box
           sx={{
