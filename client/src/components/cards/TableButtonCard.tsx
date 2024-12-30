@@ -2,6 +2,7 @@ import { ButtonType } from '@/constants/button.type';
 import { TableButton } from '@/types/api';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import TableButtonEditDeleteButtons from '../buttons/TableButtonEditDeleteButtons';
+import theme from '@/app/_theme/theme';
 
 interface TableButtonCardProps {
   button: TableButton;
@@ -16,7 +17,15 @@ const TableButtonCard: React.FC<TableButtonCardProps> = ({
   onDelete,
 }) => {
   return (
-    <Card sx={{ width: '100%', mb: 2, position: 'relative', boxShadow: 4  }}>
+    <Card
+      sx={{
+        width: '100%',
+        mb: 2,
+        position: 'relative',
+        boxShadow: 4,
+        borderRadius: theme.shape.borderRadius,
+      }}
+    >
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography variant="h6" sx={{ mb: 1 }}>

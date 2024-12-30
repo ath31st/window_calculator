@@ -7,6 +7,7 @@ import AddTableButtonDialog from '../dialogs/table.button/AddTableButtonDialog';
 import TableButtonList from '../lists/TableButtonList';
 import { useTableButtonStore } from '@/stores/table.button.store';
 import { ButtonType } from '@/constants/button.type';
+import theme from '@/app/_theme/theme';
 
 interface BlockTableCardProps {
   table: BlockTableFull;
@@ -28,7 +29,15 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
     useTableButtonStore();
 
   return (
-    <Card sx={{ width: '100%', position: 'relative', border: 0, boxShadow: 0 }}>
+    <Card
+      sx={{
+        width: '100%',
+        position: 'relative',
+        border: 0,
+        boxShadow: 0,
+        borderRadius: theme.shape.borderRadius,
+      }}
+    >
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography

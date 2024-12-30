@@ -5,6 +5,7 @@ import { Box, Card, CardContent, Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CartItem } from '@/types/models';
 import DeleteCartItemDialog from '../dialogs/cart/DeleteCartItemDialog';
+import theme from '@/app/_theme/theme';
 
 interface CartItemCardProps {
   item: CartItem;
@@ -15,7 +16,13 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   return (
-    <Card sx={{ width: '100%', boxShadow: 4 }}>
+    <Card
+      sx={{
+        width: '100%',
+        boxShadow: 4,
+        borderRadius: theme.shape.borderRadius,
+      }}
+    >
       <CardContent
         sx={{
           display: 'flex',

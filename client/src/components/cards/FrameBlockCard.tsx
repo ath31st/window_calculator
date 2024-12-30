@@ -18,6 +18,7 @@ import { useSummaryCalculation } from '@/hooks/use.summary.calculation';
 import { useDimensions } from '@/hooks/use.dimensions';
 import { useBlockTables } from '@/hooks/use.block.tables';
 import { useCartStore } from '@/stores/cart.store';
+import theme from '@/app/_theme/theme';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -80,7 +81,14 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   }, [selectedModifiers, selectedValues, multiplier, calculateSummary]);
 
   return (
-    <Card sx={{ width: '100%', position: 'relative', boxShadow: 4  }}>
+    <Card
+      sx={{
+        width: '100%',
+        position: 'relative',
+        boxShadow: 4,
+        borderRadius: theme.shape.borderRadius,
+      }}
+    >
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <Typography variant="h6">{block.name}</Typography>

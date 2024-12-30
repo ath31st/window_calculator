@@ -1,6 +1,7 @@
 import { UpdateUser, User } from '@/types/api';
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { UserEditDeleteButtons } from '../buttons/UserEditDeleteButtons';
+import theme from '@/app/_theme/theme';
 
 interface UserCardProps {
   user: User;
@@ -10,7 +11,14 @@ interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
   return (
-    <Card sx={{ width: '100%', position: 'relative', boxShadow: 4  }}>
+    <Card
+      sx={{
+        width: '100%',
+        position: 'relative',
+        boxShadow: 4,
+        borderRadius: theme.shape.borderRadius,
+      }}
+    >
       <CardContent>
         <Box sx={{ display: 'flex', gap: 2 }}>
           <Box sx={{ flexBasis: '30%' }}>
