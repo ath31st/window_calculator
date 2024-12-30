@@ -25,6 +25,9 @@ const DimensionField: React.FC<DimensionFieldProps> = ({
           sx: {
             borderRadius: theme.shape.borderRadius,
           },
+          inputProps: {
+            min: 1,
+          },
         },
       }}
     />
