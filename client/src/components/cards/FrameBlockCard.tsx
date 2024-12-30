@@ -3,7 +3,6 @@ import {
   Typography,
   Card,
   CardContent,
-  TextField,
   IconButton,
 } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -19,6 +18,7 @@ import { useDimensions } from '@/hooks/use.dimensions';
 import { useBlockTables } from '@/hooks/use.block.tables';
 import { useCartStore } from '@/stores/cart.store';
 import theme from '@/app/_theme/theme';
+import DimensionField from '../text.fields/DimensionField';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -115,32 +115,26 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
 
           {block.isWindowSizeEnabled ? (
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <TextField
+              <DimensionField
                 label="Ширина (мм)"
-                type="number"
                 value={widthInMM}
                 onChange={(e) => handleDimensionChange('width', e.target.value)}
-                fullWidth
               />
-              <TextField
+              <DimensionField
                 label="Высота (мм)"
-                type="number"
                 value={heightInMM}
                 onChange={(e) =>
                   handleDimensionChange('height', e.target.value)
                 }
-                fullWidth
               />
             </Box>
           ) : (
-            <TextField
+            <DimensionField
               label={block.inputTitle}
-              type="number"
               value={multiplier}
               onChange={(e) =>
                 handleDimensionChange('multiplier', e.target.value)
               }
-              fullWidth
             />
           )}
 
