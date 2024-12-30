@@ -29,7 +29,7 @@ const FrameButton: React.FC<FrameButtonProps> = ({
       sx={{
         padding: 1,
         cursor: 'pointer',
-        bgcolor: isActive ? 'primary.main' : 'primary.secondary',
+        bgcolor: isActive ? 'secondary.main' : 'background.paper',
         color: isActive ? 'text.primary' : 'text.secondary',
         borderRadius: theme.shape.borderRadius,
         textAlign: 'center',
