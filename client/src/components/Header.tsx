@@ -14,7 +14,7 @@ import { useEditModeStore } from '@/stores/edit.mode.store';
 import { useState } from 'react';
 import UserProfileDialog from './dialogs/user/UserProfileDialog';
 import { useUserStore } from '@/stores/user.store';
-import DiamondButton from './buttons/DiamondButton';
+import RoundButton from './buttons/RoundButton';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuthStore();
@@ -75,11 +75,11 @@ const Header: React.FC = () => {
           right: { xs: 10, md: 26 },
           display: 'flex',
           flexDirection: 'column',
-          gap: { xs: 2, md: 3 },
+          gap: { xs: 1, md: 2 },
           zIndex: 1100,
         }}
       >
-        <DiamondButton onClick={handleUserClick} icon={<AccountCircleIcon />} />
+        <RoundButton onClick={handleUserClick} icon={<AccountCircleIcon />} />
 
         {routes
           .filter(({ isAdminOnly }) => !isAdminOnly || isAdmin)
@@ -87,7 +87,7 @@ const Header: React.FC = () => {
             if (!showOn.includes(pathname)) return null;
 
             return isEditModeButton ? (
-              <DiamondButton
+              <RoundButton
                 key={path}
                 onClick={toggleEditMode}
                 icon={icon}
@@ -96,7 +96,7 @@ const Header: React.FC = () => {
               />
             ) : (
               <Link key={path} href={path} passHref>
-                <DiamondButton icon={icon} />
+                <RoundButton icon={icon} />
               </Link>
             );
           })}
