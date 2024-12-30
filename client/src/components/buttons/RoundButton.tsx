@@ -34,32 +34,13 @@ const RoundButton: React.FC<RoundButtonProps> = ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  };
-
-  const iconStyles = {
-    fontSize: {
-      xs: 18,
-      sm: 20,
-      md: 24,
-      lg: 28,
-    },
-    height: {
-      xs: 18,
-      sm: 20,
-      md: 24,
-      lg: 28,
-    },
-    width: {
-      xs: 18,
-      sm: 20,
-      md: 24,
-      lg: 28,
-    },
+    border: '4px solid rgba(0, 0, 0, 0.2)',
+    borderRadius: '50%',
   };
 
   return (
     <IconButton onClick={onClick} sx={buttonStyles}>
-      {React.cloneElement(icon, { sx: iconStyles })}
+      {React.cloneElement(icon, {})}
     </IconButton>
   );
 };
