@@ -1,7 +1,6 @@
 import { UpdateUser, User } from '@/types/api';
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Divider, Typography } from '@mui/material';
 import { UserEditDeleteButtons } from '../buttons/UserEditDeleteButtons';
-import theme from '@/app/_theme/theme';
 
 interface UserCardProps {
   user: User;
@@ -15,8 +14,8 @@ const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
       sx={{
         width: '100%',
         position: 'relative',
-        boxShadow: 4,
-        borderRadius: theme.shape.borderRadius,
+        border: 0,
+        boxShadow: 0,
       }}
     >
       <CardContent>
@@ -36,6 +35,8 @@ const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
             </Typography>
           </Box>
         </Box>
+
+        <Divider sx={{ mt: 0.5, borderColor: 'var(--color-primary)' }} />
 
         <Box
           sx={{

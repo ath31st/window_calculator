@@ -11,6 +11,7 @@ import { IconButton } from '@mui/material';
 import RoleGuard from '@/components/RoleGuard';
 import PageHeader from '@/components/headers/PageHeader';
 import BorderedContainer from '@/components/containers/BorderedContainer';
+import BorderedBackgraundedContainer from '@/components/containers/BorderedBackgraundedContainer';
 
 const Users: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -26,13 +27,15 @@ const Users: React.FC = () => {
       <CommonLayout>
         <Header />
         <BorderedContainer>
-          <PageHeader title="Список пользователей" />
+          <BorderedBackgraundedContainer>
+            <PageHeader title="Список пользователей" />
 
-          <UserList users={users} onEdit={updateUser} onDelete={deleteUser} />
+            <UserList users={users} onEdit={updateUser} onDelete={deleteUser} />
 
-          <IconButton onClick={() => setDialogOpen(true)}>
-            <AddIcon />
-          </IconButton>
+            <IconButton onClick={() => setDialogOpen(true)}>
+              <AddIcon />
+            </IconButton>
+          </BorderedBackgraundedContainer>
 
           <AddUserDialog
             isOpen={isDialogOpen}
