@@ -28,7 +28,7 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
     useTableButtonStore();
 
   return (
-    <Card sx={{ width: '100%', position: 'relative', boxShadow: 4 }}>
+    <Card sx={{ width: '100%', position: 'relative', border: 0, boxShadow: 0 }}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography
