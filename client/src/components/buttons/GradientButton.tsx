@@ -5,12 +5,13 @@ import { styled } from '@mui/material/styles';
 import { ButtonProps } from '@mui/material';
 
 const StyledButton = styled('button')(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
   fontSize: theme.typography.fontSize,
   padding: '10px 30px',
   color: theme.palette.text.primary,
   textTransform: 'uppercase',
   textDecoration: 'none',
-  border: `2px solid ${theme.palette.primary.main}`,
+  border: `1px solid ${theme.palette.primary.main}`,
   position: 'relative',
   overflow: 'hidden',
   display: 'inline-block',

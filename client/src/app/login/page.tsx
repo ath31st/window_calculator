@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/auth.store';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import BorderedContainer from '@/components/containers/BorderedContainer';
+import BorderedBackgraundedContainer from '@/components/containers/BorderedBackgraundedContainer';
 
 const LoginPage: React.FC = () => {
   const { login, isLoading } = useAuthStore();
@@ -36,16 +37,33 @@ const LoginPage: React.FC = () => {
         }}
       >
         <BorderedContainer>
-        <Box sx={{ width: '300px' }}>
-            <Typography variant="h1" align="center" gutterBottom>
-              Вход
-            </Typography>
-            {isLoading ? (
-              <CircularProgress />
-            ) : (
-              <LoginForm onSubmit={handleLogin} />
-            )}
-          </Box>
+          <BorderedBackgraundedContainer>
+            <Box
+              sx={{
+                width: {
+                  xs: '300px',
+                  sm: '400px',
+                  md: '450px',
+                  lg: '500px',
+                  xl: '600px',
+                },
+                height: '300px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Typography variant="h1" align="center" gutterBottom>
+                Вход
+              </Typography>
+              {isLoading ? (
+                <CircularProgress />
+              ) : (
+                <LoginForm onSubmit={handleLogin} />
+              )}
+            </Box>
+          </BorderedBackgraundedContainer>
         </BorderedContainer>
       </Box>
     </CommonLayout>
