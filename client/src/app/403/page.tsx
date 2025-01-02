@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import GradientButton from '@/components/buttons/GradientButton';
 
 const ForbiddenPage: React.FC = () => {
   const router = useRouter();
@@ -25,13 +26,9 @@ const ForbiddenPage: React.FC = () => {
       <Typography variant="h6">
         У вас недостаточно прав для доступа к этой странице
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => router.push('/')}
-      >
-        Вернуться на главную
-      </Button>
+      <GradientButton onClick={() => router.replace('/')}>
+        <Typography variant="body2">Вернуться на главную</Typography>
+      </GradientButton>
     </Box>
   );
 };
