@@ -15,24 +15,26 @@ services:
     volumes:
       - "database:/var/lib/postgresql/data"
       - "./server/scripts/init-schemas.sql:/docker-entrypoint-initdb.d/init-schemas.sql"
+    networks:
+      - win-calc-net
 
-#  server:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
-#    container_name: server_container
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      - POSTGRES_HOST=postgres
-#      - POSTGRES_PORT=5432
-#      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-#      - POSTGRES_DB=${POSTGRES_DB:-dev_win_calc_db}
-#    depends_on:
-#      - postgres
-#    networks:
-#      - win-calc-net
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server_container
+    ports:
+      - "8081:8081"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-dev_win_calc_db}
+    depends_on:
+      - postgres
+    networks:
+      - win-calc-net
 
 networks:
   win-calc-net:
