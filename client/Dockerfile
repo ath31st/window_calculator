@@ -1,32 +1,66 @@
-FROM node:20-alpine3.17 AS builder
+FROM node:20-alpine3.17 AS base
 
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-RUN apk add --no-cache yarn
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY .env.prod .env
 
-RUN yarn build
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry during the build.
+# ENV NEXT_TELEMETRY_DISABLED=1
 
+RUN \
+  if [ -f yarn.lock ]; then yarn run build; \
+  elif [ -f package-lock.json ]; then npm run build; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
 
-FROM node:20-alpine3.17 AS runner
-
-ENV NODE_ENV production
-
+# Production image, copy all the files and run next
+FROM base AS runner
 WORKDIR /app
 
-RUN apk add --no-cache yarn
+ENV NODE_ENV=production
+# Uncomment the following line in case you want to disable telemetry during runtime.
+# ENV NEXT_TELEMETRY_DISABLED=1
 
-COPY --from=builder /app/.next ./.next
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
+
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.ts ./next.config.ts
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.env .env
+
+# Set the correct permission for prerender cache
+RUN mkdir .next &&  chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.env .env
+
+USER nextjs
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+ENV PORT=3000
+
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
