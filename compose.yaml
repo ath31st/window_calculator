@@ -36,6 +36,18 @@ services:
     networks:
       - win-calc-net
 
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client_container
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    networks:
+      - win-calc-net
+
 networks:
   win-calc-net:
     name: win-calc-net
