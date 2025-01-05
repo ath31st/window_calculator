@@ -57,7 +57,15 @@ const Cart: React.FC = () => {
             ) : (
               <>
                 <CartItemList items={cartItems} onRemove={removeFromCart} />
-                <Box display="flex" justifyContent="space-between" width="100%">
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginX: 3,
+                    paddingY: 2,
+                  }}
+                >
                   <Typography variant="h6" sx={{}}>
                     Общая стоимость:{' '}
                     {cartItems.reduce((acc, item) => acc + item.summary, 0)} ₽
