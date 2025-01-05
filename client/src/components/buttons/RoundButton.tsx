@@ -1,5 +1,6 @@
 'use client';
 
+import theme from '@/app/_theme/theme';
 import { IconButton } from '@mui/material';
 import React from 'react';
 
@@ -17,7 +18,10 @@ const RoundButton: React.FC<RoundButtonProps> = ({
   isEditModeButton = false,
 }) => {
   const buttonStyles = {
-    bgcolor: isEditModeButton && isActive ? 'primary.main' : 'background.paper',
+    bgcolor:
+      isEditModeButton && isActive
+        ? theme.palette.secondary.main
+        : theme.palette.background.paper,
     boxShadow: 4,
     height: {
       xs: 30,
@@ -34,8 +38,10 @@ const RoundButton: React.FC<RoundButtonProps> = ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '4px solid rgba(0, 0, 0, 0.2)',
-    borderRadius: '50%',
+    border: `1px solid ${theme.palette.background.default}`,
+    borderRadius: '20%',
+    outline: `1px solid ${theme.palette.background.default}`,
+    outlineOffset: 4,
   };
 
   return (

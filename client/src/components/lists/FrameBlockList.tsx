@@ -20,8 +20,7 @@ const FrameBlockList: React.FC<FrameBlockListProps> = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 1,
-        padding: 1,
+        gap: { xs: 1, sm: 2 },
         overflowY: 'auto',
       }}
     >

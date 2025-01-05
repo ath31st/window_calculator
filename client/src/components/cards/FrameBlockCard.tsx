@@ -85,7 +85,9 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
       sx={{
         width: '100%',
         position: 'relative',
-        boxShadow: 4,
+        boxShadow: 0,
+        border: 0,
+        borderColor: theme.palette.secondary.main,
         borderRadius: theme.shape.borderRadius,
       }}
     >
