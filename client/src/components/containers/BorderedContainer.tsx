@@ -24,8 +24,8 @@ const BorderedContainer: React.FC<BorderedContainerProps> = ({ children }) => {
           lg: '15px',
           xl: '15px',
         },
-        backgroundColor: alpha(theme.palette.background.paper, 0.2),
-        boxShadow: theme.shadows[9],
+        backgroundColor: alpha(theme.palette.background.default, 0.1),
+        boxShadow: theme.shadows[3],
       }}
     >
       {children}
