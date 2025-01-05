@@ -7,7 +7,13 @@ interface PageHeaderProps {
 const PageHeader: React.FC<PageHeaderProps> = ({ title }) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Typography variant="h2" sx={{ fontWeight: 500 }}>
+      <Typography
+        variant="h2"
+        sx={{
+          paddingY: 2,
+          fontWeight: 500,
+        }}
+      >
         {title}
       </Typography>
     </Box>
