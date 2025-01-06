@@ -7,20 +7,20 @@ import { ButtonProps } from '@mui/material';
 const StyledButton = styled('button')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   fontSize: theme.typography.fontSize,
-  padding: '10px 30px',
   color: theme.palette.text.primary,
   textTransform: 'uppercase',
   textDecoration: 'none',
-  border: `1px solid ${theme.palette.primary.main}`,
+  border: `1px solid ${theme.palette.secondary.main}`,
   position: 'relative',
   overflow: 'hidden',
   display: 'block',
   width: '100%',
+  height: '40px',
   background: 'transparent',
   cursor: 'pointer',
   transition: `box-shadow ${theme.transitions.duration.standard}ms`,
   '&:hover': {
-    boxShadow: `1px 1px 25px 10px ${theme.palette.primary.main}80`,
+    boxShadow: `1px 1px 15px 5px ${theme.palette.secondary.main}50`,
   },
   '&:before': {
     content: '""',
