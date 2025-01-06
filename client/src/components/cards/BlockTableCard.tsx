@@ -38,7 +38,26 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
         borderRadius: theme.shape.borderRadius,
       }}
     >
-      <CardContent>
+      <CardContent
+        sx={{
+          padding: {
+            xs: 0,
+            sm: 1,
+            md: 1,
+            lg: 2,
+            xl: 2,
+          },
+          '&:last-child': {
+            paddingBottom: {
+              xs: 1,
+              sm: 1,
+              md: 2,
+              lg: 2,
+              xl: 2,
+            },
+          },
+        }}
+      >
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <Typography
             variant="body1"
