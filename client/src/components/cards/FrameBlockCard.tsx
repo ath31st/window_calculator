@@ -151,6 +151,10 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
+              width: '100%',
+              background: `linear-gradient(270deg,${theme.palette.secondary.main}, transparent 90%)`,
+              padding: '4px 12px',
+              borderRadius: theme.shape.borderRadius,
             }}
           >
             <Typography variant="body1">{`Стоимость: ${summary} ₽`}</Typography>
