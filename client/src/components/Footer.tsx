@@ -7,6 +7,7 @@ import { useFrameStore } from '@/stores/frame.store';
 import FrameButton from './buttons/FrameButton';
 import AddFrameDialog from './dialogs/frame/AddFrameDialog';
 import { useEditModeStore } from '@/stores/edit.mode.store';
+import theme from '@/app/_theme/theme';
 
 const Footer: React.FC = () => {
   const {
@@ -38,9 +39,9 @@ const Footer: React.FC = () => {
         justifyContent: 'center',
         alignItems: 'center',
         padding: 1,
-        bgcolor: 'background.paper',
+        bgcolor: `${theme.palette.background.paper}`,
         borderTop: '2px solid',
-        borderColor: 'divider',
+        borderColor: theme.palette.background.default,
         position: 'fixed',
         bottom: 0,
         left: 0,
