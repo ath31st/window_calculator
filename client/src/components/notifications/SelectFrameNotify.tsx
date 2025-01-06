@@ -2,6 +2,7 @@
 
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+import CenteredBox from '../containers/CenteredBox';
 
 const SelectFrameNotify: React.FC = () => {
   return (
@@ -15,25 +16,27 @@ const SelectFrameNotify: React.FC = () => {
         textAlign: 'center',
       }}
     >
-      <Typography variant="h5" sx={{ mb: 4 }}>
-        Выберите фрейм
-      </Typography>
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100px',
-          height: '100px',
-        }}
-      >
-        <Image
-          src="/images/arrow_double_down.png"
-          alt="Select a frame"
-          fill
-          style={{ objectFit: 'contain' }}
-          priority
-          sizes="(max-width: 600px) 100vw, 50vw"
-        />
-      </Box>
+      <CenteredBox>
+        <Typography variant="h2" sx={{ mb: 4 }}>
+          Выберите фрейм
+        </Typography>
+        <Box
+          sx={{
+            position: 'relative',
+            width: '100px',
+            height: '100px',
+          }}
+        >
+          <Image
+            src="/images/arrow_double_down.png"
+            alt="Select a frame"
+            fill
+            style={{ objectFit: 'contain' }}
+            priority
+            sizes="(max-width: 600px) 100vw, 50vw"
+          />
+        </Box>
+      </CenteredBox>
     </Box>
   );
 };
