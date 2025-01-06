@@ -22,7 +22,6 @@ const RoundButton: React.FC<RoundButtonProps> = ({
       isEditModeButton && isActive
         ? theme.palette.secondary.main
         : theme.palette.background.paper,
-    boxShadow: 4,
     height: {
       xs: 30,
       sm: 35,
@@ -42,6 +41,7 @@ const RoundButton: React.FC<RoundButtonProps> = ({
     borderRadius: '20%',
     outline: `1px solid ${theme.palette.background.default}`,
     outlineOffset: 4,
+    boxShadow: `0 0 0 4px ${theme.palette.background.default}20`,
   };
 
   return (
