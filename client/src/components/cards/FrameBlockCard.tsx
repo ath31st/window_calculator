@@ -1,10 +1,4 @@
-import {
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  IconButton,
-} from '@mui/material';
+import { Box, Typography, Card, CardContent, IconButton } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
@@ -19,6 +13,7 @@ import { useBlockTables } from '@/hooks/use.block.tables';
 import { useCartStore } from '@/stores/cart.store';
 import theme from '@/app/_theme/theme';
 import DimensionField from '../text.fields/DimensionField';
+import FrameBlockName from '../texts/FrameBlockName';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -93,7 +88,7 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
     >
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <Typography variant="h6">{block.name}</Typography>
+          <FrameBlockName name={block.name} />
 
           <BlockTableList
             blockTablesFull={blockTablesFull.filter(
