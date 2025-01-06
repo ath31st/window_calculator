@@ -4,10 +4,11 @@ import CommonLayout from '@/components/layouts/CommonLayout';
 import LoginForm from '@/components/LoginForm';
 import React from 'react';
 import { useAuthStore } from '@/stores/auth.store';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import BorderedContainer from '@/components/containers/BorderedContainer';
 import BorderedBackgraundedContainer from '@/components/containers/BorderedBackgraundedContainer';
+import LoginIcon from '@mui/icons-material/Login';
 
 const LoginPage: React.FC = () => {
   const { login, isLoading } = useAuthStore();
@@ -47,16 +48,21 @@ const LoginPage: React.FC = () => {
                   lg: '500px',
                   xl: '600px',
                 },
-                height: '300px',
+                height: '350px',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
+                padding: 2,
               }}
             >
-              <Typography variant="h1" align="center" gutterBottom>
-                Вход
-              </Typography>
+              <LoginIcon
+                sx={{
+                  fontSize: '64px',
+                  color: 'primary.main',
+                  marginBottom: 2,
+                }}
+              />
               {isLoading ? (
                 <CircularProgress />
               ) : (
