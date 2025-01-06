@@ -7,7 +7,7 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
-import BorderedContainer from '../containers/BorderedContainer';
+import theme from '@/app/_theme/theme';
 
 interface BaseDialogProps {
   isOpen: boolean;
@@ -27,24 +27,34 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
   contentStyles,
 }) => {
   return (
-    <Dialog open={isOpen} onClose={onClose} disableRestoreFocus>
-      <BorderedContainer>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent
-          sx={{
-            padding: 3,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 2,
-            overflow: 'visible',
-            minWidth: 250,
-            ...contentStyles,
-          }}
-        >
-          {children}
-        </DialogContent>
-        {actions && <DialogActions>{actions}</DialogActions>}
-      </BorderedContainer>
+    <Dialog
+      PaperProps={{
+        sx: {
+          borderRadius: theme.shape.borderRadius,
+          outline: `1px solid ${theme.palette.background.default}`,
+          outlineOffset: 8,
+          boxShadow: `0 0 0 8px ${theme.palette.background.default}30`,
+        },
+      }}
+      open={isOpen}
+      onClose={onClose}
+      disableRestoreFocus
+    >
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent
+        sx={{
+          paddingX: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+          overflow: 'visible',
+          minWidth: 250,
+          ...contentStyles,
+        }}
+      >
+        {children}
+      </DialogContent>
+      {actions && <DialogActions>{actions}</DialogActions>}
     </Dialog>
   );
 };
