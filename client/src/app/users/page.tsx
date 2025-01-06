@@ -9,7 +9,7 @@ import AddUserDialog from '@/components/dialogs/user/AddUserDialog';
 import UserList from '@/components/lists/UserList';
 import { IconButton } from '@mui/material';
 import RoleGuard from '@/components/RoleGuard';
-import PageHeader from '@/components/headers/PageHeader';
+import PageHeader from '@/components/texts/PageHeader';
 import BorderedContainer from '@/components/containers/BorderedContainer';
 import BorderedBackgraundedContainer from '@/components/containers/BorderedBackgraundedContainer';
 

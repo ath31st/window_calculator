@@ -9,7 +9,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useState } from 'react';
 import ClearCartItemsDialog from '@/components/dialogs/cart/ClearCartItemsDialog';
 import RoleGuard from '@/components/RoleGuard';
-import PageHeader from '@/components/headers/PageHeader';
+import PageHeader from '@/components/texts/PageHeader';
 import { generateCartPdf } from '@/utils/generate.cart.pdf';
 import BorderedContainer from '@/components/containers/BorderedContainer';
 import theme from '../_theme/theme';
