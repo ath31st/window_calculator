@@ -86,7 +86,13 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
         borderRadius: theme.shape.borderRadius,
       }}
     >
-      <CardContent>
+      <CardContent
+        sx={{
+          '&:last-child': {
+            paddingBottom: 2,
+          },
+        }}
+      >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <FrameBlockName name={block.name} />
 
