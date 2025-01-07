@@ -5,7 +5,7 @@ import { Box, Card, CardContent, Typography, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CartItem } from '@/types/models';
 import DeleteCartItemDialog from '../dialogs/cart/DeleteCartItemDialog';
-import CommonDivider from '../dividers/CommonDivider';
+import OrSpacer from '../dividers/OrSpacer';
 
 interface CartItemCardProps {
   item: CartItem;
@@ -46,7 +46,8 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
           blockTableId={item.blockId}
         />
       </CardContent>
-      <CommonDivider />
+      
+      <OrSpacer />
     </Card>
   );
 };
