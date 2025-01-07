@@ -40,7 +40,14 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
       onClose={onClose}
       disableRestoreFocus
     >
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle
+        variant="h5"
+        sx={{
+          textAlign: 'center',
+        }}
+      >
+        {title}
+      </DialogTitle>
       <DialogContent
         sx={{
           paddingX: 2,
