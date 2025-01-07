@@ -58,13 +58,13 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({
       >
         {user ? (
           <>
-            <Typography>
+            <Typography variant="body2">
               <strong>Имя:</strong> {user.name || 'Не указано'}
             </Typography>
-            <Typography>
+            <Typography variant="body2">
               <strong>Email:</strong> {user.email || 'Не указано'}
             </Typography>
-            <Typography>
+            <Typography variant="body2">
               <strong>Роль:</strong> {user.role}
             </Typography>
           </>
