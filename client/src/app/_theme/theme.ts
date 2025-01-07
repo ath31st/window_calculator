@@ -34,6 +34,7 @@ const theme = createTheme({
     borderRadius: 3,
   },
   typography: {
+    fontFamily: '"customFont", "Roboto", "Helvetica", "Arial", sans-serif',
     fontSize: 14,
     h1: {
       fontSize: '20px',

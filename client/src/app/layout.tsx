@@ -2,18 +2,15 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './_theme/theme';
 import './_styles/variables.css';
-import { Roboto } from 'next/font/google';
 import { CssBaseline } from '@mui/material';
 import AxiosInterceptorProvider from '@/providers/AxiosInterceptorProvider';
 import AuthProvider from '@/providers/AuthProvider';
 import ErrorSnackbar from '@/components/errors/ErrorSnackbar';
 import InfiniteBackground from '@/components/backgrounds/InfiniteBackground';
+import localFont from 'next/font/local';
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto',
+const customFont = localFont({
+  src: '../../public/fonts/AVFontimer-Regular.ttf', 
 });
 
 export const metadata = {
@@ -33,7 +30,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
 
-      <body className={roboto.variable}>
+      <body className={customFont.className}>
         <InfiniteBackground imageUrl="/images/win.jpg" />
         <AppRouterCacheProvider options={{ key: 'css' }}>
           <ThemeProvider theme={theme}>
