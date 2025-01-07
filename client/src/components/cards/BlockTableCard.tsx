@@ -47,6 +47,13 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
             lg: 2,
             xl: 2,
           },
+          paddingX: {
+            xs: 1,
+            sm: 1,
+            md: 1,
+            lg: 2,
+            xl: 2,
+          },
           '&:last-child': {
             paddingBottom: {
               xs: 1,
@@ -97,10 +104,8 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
             <Box
               sx={{
                 position: 'absolute',
-                top: 8,
-                right: 8,
-                display: 'flex',
-                gap: 1,
+                top: { xs: 2, sm: 4, md: 8, lg: 8, xl: 8 },
+                right: { xs: 4, sm: 4, md: 8, lg: 8, xl: 8 },
               }}
             >
               <BlockTableEditDeleteButtons
