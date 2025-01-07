@@ -31,7 +31,7 @@ const UnauthorizedPage: React.FC = () => {
         >
           <ErrorOutlineIcon
             sx={{
-              fontSize: '64px',
+              fontSize: '64px !important',
               color: 'primary.main',
             }}
           />
