@@ -90,7 +90,7 @@ const theme = createTheme({
       [`@media (min-width:768px)`]: { fontSize: '13px' },
       [`@media (min-width:992px)`]: { fontSize: '14px' },
       [`@media (min-width:1200px)`]: { fontSize: '16px' },
-    },    
+    },
     body1: {
       fontSize: '12px',
       [`@media (min-width:576px)`]: {
@@ -134,6 +134,49 @@ const theme = createTheme({
       md: 768,
       lg: 992,
       xl: 1200,
+    },
+  },
+  components: {
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          [`@media (max-width:576px)`]: {
+            width: '12px',
+            height: '12px',
+          },
+          [`@media (min-width:576px) and (max-width:768px)`]: {
+            width: '16px',
+            height: '16px',
+          },
+          [`@media (min-width:768px) and (max-width:992px)`]: {
+            width: '24px',
+            height: '24px',
+          },
+          [`@media (min-width:992px)`]: {
+            width: '40px',
+            height: '40px',
+          },
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          fontSize: '20px',
+          [`@media (max-width:576px)`]: {
+            fontSize: '16px',
+          },
+          [`@media (min-width:576px) and (max-width:768px)`]: {
+            fontSize: '18px',
+          },
+          [`@media (min-width:768px) and (max-width:992px)`]: {
+            fontSize: '22px',
+          },
+          [`@media (min-width:992px)`]: {
+            fontSize: '24px',
+          },
+        },
+      },
     },
   },
 });

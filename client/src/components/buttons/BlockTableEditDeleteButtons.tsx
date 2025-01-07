@@ -24,12 +24,12 @@ export const BlockTableEditDeleteButtons: React.FC<
 
   return (
     <Box>
-      <Box sx={{ display: 'flex', gap: 0.5 }}>
-        <IconButton size="small" onClick={openEditDialog}>
-          <EditIcon fontSize="small" />
+      <Box sx={{ display: 'flex' }}>
+        <IconButton onClick={openEditDialog}>
+          <EditIcon />
         </IconButton>
-        <IconButton size="small" onClick={openDeleteDialog}>
-          <DeleteIcon fontSize="small" />
+        <IconButton onClick={openDeleteDialog}>
+          <DeleteIcon />
         </IconButton>
       </Box>
 
