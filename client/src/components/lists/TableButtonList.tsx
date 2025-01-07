@@ -61,6 +61,8 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                position: 'relative',
+                paddingRight: '30px',
               }}
             >
               <FormControlLabel
@@ -75,7 +77,16 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
                 }
               />
               {isEditMode && (
-                <Box>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    right: 0,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
                   <TableButtonEditDeleteButtons
                     currentTableButton={button}
                     onEdit={updateTableButton}
@@ -94,6 +105,8 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
+              position: 'relative',
+              paddingRight: '30px',
             }}
           >
             <FormControlLabel
@@ -114,7 +127,16 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
               }
             />
             {isEditMode && (
-              <Box>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
                 <TableButtonEditDeleteButtons
                   currentTableButton={button}
                   onEdit={updateTableButton}
