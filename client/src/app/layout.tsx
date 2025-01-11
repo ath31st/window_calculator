@@ -2,6 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './_theme/theme';
 import './_styles/variables.css';
+import './_styles/globals.css';
 import { CssBaseline } from '@mui/material';
 import AxiosInterceptorProvider from '@/providers/AxiosInterceptorProvider';
 import AuthProvider from '@/providers/AuthProvider';
