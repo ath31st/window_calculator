@@ -32,6 +32,8 @@ public class AdminInitializer implements CommandLineRunner {
           .isActive(true)
           .name("Administrator")
           .createdAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
+          .accountNonExpired(true)
+          .accountExpirationDate(null)
           .build();
 
       userRepository.save(user);
