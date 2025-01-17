@@ -38,6 +38,11 @@ services:
       - POSTGRES_DB=${POSTGRES_DB:-dev_win_calc_db}
     depends_on:
       - postgres
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - win-calc-net
 

@@ -25,6 +25,7 @@ public class SecurityConfig {
   private static final String TABLE_BUTTON_PATH = "/api/v1/table_buttons/**";
   private static final String AUTH_PATH = "/api/v1/auth/**";
   private static final String USER_PATH = "/api/v1/users/**";
+  private static final String HEALTH_PATH = "/health";
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,7 +34,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(authorize ->
             authorize
                 // auth
-                .requestMatchers(AUTH_PATH).permitAll()
+                .requestMatchers(AUTH_PATH, HEALTH_PATH).permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/v1/auth/logout").authenticated()
 
                 // frames
