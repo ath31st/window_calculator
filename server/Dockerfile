@@ -1,10 +1,12 @@
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM eclipse-temurin:21-jdk-alpine AS base
+
+FROM base AS builder
 RUN apk add --no-cache maven
 WORKDIR /app
 COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:21-jre-alpine
+FROM base AS runner
 RUN apk --no-cache add dumb-init \
     && mkdir /app \
     && addgroup --system javauser \
