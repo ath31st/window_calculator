@@ -1,11 +1,17 @@
+FROM eclipse-temurin:21-jdk-alpine AS builder
+RUN apk add --no-cache maven
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
 FROM eclipse-temurin:21-jre-alpine
-RUN apk --no-cache add dumb-init  \
-    && mkdir /app  \
-    && addgroup --system javauser  \
+RUN apk --no-cache add dumb-init \
+    && mkdir /app \
+    && addgroup --system javauser \
     && adduser -S -s /bin/false -G javauser javauser
 
+COPY --from=builder /app/target/*.jar /app/window_calculator_server.jar
 COPY .env /app
-COPY target/*.jar /app/window_calculator_server.jar
 WORKDIR /app
 RUN chown -R javauser:javauser /app
 USER javauser
