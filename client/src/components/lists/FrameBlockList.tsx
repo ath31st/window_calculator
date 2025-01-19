@@ -24,15 +24,17 @@ const FrameBlockList: React.FC<FrameBlockListProps> = ({
         overflowY: 'auto',
       }}
     >
-      {frameBlocksFull.map((block) => (
-        <FrameBlockCard
-          key={block.id}
-          block={block}
-          onEdit={updateFrameBlock}
-          onDelete={deleteFrameBlock}
-          isEditMode={isEditMode}
-        />
-      ))}
+      {frameBlocksFull
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((block) => (
+          <FrameBlockCard
+            key={block.id}
+            block={block}
+            onEdit={updateFrameBlock}
+            onDelete={deleteFrameBlock}
+            isEditMode={isEditMode}
+          />
+        ))}
     </Box>
   );
 };

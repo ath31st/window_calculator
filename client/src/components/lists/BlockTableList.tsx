@@ -28,16 +28,18 @@ const BlockTableList: React.FC<BlockTableListProps> = ({
         overflowY: 'auto',
       }}
     >
-      {blockTablesFull.map((table) => (
-        <BlockTableCard
-          key={table.id}
-          table={table}
-          onEdit={updateBlockTable}
-          onDelete={deleteBlockTable}
-          onChange={onChange}
-          isEditMode={isEditMode}
-        />
-      ))}
+      {blockTablesFull
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map((table) => (
+          <BlockTableCard
+            key={table.id}
+            table={table}
+            onEdit={updateBlockTable}
+            onDelete={deleteBlockTable}
+            onChange={onChange}
+            isEditMode={isEditMode}
+          />
+        ))}
     </Box>
   );
 };

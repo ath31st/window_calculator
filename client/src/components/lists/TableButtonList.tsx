@@ -54,7 +54,55 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
           value={selectedButton}
           onChange={(e) => handleRadioChange(Number(e.target.value))}
         >
-          {tableButtons.map((button) => (
+          {tableButtons
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((button) => (
+              <Box
+                key={button.id}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  position: 'relative',
+                  paddingRight: '30px',
+                }}
+              >
+                <FormControlLabel
+                  value={button.id}
+                  control={<Radio />}
+                  label={
+                    <Typography variant="body2">
+                      {isEditMode
+                        ? `${button.name} (${button.value})`
+                        : button.name}
+                    </Typography>
+                  }
+                />
+                {isEditMode && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      right: 0,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <TableButtonEditDeleteButtons
+                      currentTableButton={button}
+                      onEdit={updateTableButton}
+                      onDelete={deleteTableButton}
+                    />
+                  </Box>
+                )}
+              </Box>
+            ))}
+        </RadioGroup>
+      ) : (
+        tableButtons
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .map((button) => (
             <Box
               key={button.id}
               sx={{
@@ -66,8 +114,14 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
               }}
             >
               <FormControlLabel
-                value={button.id}
-                control={<Radio />}
+                control={
+                  <Checkbox
+                    id={`checkbox-${button.id}`}
+                    name={`checkbox-${button.id}`}
+                    checked={selectedCheckboxes.includes(button.id)}
+                    onChange={() => handleCheckboxChange(button.id)}
+                  />
+                }
                 label={
                   <Typography variant="body2">
                     {isEditMode
@@ -95,57 +149,7 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
                 </Box>
               )}
             </Box>
-          ))}
-        </RadioGroup>
-      ) : (
-        tableButtons.map((button) => (
-          <Box
-            key={button.id}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              position: 'relative',
-              paddingRight: '30px',
-            }}
-          >
-            <FormControlLabel
-              control={
-                <Checkbox
-                  id={`checkbox-${button.id}`}
-                  name={`checkbox-${button.id}`}
-                  checked={selectedCheckboxes.includes(button.id)}
-                  onChange={() => handleCheckboxChange(button.id)}
-                />
-              }
-              label={
-                <Typography variant="body2">
-                  {isEditMode
-                    ? `${button.name} (${button.value})`
-                    : button.name}
-                </Typography>
-              }
-            />
-            {isEditMode && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: 0,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <TableButtonEditDeleteButtons
-                  currentTableButton={button}
-                  onEdit={updateTableButton}
-                  onDelete={deleteTableButton}
-                />
-              </Box>
-            )}
-          </Box>
-        ))
+          ))
       )}
     </Box>
   );
