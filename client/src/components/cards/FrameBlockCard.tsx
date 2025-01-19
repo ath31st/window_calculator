@@ -1,6 +1,5 @@
 import { Box, Typography, Card, CardContent, IconButton } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { FrameBlockEditDeleteButtons } from '../buttons/FrameBlockEditDeleteButtons';
 import { useState, useEffect } from 'react';
@@ -14,6 +13,7 @@ import { useCartStore } from '@/stores/cart.store';
 import theme from '@/app/_theme/theme';
 import DimensionField from '../text.fields/DimensionField';
 import FrameBlockName from '../texts/FrameBlockName';
+import generateUniqueNumber from '@/utils/generate.unique.number';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -61,14 +61,11 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
   );
   const [summary, setSummary] = useState<number>(0);
 
-  const { addToCart, removeFromCart, isInCart } = useCartStore();
+  const { addToCart, countInCart } = useCartStore();
 
   const handleCartAction = () => {
-    if (isInCart(block.id)) {
-      removeFromCart(block.id);
-    } else {
-      addToCart({ blockId: block.id, name: block.name, summary });
-    }
+    const cartItemId = generateUniqueNumber();
+    addToCart({ id: cartItemId, blockId: block.id, name: block.name, summary });
   };
 
   useEffect(() => {
@@ -164,13 +161,20 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             }}
           >
             <Typography variant="body1">{`Стоимость: ${summary} ₽`}</Typography>
-            <IconButton
-              color="primary"
-              onClick={handleCartAction}
-              disabled={summary === 0}
-            >
-              {isInCart(block.id) ? <DeleteIcon /> : <ShoppingCartIcon />}
-            </IconButton>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              {countInCart(block.id) > 0 && (
+                <Typography variant="body1">
+                  {`В корзине: ${countInCart(block.id)}`}
+                </Typography>
+              )}
+              <IconButton
+                color="primary"
+                onClick={handleCartAction}
+                disabled={summary === 0}
+              >
+                <ShoppingCartIcon />
+              </IconButton>
+            </Box>
           </Box>
 
           {isEditMode && (
