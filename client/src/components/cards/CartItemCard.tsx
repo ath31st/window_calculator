@@ -9,7 +9,7 @@ import OrSpacer from '../dividers/OrSpacer';
 
 interface CartItemCardProps {
   item: CartItem;
-  onRemove: (blockId: number) => void;
+  onRemove: (cartItemId: number) => void;
 }
 
 const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
@@ -43,7 +43,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ item, onRemove }) => {
           isOpen={isDialogOpen}
           onClose={() => setDialogOpen(false)}
           onDelete={onRemove}
-          blockTableId={item.blockId}
+          blockTableId={item.id}
         />
       </CardContent>
       
