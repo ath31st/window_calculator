@@ -6,7 +6,7 @@ interface CartStore {
   addToCart: (item: CartItem) => void;
   removeFromCart: (blockId: number) => void;
   clearCart: () => void;
-  isInCart: (blockId: number) => boolean;
+  countInCart: (blockId: number) => number;
   setCartItems: (items: CartItem[]) => void;
 }
 
@@ -20,10 +20,10 @@ export const useCartStore = create<CartStore>((set) => ({
       return { cartItems: updatedCartItems };
     }),
 
-  removeFromCart: (blockId) =>
+  removeFromCart: (cartItemId) =>
     set((state) => {
       const updatedCartItems = state.cartItems.filter(
-        (item) => item.blockId !== blockId,
+        (item) => item.id !== cartItemId,
       );
       localStorage.setItem('cart', JSON.stringify(updatedCartItems));
       return { cartItems: updatedCartItems };
@@ -35,9 +35,9 @@ export const useCartStore = create<CartStore>((set) => ({
       return { cartItems: [] };
     }),
 
-  isInCart: (blockId): boolean => {
+  countInCart: (blockId): number => {
     const state = useCartStore.getState();
-    return state.cartItems.some((item) => item.blockId === blockId);
+    return state.cartItems.filter((item) => item.blockId === blockId).length;
   },
 
   setCartItems: (items) => set({ cartItems: items }),
