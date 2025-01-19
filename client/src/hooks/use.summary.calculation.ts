@@ -31,7 +31,8 @@ export const useSummaryCalculation = (
     const rawResult =
       modifierProduct * valueSum * multiplier * areaInSquareMeters;
 
-    return rawResult > 0 ? Math.max(100, Math.floor(rawResult / 100) * 100) : 0;
+    // return rawResult > 0 ? Math.max(100, Math.floor(rawResult / 100) * 100) : 0;
+    return rawResult > 0 ? Math.round(rawResult) : 0;
   }, [selectedModifiers, selectedValues, heightInMM, widthInMM, multiplier]);
 
   return calculateSummary;
