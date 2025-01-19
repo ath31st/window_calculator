@@ -12,9 +12,25 @@ export const logout = async (): Promise<void> => {
   await axios.delete(`${API_URL}/logout`);
 };
 
+const axiosWithoutInterceptors = axios.create();
+
 export const refreshAccessToken = async (
   refreshToken: string,
+  signal?: AbortSignal,
 ): Promise<JwtResponse> => {
-  const response = await axios.post(`${API_URL}/refresh`, { refreshToken });
-  return response.data;
+  try {
+    const response = await axiosWithoutInterceptors.post(
+      `${API_URL}/refresh`,
+      { refreshToken },
+      { signal },
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401 || error.response?.status === 400) {
+        throw new Error('Refresh token is invalid or expired');
+      }
+    }
+    throw error;
+  }
 };
