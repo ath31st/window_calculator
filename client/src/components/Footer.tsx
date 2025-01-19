@@ -60,25 +60,26 @@ const Footer: React.FC = () => {
           },
         }}
       >
-        {frames.map((frame) => (
-          <FrameButton
-            key={frame.id}
-            id={frame.id}
-            name={frame.name}
-            isActive={activeFrameId === frame.id}
-            onSelect={() => handleFrameSelect(frame.id)}
-            onEdit={(newName) => updateFrame(frame.id, newName)}
-            onDelete={() => deleteFrame(frame.id)}
-            isEditMode={isEditMode}
-          />
-        ))}
+          {frames
+          .sort((a, b) => a.id - b.id)
+          .map((frame) => (
+            <FrameButton
+              key={frame.id}
+              id={frame.id}
+              name={frame.name}
+              isActive={activeFrameId === frame.id}
+              onSelect={() => handleFrameSelect(frame.id)}
+              onEdit={(newName) => updateFrame(frame.id, newName)}
+              onDelete={() => deleteFrame(frame.id)}
+              isEditMode={isEditMode}
+            />
+          ))}
 
         {isEditMode && (
           <IconButton onClick={() => setDialogOpen(true)}>
             <AddIcon />
           </IconButton>
         )}
-        
       </Box>
       <AddFrameDialog
         isOpen={isDialogOpen}
