@@ -10,6 +10,11 @@ export const useSummaryCalculation = (
   formula?: string,
 ) => {
   const calculateSummary = useCallback(() => {
+    const areaInSquareMeters =
+      heightInMM > 0 && widthInMM > 0
+        ? Math.round(((heightInMM * widthInMM) / 1_000_000) * 10) / 10
+        : 1;
+
     if (formula) {
       const tableValues: Record<number, number> = {};
 
@@ -23,7 +28,12 @@ export const useSummaryCalculation = (
           : values;
       });
 
-      const rawResult = parseAndEvaluateFormula(formula, tableValues);
+      const rawResult = parseAndEvaluateFormula(
+        formula,
+        tableValues,
+        multiplier,
+        areaInSquareMeters,
+      );
       return rawResult > 0 ? Math.round(rawResult) : 0;
     }
 
@@ -41,11 +51,6 @@ export const useSummaryCalculation = (
         valueSum += values;
       }
     });
-
-    const areaInSquareMeters =
-      heightInMM > 0 && widthInMM > 0
-        ? Math.round(((heightInMM * widthInMM) / 1_000_000) * 10) / 10
-        : 1;
 
     const rawResult =
       modifierProduct * valueSum * multiplier * areaInSquareMeters;
