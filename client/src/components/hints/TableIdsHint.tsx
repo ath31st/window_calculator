@@ -7,7 +7,7 @@ interface TableIdsHintProps {
 
 const TableIdsHint: React.FC<TableIdsHintProps> = ({ blockTables }) => {
   return (
-    <Box sx={{ marginTop: 1 }}>
+    <Box sx={{ marginBottom: 1 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <Typography variant="body2" color="textSecondary">
           Доступные id таблиц:
