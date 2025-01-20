@@ -4,6 +4,7 @@ import { BlockTableFull, FrameBlockFull } from '@/types/api';
 import validateFormula from '@/utils/validate.formula';
 import validateTableIdsInFormula from '@/utils/validate.table.ids.in.formula';
 import TableIdsHint from '@/components/hints/TableIdsHint';
+import theme from '@/app/_theme/theme';
 
 interface FrameBlockFormulaProps {
   isEditMode: boolean;
@@ -50,6 +51,13 @@ const FrameBlockFormula: React.FC<FrameBlockFormulaProps> = ({
           placeholder="Пример: ((1+2)*4)*m+5"
           error={!!validationError}
           helperText={validationError}
+          slotProps={{
+            input: {
+              sx: {
+                borderRadius: theme.shape.borderRadius,
+              },
+            },
+          }}
         />
         <IconButton
           onClick={() => {
