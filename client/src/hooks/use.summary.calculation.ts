@@ -1,3 +1,4 @@
+import parseAndEvaluateFormula from '@/utils/parse.and.evaluate.formula';
 import { useCallback } from 'react';
 
 export const useSummaryCalculation = (
@@ -6,8 +7,26 @@ export const useSummaryCalculation = (
   multiplier: number,
   heightInMM: number,
   widthInMM: number,
+  formula?: string,
 ) => {
   const calculateSummary = useCallback(() => {
+    if (formula) {
+      const tableValues: Record<number, number> = {};
+
+      Object.entries(selectedModifiers).forEach(([tableId, value]) => {
+        tableValues[parseInt(tableId, 10)] = value;
+      });
+
+      Object.entries(selectedValues).forEach(([tableId, values]) => {
+        tableValues[parseInt(tableId, 10)] = Array.isArray(values)
+          ? values.reduce((sum, value) => sum + value, 0)
+          : values;
+      });
+
+      const rawResult = parseAndEvaluateFormula(formula, tableValues);
+      return rawResult > 0 ? Math.round(rawResult) : 0;
+    }
+
     let modifierProduct = 1;
     let valueSum = 0;
 
@@ -33,7 +52,14 @@ export const useSummaryCalculation = (
 
     // return rawResult > 0 ? Math.max(100, Math.floor(rawResult / 100) * 100) : 0;
     return rawResult > 0 ? Math.round(rawResult) : 0;
-  }, [selectedModifiers, selectedValues, heightInMM, widthInMM, multiplier]);
+  }, [
+    formula,
+    selectedModifiers,
+    selectedValues,
+    heightInMM,
+    widthInMM,
+    multiplier,
+  ]);
 
   return calculateSummary;
 };
