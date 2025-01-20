@@ -1,11 +1,9 @@
 import useBlockTableStore from '@/stores/block.table.store';
 
 export const useBlockTables = (
-  selectedModifiers: Record<number, number>,
   setSelectedModifiers: React.Dispatch<
     React.SetStateAction<Record<number, number>>
   >,
-  selectedValues: Record<number, number[]>,
   setSelectedValues: React.Dispatch<
     React.SetStateAction<Record<number, number[]>>
   >,
