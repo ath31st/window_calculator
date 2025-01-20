@@ -5,12 +5,12 @@ const validateFormula = (
     return { isValid: true };
   }
 
-  const validCharacters = /^[\d\s+\-*/()]+$/;
+  const validCharacters = /^[\d\s+\-*/()mMsS]+$/;
   if (!validCharacters.test(formula)) {
     return {
       isValid: false,
       error:
-        'Формула содержит недопустимые символы. Разрешены только цифры, операторы (+, -, *, /) и скобки.',
+        'Формула содержит недопустимые символы. Разрешены только цифры, операторы (+, -, *, /), скобки, m, M, s, S.',
     };
   }
 
@@ -36,7 +36,7 @@ const validateFormula = (
   }
 
   const firstChar = formula.trim()[0];
-  if (['-', '+', '*', '/'].includes(firstChar)) {
+  if (['+', '-', '*', '/'].includes(firstChar)) {
     return {
       isValid: false,
       error: 'Формула не может начинаться с оператора.',
