@@ -178,9 +178,16 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
                   value={formula}
                   onChange={(e) => setFormula(e.target.value)}
                   fullWidth
-                  placeholder="Пример: (1+2)*4+5"
+                  placeholder="Пример: ((1+2)*4)*m+5"
                   error={!!validationError}
                   helperText={validationError}
+                  slotProps={{
+                    input: {
+                      sx: {
+                        borderRadius: theme.shape.borderRadius,
+                      },
+                    },
+                  }}
                 />
                 <IconButton
                   onClick={() => {
