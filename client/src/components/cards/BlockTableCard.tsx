@@ -8,6 +8,7 @@ import TableButtonList from '../lists/TableButtonList';
 import { useTableButtonStore } from '@/stores/table.button.store';
 import { ButtonType } from '@/constants/button.type';
 import theme from '@/app/_theme/theme';
+import TableIdIcon from '../icons/TableIdIcon';
 
 interface BlockTableCardProps {
   table: BlockTableFull;
@@ -66,12 +67,17 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography
-            variant="body1"
-            sx={{ mb: 1, borderBottom: '1px solid var(--color-primary)' }}
-          >
-            {table.name}
-          </Typography>
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <Typography
+              variant="body1"
+              sx={{ mb: 1, borderBottom: '1px solid var(--color-primary)' }}
+            >
+              {table.name}
+            </Typography>
+            {isEditMode && (
+              <TableIdIcon id={table.id} type={table.buttonType} />
+            )}
+          </Box>
 
           <TableButtonList
             tableId={table.id}
