@@ -1,4 +1,12 @@
-import { Box, Typography, Card, CardContent, IconButton } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  IconButton,
+  TextField,
+} from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { FrameBlockEditDeleteButtons } from '../buttons/FrameBlockEditDeleteButtons';
@@ -14,6 +22,9 @@ import theme from '@/app/_theme/theme';
 import DimensionField from '../text.fields/DimensionField';
 import FrameBlockName from '../texts/FrameBlockName';
 import generateUniqueNumber from '@/utils/generate.unique.number';
+import TableIdsHint from '../hints/TableIdsHint';
+import validateFormula from '@/utils/validate.formula';
+import validateTableIdsInFormula from '@/utils/validate.table.ids.in.formula';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -45,12 +56,11 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
     updateBlockTable,
     deleteBlockTable,
     handleTableButtonChange,
-  } = useBlockTables(
-    selectedModifiers,
-    setSelectedModifiers,
-    selectedValues,
-    setSelectedValues,
-  );
+  } = useBlockTables(setSelectedModifiers, setSelectedValues);
+
+  const [formula, setFormula] = useState<string>('');
+  const [fixedFormula, setFixedFormula] = useState<string>('');
+  const [validationError, setValidationError] = useState<string | undefined>();
 
   const calculateSummary = useSummaryCalculation(
     selectedModifiers,
@@ -58,7 +68,9 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
     multiplier,
     heightInMM,
     widthInMM,
+    isEditMode ? fixedFormula : undefined,
   );
+
   const [summary, setSummary] = useState<number>(0);
 
   const { addToCart, countInCart } = useCartStore();
@@ -148,6 +160,61 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
           />
 
           <Typography variant="subtitle2">{block.description}</Typography>
+
+          {isEditMode && (
+            <Box>
+              <TableIdsHint
+                blockTables={blockTablesFull
+                  .filter((bt) => bt.frameBlockId === block.id)
+                  .map((bt) => ({
+                    id: bt.id,
+                    name: bt.name,
+                    type: bt.buttonType,
+                  }))}
+              />
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <TextField
+                  label="Формула"
+                  value={formula}
+                  onChange={(e) => setFormula(e.target.value)}
+                  fullWidth
+                  placeholder="Пример: (1+2)*4+5"
+                  error={!!validationError}
+                  helperText={validationError}
+                />
+                <IconButton
+                  onClick={() => {
+                    const formulaValidationResult = validateFormula(formula);
+                    if (!formulaValidationResult.isValid) {
+                      setValidationError(formulaValidationResult.error);
+                      return;
+                    }
+
+                    const availableTableIds = blockTablesFull
+                      .filter((bt) => bt.frameBlockId === block.id)
+                      .map((bt) => bt.id);
+
+                    const tableIdsValidationResult = validateTableIdsInFormula(
+                      formula,
+                      availableTableIds,
+                    );
+
+                    if (!tableIdsValidationResult.isValid) {
+                      setValidationError(tableIdsValidationResult.error);
+                      return;
+                    }
+
+                    setFixedFormula(formula);
+                    setValidationError(undefined);
+                  }}
+                  color="primary"
+                  disabled={formula === fixedFormula}
+                >
+                  <CheckIcon />
+                </IconButton>
+              </Box>
+            </Box>
+          )}
 
           <Box
             sx={{
