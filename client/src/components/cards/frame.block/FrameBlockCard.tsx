@@ -142,7 +142,11 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             block={block}
           />
 
-          <FrameBlockSummary summary={summary} blockId={block.id} />
+          <FrameBlockSummary
+            summary={summary}
+            blockId={block.id}
+            blockName={block.name}
+          />
 
           <FrameBlockActions
             isEditMode={isEditMode}

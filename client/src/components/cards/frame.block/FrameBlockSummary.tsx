@@ -7,17 +7,19 @@ import generateUniqueNumber from '@/utils/generate.unique.number';
 interface FrameBlockSummaryProps {
   summary: number;
   blockId: number;
+  blockName: string;
 }
 
 const FrameBlockSummary: React.FC<FrameBlockSummaryProps> = ({
   summary,
   blockId,
+  blockName,
 }) => {
   const { addToCart, countInCart } = useCartStore();
 
   const handleCartAction = () => {
     const cartItemId = generateUniqueNumber();
-    addToCart({ id: cartItemId, blockId, name: '', summary });
+    addToCart({ id: cartItemId, blockId, name: blockName, summary });
   };
 
   return (
