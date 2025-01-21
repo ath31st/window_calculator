@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import sidim.doma.wc.dto.frame_block.FrameBlockDto;
 import sidim.doma.wc.dto.frame_block.NewFrameBlockDto;
 import sidim.doma.wc.dto.frame_block.UpdateFrameBlockDto;
+import sidim.doma.wc.dto.frame_block.UpdateFrameBlockFormulaDto;
 import sidim.doma.wc.entity.Frame;
 import sidim.doma.wc.exception.FrameBlockServiceException;
 import sidim.doma.wc.exception.FrameServiceException;
@@ -251,5 +253,41 @@ class FrameBlockControllerTest {
 
     mockMvc.perform(delete(BASE_URL + "/{id}", blockId))
         .andExpect(status().isNotFound());
+  }
+
+  @Test
+  void changeFormula_success() throws Exception {
+    val dto = new UpdateFrameBlockFormulaDto(blockId, "(1+2)*3");
+
+    mockMvc.perform(patch(BASE_URL + "/formula")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(dto)))
+        .andExpect(status().isOk()).andReturn();
+  }
+
+  @Test
+  void changeFormula_whenFrameBlockNotFound() throws Exception {
+    val dto = new UpdateFrameBlockFormulaDto(blockId, "(1+2)*3");
+
+    doThrow(new FrameBlockServiceException("Frame block not found", HttpStatus.NOT_FOUND))
+        .when(frameBlockService).changeFormula(dto);
+
+    mockMvc.perform(patch(BASE_URL + "/formula")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(dto)))
+        .andExpect(status().isNotFound());
+  }
+
+  @Test
+  void changeFormula_whenInvalidDataProvided() throws Exception {
+    val dto = new UpdateFrameBlockFormulaDto(blockId, null);
+
+    doThrow(new FrameBlockServiceException("Formula cannot be null", HttpStatus.BAD_REQUEST))
+        .when(frameBlockService).changeFormula(dto);
+
+    mockMvc.perform(patch(BASE_URL + "/formula")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(dto)))
+        .andExpect(status().isBadRequest());
   }
 }

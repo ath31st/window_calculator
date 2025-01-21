@@ -6,6 +6,7 @@ import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sidim.doma.wc.dto.frame_block.FrameBlockDto;
 import sidim.doma.wc.dto.frame_block.NewFrameBlockDto;
 import sidim.doma.wc.dto.frame_block.UpdateFrameBlockDto;
+import sidim.doma.wc.dto.frame_block.UpdateFrameBlockFormulaDto;
 import sidim.doma.wc.service.FrameBlockService;
 import sidim.doma.wc.service.FrameService;
 
@@ -48,5 +50,12 @@ public class FrameBlockController {
     frameBlockService.deleteFrameBlock(id);
 
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
+
+  @PatchMapping("/frame_blocks/formula")
+  public ResponseEntity<HttpStatus> changeFormula(@RequestBody UpdateFrameBlockFormulaDto dto) {
+    frameBlockService.changeFormula(dto);
+
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }
