@@ -23,6 +23,7 @@ public class FrameBlockMapper {
         .isWindowSizeEnabled(dto.isWindowSizeEnabled())
         .inputTitle(dto.inputTitle())
         .description(dto.description())
+        .formula("")
         .createdAt(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())
         .build();
   }
