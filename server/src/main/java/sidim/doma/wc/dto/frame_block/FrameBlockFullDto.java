@@ -10,6 +10,7 @@ public record FrameBlockFullDto(
     Boolean isWindowSizeEnabled,
     String inputTitle,
     String description,
+    String formula,
     List<BlockTableFullDto> blockTables
 ) implements Serializable {
 }

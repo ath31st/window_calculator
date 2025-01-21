@@ -33,7 +33,8 @@ public class FrameBlockMapper {
         entity.getName(),
         entity.getIsWindowSizeEnabled(),
         entity.getInputTitle(),
-        entity.getDescription()
+        entity.getDescription(),
+        entity.getFormula()
     );
   }
 
@@ -44,6 +45,7 @@ public class FrameBlockMapper {
         entity.getIsWindowSizeEnabled(),
         entity.getInputTitle(),
         entity.getDescription(),
+        entity.getFormula(),
         entity.getBlockTables().stream()
             .map(blockTableMapper::fromEntityToFullDto)
             .toList()

@@ -7,6 +7,7 @@ public record FrameBlockDto(
     String name,
     Boolean isWindowSizeEnabled,
     String inputTitle,
-    String description
+    String description,
+    String formula
 ) implements Serializable {
 }
