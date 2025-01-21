@@ -1,4 +1,4 @@
-import { Box, TextField, IconButton } from '@mui/material';
+import { Box, TextField, IconButton, CircularProgress } from '@mui/material'; // Добавлен CircularProgress
 import CheckIcon from '@mui/icons-material/Check';
 import { BlockTableFull } from '@/types/api';
 import validateFormula from '@/utils/validate.formula';
@@ -24,6 +24,7 @@ const FrameBlockFormula: React.FC<FrameBlockFormulaProps> = ({
 }) => {
   const [localFormula, setLocalFormula] = useState(formula);
   const [validationError, setValidationError] = useState<string | undefined>();
+  const [isLoadingFormula, setIsLoadingFormula] = useState(false);
 
   useEffect(() => {
     setLocalFormula(formula);
@@ -52,11 +53,14 @@ const FrameBlockFormula: React.FC<FrameBlockFormulaProps> = ({
       return;
     }
 
+    setIsLoadingFormula(true);
     try {
       onFormulaChange(localFormula);
       setValidationError(undefined);
     } catch (error) {
       setValidationError('Failed to update formula: ' + error);
+    } finally {
+      setIsLoadingFormula(false);
     }
   };
 
@@ -87,13 +91,14 @@ const FrameBlockFormula: React.FC<FrameBlockFormulaProps> = ({
               },
             },
           }}
+          disabled={isLoadingFormula}
         />
         <IconButton
           onClick={handleFormulaChange}
           color="primary"
-          disabled={localFormula === formula}
+          disabled={localFormula === formula || isLoadingFormula}
         >
-          <CheckIcon />
+          {isLoadingFormula ? <CircularProgress size={24} /> : <CheckIcon />}
         </IconButton>
       </Box>
     </Box>
