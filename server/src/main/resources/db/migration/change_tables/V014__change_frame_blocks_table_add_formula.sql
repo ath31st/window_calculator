@@ -1,0 +1,2 @@
+ALTER TABLE frame_blocks
+    ADD COLUMN formula VARCHAR(255) NOT NULL DEFAULT '';
