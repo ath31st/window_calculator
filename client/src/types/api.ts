@@ -25,6 +25,7 @@ export interface FrameBlock {
   isWindowSizeEnabled: boolean;
   inputTitle: string;
   description: string;
+  formula: string;
 }
 
 export interface NewFrameBlock {
@@ -42,6 +43,7 @@ export interface FrameBlockFull {
   inputTitle: string;
   description: string;
   blockTables: BlockTableFull[];
+  formula: string;
 }
 
 // block table types

@@ -1,5 +1,6 @@
 import {
   addFrameBlock,
+  changeFormula,
   deleteFrameBlock,
   updateFrameBlock,
 } from '@/services/frame.block.service';
@@ -14,6 +15,7 @@ interface FrameBlockStore {
   addFrameBlock: (frameBlock: NewFrameBlock) => Promise<void>;
   updateFrameBlock: (frameBlock: FrameBlock) => Promise<void>;
   deleteFrameBlock: (id: number) => Promise<void>;
+  changeFormula: (id: number, formula: string) => Promise<void>;
   setFrameBlocks: (blocks: FrameBlockFull[]) => void;
   handleError: (error: unknown) => void;
 }
@@ -73,6 +75,19 @@ export const useFrameBlockStore = create<FrameBlockStore>((set) => ({
       set((state) => ({
         frameBlocksFull: state.frameBlocksFull.filter(
           (block) => block.id !== id,
+        ),
+      }));
+    } catch (err) {
+      useFrameBlockStore.getState().handleError(err);
+    }
+  },
+
+  changeFormula: async (id: number, formula: string) => {
+    try {
+      await changeFormula(id, formula);
+      set((state) => ({
+        frameBlocksFull: state.frameBlocksFull.map(
+          (block) => (block.id === id ? { ...block, formula } : block),
         ),
       }));
     } catch (err) {

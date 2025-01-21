@@ -20,3 +20,10 @@ export const updateFrameBlock = async (
 export const deleteFrameBlock = async (id: number): Promise<void> => {
   await axios.delete(`${API_URL}/${id}`);
 };
+
+export const changeFormula = async (
+  id: number,
+  formula: string,
+): Promise<void> => {
+  await axios.patch(`${API_URL}/formula`, { id, formula });
+};
