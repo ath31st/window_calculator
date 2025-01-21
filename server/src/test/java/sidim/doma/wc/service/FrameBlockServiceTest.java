@@ -63,9 +63,9 @@ class FrameBlockServiceTest {
         null, Collections.emptySet(), "");
 
     expectedFrameBlockDto = new FrameBlockDto(frameBlock.getId(), name,
-        isWindowSizeEnabled, blockInput, null);
+        isWindowSizeEnabled, blockInput, null, "");
     updatedFrameBlockDto = new FrameBlockDto(frameBlock.getId(),
-        updateName, isWindowSizeEnabled, updateBlockInput, null);
+        updateName, isWindowSizeEnabled, updateBlockInput, null, "");
 
     updateFrameBlockDto = new UpdateFrameBlockDto(frameBlock.getId(),
         updateName, isWindowSizeEnabled, updateBlockInput, null);

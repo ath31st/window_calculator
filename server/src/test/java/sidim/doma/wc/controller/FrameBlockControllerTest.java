@@ -75,14 +75,14 @@ class FrameBlockControllerTest {
     updateFrameBlockDto = new UpdateFrameBlockDto(blockId, updateName, isWindowSizeEnabled,
         updateBlockInput, null);
     updatedFrameBlockDto = new FrameBlockDto(blockId, updateName, isWindowSizeEnabled,
-        updateBlockInput, null);
+        updateBlockInput, null, "");
   }
 
   @Test
   void createFrameBlock_success() throws Exception {
     val frame = new Frame();
     frame.setId(frameId);
-    frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, null);
+    frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, null, "");
 
     when(frameService.getFrame(frameId)).thenReturn(frame);
     when(frameBlockService.createFrameBlock(newFrameBlockDto, frame)).thenReturn(frameBlockDto);
@@ -111,7 +111,7 @@ class FrameBlockControllerTest {
     val description = "test_description";
     newFrameBlockDto = new NewFrameBlockDto(frameId, nameWithSpaces, isWindowSizeEnabled,
         blockInput, descriptionWithSpaces);
-    frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, description);
+    frameBlockDto = new FrameBlockDto(blockId, name, isWindowSizeEnabled, blockInput, description, "");
 
     when(frameService.getFrame(frameId)).thenReturn(frame);
     when(frameBlockService.createFrameBlock(any(NewFrameBlockDto.class), any(Frame.class)))
@@ -180,7 +180,7 @@ class FrameBlockControllerTest {
     updateFrameBlockDto = new UpdateFrameBlockDto(blockId, updateNameWithSpaces,
         isWindowSizeEnabled, updateBlockInput, updateDescriptionWithSpaces);
     updatedFrameBlockDto = new FrameBlockDto(blockId, updateName, isWindowSizeEnabled,
-        updateBlockInput, updateDescription);
+        updateBlockInput, updateDescription, "");
 
     when(frameBlockService.updateFrameBlock(any(UpdateFrameBlockDto.class)))
         .thenReturn(updatedFrameBlockDto);
