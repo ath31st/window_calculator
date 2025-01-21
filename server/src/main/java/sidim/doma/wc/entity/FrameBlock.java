@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -63,5 +65,11 @@ public class FrameBlock {
 
   @OneToMany(mappedBy = "frameBlock", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<BlockTable> blockTables;
+
+  @Size(max = 255)
+  @NotNull
+  @ColumnDefault("''")
+  @Column(name = "formula", nullable = false)
+  private String formula;
 
 }
