@@ -13,6 +13,7 @@ import FrameBlockFormula from './FrameBlockFormula';
 import FrameBlockDimensions from './FrameBlockDimensions';
 import FrameBlockSummary from './FrameBlockSummary';
 import FrameBlockActions from './FrameBlockActions';
+import { useFrameBlockStore } from '@/stores/frame.block.store';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -46,9 +47,8 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
     handleTableButtonChange,
   } = useBlockTables(setSelectedModifiers, setSelectedValues);
 
-  const [formula, setFormula] = useState<string>('');
-  const [fixedFormula, setFixedFormula] = useState<string>('');
-  const [validationError, setValidationError] = useState<string | undefined>();
+  const { changeFormula } = useFrameBlockStore();
+  const [localFormula, setLocalFormula] = useState(block.formula);
 
   const calculateSummary = useSummaryCalculation(
     selectedModifiers,
@@ -56,8 +56,17 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
     multiplier,
     heightInMM,
     widthInMM,
-    isEditMode ? fixedFormula : undefined,
+    localFormula,
   );
+
+  const handleFormulaChange = async (newFormula: string) => {
+    try {
+      changeFormula(block.id, newFormula);
+      setLocalFormula(newFormula);
+    } catch (error) {
+      console.error('Failed to update formula: ', error);
+    }
+  };
 
   const [summary, setSummary] = useState<number>(0);
 
@@ -131,15 +140,12 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
           <Typography variant="subtitle2">{block.description}</Typography>
 
           <FrameBlockFormula
+            key={block.id}
             isEditMode={isEditMode}
-            formula={formula}
-            setFormula={setFormula}
-            fixedFormula={fixedFormula}
-            setFixedFormula={setFixedFormula}
-            validationError={validationError}
-            setValidationError={setValidationError}
+            formula={localFormula}
+            onFormulaChange={handleFormulaChange}
+            blockId={block.id}
             blockTablesFull={blockTablesFull}
-            block={block}
           />
 
           <FrameBlockSummary
