@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import sidim.doma.wc.dto.frame_block.FrameBlockDto;
 import sidim.doma.wc.dto.frame_block.NewFrameBlockDto;
 import sidim.doma.wc.dto.frame_block.UpdateFrameBlockDto;
+import sidim.doma.wc.dto.frame_block.UpdateFrameBlockFormulaDto;
 import sidim.doma.wc.entity.Frame;
 import sidim.doma.wc.entity.FrameBlock;
 import sidim.doma.wc.exception.FrameBlockServiceException;
@@ -134,5 +135,34 @@ class FrameBlockServiceTest {
     when(frameBlockRepository.existsById(1)).thenReturn(false);
 
     assertThrows(FrameBlockServiceException.class, () -> frameBlockService.getFrameBlock(1));
+  }
+
+  @Test
+  void changeFormula_success() {
+    val dto = new UpdateFrameBlockFormulaDto(1, "(1+2)*3");
+
+    when(frameBlockRepository.existsById(1)).thenReturn(true);
+    when(frameBlockRepository.findById(1)).thenReturn(java.util.Optional.of(frameBlock));
+    when(frameBlockRepository.save(any(FrameBlock.class))).thenReturn(frameBlock);
+
+    frameBlockService.changeFormula(dto);
+
+    verify(frameBlockRepository).save(any(FrameBlock.class));
+  }
+
+  @Test
+  void changeFormula_whenFrameBlockNotFound() {
+    val dto = new UpdateFrameBlockFormulaDto(1, "(1+2)*3");
+
+    when(frameBlockRepository.existsById(1)).thenReturn(false);
+
+    assertThrows(FrameBlockServiceException.class, () -> frameBlockService.changeFormula(dto));
+  }
+
+  @Test
+  void changeFormula_whenFormulaIsNull() {
+    val dto = new UpdateFrameBlockFormulaDto(1, null);
+
+    assertThrows(FrameBlockServiceException.class, () -> frameBlockService.changeFormula(dto));
   }
 }

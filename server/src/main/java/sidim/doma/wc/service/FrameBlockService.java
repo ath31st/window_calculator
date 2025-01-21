@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import sidim.doma.wc.dto.frame_block.FrameBlockDto;
 import sidim.doma.wc.dto.frame_block.NewFrameBlockDto;
 import sidim.doma.wc.dto.frame_block.UpdateFrameBlockDto;
+import sidim.doma.wc.dto.frame_block.UpdateFrameBlockFormulaDto;
 import sidim.doma.wc.entity.Frame;
 import sidim.doma.wc.entity.FrameBlock;
 import sidim.doma.wc.exception.FrameBlockServiceException;
@@ -57,5 +58,17 @@ public class FrameBlockService {
     checkExistsFrameBlock(id);
 
     return frameBlockRepository.findById(id).orElseThrow();
+  }
+
+  public void changeFormula(UpdateFrameBlockFormulaDto dto) {
+    if (dto.formula() == null) {
+      throw new FrameBlockServiceException("Formula cannot be null", HttpStatus.BAD_REQUEST);
+    }
+
+    val frameBlock = getFrameBlock(dto.id());
+
+    frameBlock.setFormula(dto.formula());
+
+    frameBlockRepository.save(frameBlock);
   }
 }
