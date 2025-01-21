@@ -60,7 +60,7 @@ class FrameBlockServiceTest {
 
     frameBlock = new FrameBlock(1, frame, name, isWindowSizeEnabled, blockInput,
         null, LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant(),
-        null, Collections.emptySet());
+        null, Collections.emptySet(), "");
 
     expectedFrameBlockDto = new FrameBlockDto(frameBlock.getId(), name,
         isWindowSizeEnabled, blockInput, null);
