@@ -39,6 +39,7 @@ const BaseDialog: React.FC<BaseDialogProps> = ({
       open={isOpen}
       onClose={onClose}
       disableRestoreFocus
+      disableScrollLock
     >
       <DialogTitle
         variant="h5"
