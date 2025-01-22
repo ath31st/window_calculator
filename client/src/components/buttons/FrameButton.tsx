@@ -33,15 +33,34 @@ const FrameButton: React.FC<FrameButtonProps> = ({
         color: isActive ? 'text.primary' : 'text.secondary',
         borderRadius: theme.shape.borderRadius,
         textAlign: 'center',
-        minWidth: 100,
+        minWidth: {
+          xs: 100,
+          sm: 120,
+          md: 150,
+          lg: 150,
+        },
+        height: {
+          xs: 30,
+          sm: 35,
+          md: 45,
+          lg: 50,
+        },
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 1,
       }}
+      onClick={onSelect}
     >
-      <Box sx={{ flexGrow: 1 }} onClick={onSelect}>
-        <Typography variant="button" noWrap>
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <Typography variant="body1" noWrap>
           {name}
         </Typography>
       </Box>
