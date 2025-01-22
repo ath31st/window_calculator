@@ -106,7 +106,7 @@ public class JwtUtil {
     Optional<RefreshTokenPayload> rtp =
         payloadRepository.findByUserEmailIgnoreCase(email);
     if (rtp.isEmpty()) {
-      throw new RefreshTokenPayloadException("Payload not found!", HttpStatus.NOT_FOUND);
+      throw new RefreshTokenPayloadException("Payload not found!", HttpStatus.UNAUTHORIZED);
     }
 
     val savedUuid = rtp.get().getPayload();
