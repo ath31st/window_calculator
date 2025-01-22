@@ -150,12 +150,12 @@ const theme = createTheme({
             height: '16px',
           },
           [`@media (min-width:768px) and (max-width:992px)`]: {
-            width: '24px',
-            height: '24px',
+            width: '22px',
+            height: '22px',
           },
           [`@media (min-width:992px)`]: {
-            width: '40px',
-            height: '40px',
+            width: '30px',
+            height: '30px',
           },
         },
       },
