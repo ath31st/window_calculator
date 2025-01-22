@@ -72,7 +72,7 @@ const theme = createTheme({
       [`@media (min-width:1200px)`]: { fontSize: '28px' },
     },
     h6: {
-      fontSize: '10px',
+      fontSize: '12px',
       [`@media (min-width:576px)`]: { fontSize: '14px' },
       [`@media (min-width:768px)`]: { fontSize: '18px' },
       [`@media (min-width:992px)`]: { fontSize: '22px' },
@@ -108,7 +108,7 @@ const theme = createTheme({
       },
     },
     body2: {
-      fontSize: '10px',
+      fontSize: '12px',
       [`@media (min-width:576px)`]: {
         fontSize: '12px',
       },
