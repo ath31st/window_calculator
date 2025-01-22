@@ -22,7 +22,10 @@ const BlockTableList: React.FC<BlockTableListProps> = ({
     <Box
       sx={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gridTemplateColumns: {
+          xs: 'repeat(auto-fit, minmax(260px, 1fr))',
+          sm: 'repeat(auto-fit, minmax(300px, 1fr))',
+        },
         gap: 1,
         padding: 1,
         overflowY: 'auto',
