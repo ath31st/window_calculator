@@ -1,11 +1,12 @@
 'use client';
 
-import { Box, IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import FrameBlockList from '@/components/lists/FrameBlockList';
 import AddFrameBlockDialog from '@/components/dialogs/frame.block/AddFrameBlockDialog';
 import { FrameBlock, FrameBlockFull, NewFrameBlock } from '@/types/api';
+import CommonAddIconButton from '../icons/CommonAddIconButton';
+import ViewAgendaOutlinedIcon from '@mui/icons-material/ViewAgendaOutlined';
 
 interface FrameCardProps {
   activeFrameId: number | null;
@@ -35,10 +36,12 @@ const FrameCard: React.FC<FrameCardProps> = ({
         isEditMode={isEditMode}
       />
 
-      {isEditMode && activeFrameId && (
-        <IconButton onClick={() => setDialogOpen(true)}>
-          <AddIcon />
-        </IconButton>
+      {activeFrameId && (
+        <CommonAddIconButton
+          isEditMode={isEditMode}
+          customIcon={<ViewAgendaOutlinedIcon />}
+          onAddClick={() => setDialogOpen(true)}
+        />
       )}
 
       <AddFrameBlockDialog

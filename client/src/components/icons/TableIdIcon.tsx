@@ -1,4 +1,3 @@
-// components/TableIdIcon.tsx
 import { Box, Typography } from '@mui/material';
 import theme from '@/app/_theme/theme';
 

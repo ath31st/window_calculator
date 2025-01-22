@@ -1,7 +1,6 @@
-import { Box, Typography, Card, CardContent, IconButton } from '@mui/material';
+import { Box, Typography, Card, CardContent } from '@mui/material';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { useState, useEffect } from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import AddBlockTableDialog from '../../dialogs/block.table/AddBlockTableDialog';
 import BlockTableList from '../../lists/BlockTableList';
 import { useSummaryCalculation } from '@/hooks/use.summary.calculation';
@@ -14,6 +13,8 @@ import FrameBlockDimensions from './FrameBlockDimensions';
 import FrameBlockSummary from './FrameBlockSummary';
 import FrameBlockActions from './FrameBlockActions';
 import { useFrameBlockStore } from '@/stores/frame.block.store';
+import TableChartIcon from '@mui/icons-material/TableChart';
+import CommonAddIconButton from '@/components/icons/CommonAddIconButton';
 
 interface FrameBlockCardProps {
   block: FrameBlockFull;
@@ -107,13 +108,11 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             isEditMode={isEditMode}
           />
 
-          {isEditMode && (
-            <Box>
-              <IconButton onClick={() => setDialogOpen(true)}>
-                <AddIcon />
-              </IconButton>
-            </Box>
-          )}
+          <CommonAddIconButton
+            isEditMode={isEditMode}
+            customIcon={<TableChartIcon />}
+            onAddClick={() => setDialogOpen(true)}
+          />
 
           <FrameBlockDimensions
             isWindowSizeEnabled={block.isWindowSizeEnabled}

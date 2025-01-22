@@ -1,14 +1,15 @@
 import { BlockTable, BlockTableFull } from '@/types/api';
-import { Box, Card, CardContent, IconButton, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import { BlockTableEditDeleteButtons } from '../buttons/BlockTableEditDeleteButtons';
 import { useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
 import AddTableButtonDialog from '../dialogs/table.button/AddTableButtonDialog';
 import TableButtonList from '../lists/TableButtonList';
 import { useTableButtonStore } from '@/stores/table.button.store';
 import { ButtonType } from '@/constants/button.type';
 import theme from '@/app/_theme/theme';
 import TableIdIcon from '../icons/TableIdIcon';
+import CommonAddIconButton from '../icons/CommonAddIconButton';
+import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
 
 interface BlockTableCardProps {
   table: BlockTableFull;
@@ -91,13 +92,11 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
             isEditMode={isEditMode}
           />
 
-          {isEditMode && (
-            <Box>
-              <IconButton onClick={() => setDialogOpen(true)}>
-                <AddIcon />
-              </IconButton>
-            </Box>
-          )}
+          <CommonAddIconButton
+            isEditMode={isEditMode}
+            customIcon={<CheckBoxOutlinedIcon />}
+            onAddClick={() => setDialogOpen(true)}
+          />
 
           <AddTableButtonDialog
             isOpen={isDialogOpen}

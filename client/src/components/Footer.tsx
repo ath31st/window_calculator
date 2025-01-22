@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Box, IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box } from '@mui/material';
 import { useFrameStore } from '@/stores/frame.store';
 import FrameButton from './buttons/FrameButton';
 import AddFrameDialog from './dialogs/frame/AddFrameDialog';
 import { useEditModeStore } from '@/stores/edit.mode.store';
 import theme from '@/app/_theme/theme';
+import CommonAddIconButton from './icons/CommonAddIconButton';
+import ViewArrayOutlinedIcon from '@mui/icons-material/ViewArrayOutlined';
 
 const Footer: React.FC = () => {
   const {
@@ -89,11 +90,11 @@ const Footer: React.FC = () => {
             />
           ))}
 
-        {isEditMode && (
-          <IconButton onClick={() => setDialogOpen(true)}>
-            <AddIcon />
-          </IconButton>
-        )}
+        <CommonAddIconButton
+          isEditMode={isEditMode}
+          customIcon={<ViewArrayOutlinedIcon />}
+          onAddClick={() => setDialogOpen(true)}
+        />
       </Box>
       <AddFrameDialog
         isOpen={isDialogOpen}
