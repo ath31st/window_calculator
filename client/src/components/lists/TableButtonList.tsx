@@ -64,7 +64,6 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   position: 'relative',
-                  paddingRight: '30px',
                 }}
               >
                 <FormControlLabel
@@ -110,7 +109,6 @@ const TableButtonList: React.FC<TableButtonListProps> = ({
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 position: 'relative',
-                paddingRight: '30px',
               }}
             >
               <FormControlLabel

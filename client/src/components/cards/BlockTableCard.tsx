@@ -52,8 +52,8 @@ const BlockTableCard: React.FC<BlockTableCardProps> = ({
             xs: 1,
             sm: 1,
             md: 1,
-            lg: 2,
-            xl: 2,
+            lg: 1,
+            xl: 1,
           },
           '&:last-child': {
             paddingBottom: {
