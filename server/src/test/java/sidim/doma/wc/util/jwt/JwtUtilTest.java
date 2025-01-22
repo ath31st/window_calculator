@@ -141,7 +141,7 @@ class JwtUtilTest {
     assertThatThrownBy(() -> jwtUtil.validateRefreshTokenAndRetrieveSubject(refreshToken))
         .isInstanceOf(RefreshTokenPayloadException.class)
         .hasMessage("Payload not found!")
-        .hasFieldOrPropertyWithValue("status", HttpStatus.NOT_FOUND);
+        .hasFieldOrPropertyWithValue("status", HttpStatus.UNAUTHORIZED);
   }
 
   @Test
