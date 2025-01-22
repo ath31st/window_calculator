@@ -65,6 +65,7 @@ const Footer: React.FC = () => {
           display: 'flex',
           overflowX: 'auto',
           gap: 1,
+          alignItems: 'center',
           maxWidth: '100%',
           '&::-webkit-scrollbar': {
             display: 'none',
