@@ -1,5 +1,4 @@
-import { Box, IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box } from '@mui/material';
 import { FrameBlock, FrameBlockFull } from '@/types/api';
 import { FrameBlockEditDeleteButtons } from '@/components/buttons/FrameBlockEditDeleteButtons';
 
@@ -8,7 +7,6 @@ interface FrameBlockActionsProps {
   block: FrameBlockFull;
   onEdit: (block: FrameBlock) => void;
   onDelete: (id: number) => void;
-  setDialogOpen: (open: boolean) => void;
 }
 
 const FrameBlockActions: React.FC<FrameBlockActionsProps> = ({
@@ -16,7 +14,6 @@ const FrameBlockActions: React.FC<FrameBlockActionsProps> = ({
   block,
   onEdit,
   onDelete,
-  setDialogOpen,
 }) => {
   if (!isEditMode) return null;
 
@@ -30,9 +27,6 @@ const FrameBlockActions: React.FC<FrameBlockActionsProps> = ({
         gap: 1,
       }}
     >
-      <IconButton onClick={() => setDialogOpen(true)}>
-        <AddIcon />
-      </IconButton>
       <FrameBlockEditDeleteButtons
         id={block.id}
         currentFrameBlock={block}

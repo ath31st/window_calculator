@@ -159,7 +159,6 @@ const FrameBlockCard: React.FC<FrameBlockCardProps> = ({
             block={block}
             onEdit={onEdit}
             onDelete={onDelete}
-            setDialogOpen={setDialogOpen}
           />
         </Box>
       </CardContent>
