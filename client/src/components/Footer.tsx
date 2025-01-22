@@ -21,6 +21,8 @@ const Footer: React.FC = () => {
   } = useFrameStore();
   const [isDialogOpen, setDialogOpen] = useState(false);
   const { isEditMode } = useEditModeStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [targetFrameId, setTargetFrameId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchFrames();
@@ -28,7 +30,16 @@ const Footer: React.FC = () => {
 
   const handleFrameSelect = async (id: number) => {
     if (activeFrameId !== id) {
-      fetchFrameFull(id);
+      setTargetFrameId(id);
+      setIsLoading(true);
+      try {
+        await fetchFrameFull(id);
+      } catch (error) {
+        console.error('Ошибка при загрузке фрейма:', error);
+      } finally {
+        setIsLoading(false);
+        setTargetFrameId(null);
+      }
     }
   };
 
@@ -60,7 +71,7 @@ const Footer: React.FC = () => {
           },
         }}
       >
-          {frames
+        {frames
           .sort((a, b) => a.id - b.id)
           .map((frame) => (
             <FrameButton
@@ -72,6 +83,8 @@ const Footer: React.FC = () => {
               onEdit={(newName) => updateFrame(frame.id, newName)}
               onDelete={() => deleteFrame(frame.id)}
               isEditMode={isEditMode}
+              isLoading={isLoading}
+              isTargetFrame={targetFrameId === frame.id}
             />
           ))}
 

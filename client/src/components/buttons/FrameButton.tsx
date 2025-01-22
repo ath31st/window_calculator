@@ -13,6 +13,8 @@ interface FrameButtonProps {
   onDelete: () => void;
   onEdit: (newName: string) => void;
   isEditMode: boolean;
+  isLoading: boolean;
+  isTargetFrame: boolean;
 }
 
 const FrameButton: React.FC<FrameButtonProps> = ({
@@ -23,6 +25,8 @@ const FrameButton: React.FC<FrameButtonProps> = ({
   onDelete,
   onEdit,
   isEditMode,
+  isLoading,
+  isTargetFrame,
 }) => {
   return (
     <Box
@@ -49,6 +53,31 @@ const FrameButton: React.FC<FrameButtonProps> = ({
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 1,
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: `linear-gradient(90deg, transparent, ${theme.palette.secondary.main}, transparent)`,
+          animation:
+            isTargetFrame && isLoading
+              ? 'fillGradient 2.5s linear infinite'
+              : 'none',
+          opacity: isTargetFrame && isLoading ? 1 : 0,
+          transition: 'opacity 0.3s ease',
+        },
+        '@keyframes fillGradient': {
+          '0%': {
+            transform: 'translateX(-100%)',
+          },
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
       }}
       onClick={onSelect}
     >
@@ -58,6 +87,8 @@ const FrameButton: React.FC<FrameButtonProps> = ({
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         <Typography variant="body1" noWrap>
