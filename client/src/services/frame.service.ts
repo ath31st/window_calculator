@@ -1,4 +1,4 @@
-import { Frame, FrameFull } from '@/types/api';
+import { Frame, FrameFull, NewFrame } from '@/types/api';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL + '/frames';
@@ -18,8 +18,8 @@ export const getFrameFull = async (id: number): Promise<FrameFull> => {
   return response.data;
 };
 
-export const addFrame = async (name: string): Promise<Frame> => {
-  const response = await axios.post<Frame>(API_URL, { name });
+export const addFrame = async (newFrame: NewFrame): Promise<Frame> => {
+  const response = await axios.post<Frame>(API_URL, newFrame);
   return response.data;
 };
 
@@ -27,7 +27,7 @@ export const deleteFrame = async (id: number): Promise<void> => {
   await axios.delete(`${API_URL}/${id}`);
 };
 
-export const updateFrame = async (id: number, name: string): Promise<Frame> => {
-  const response = await axios.put<Frame>(`${API_URL}/${id}`, { name });
+export const updateFrame = async (updateFrame: Frame): Promise<Frame> => {
+  const response = await axios.put<Frame>(API_URL, updateFrame);
   return response.data;
 };
