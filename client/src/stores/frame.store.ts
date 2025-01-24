@@ -5,7 +5,7 @@ import {
   getFrames,
   updateFrame,
 } from '@/services/frame.service';
-import { Frame, FrameFull } from '@/types/api';
+import { Frame, FrameFull, NewFrame } from '@/types/api';
 import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { useFrameBlockStore } from './frame.block.store';
@@ -20,9 +20,9 @@ interface FrameStore {
   loading: boolean;
   fetchFrames: () => void;
   fetchFrameFull: (id: number) => void;
-  addFrame: (name: string) => void;
+  addFrame: (newFrame: NewFrame) => void;
   deleteFrame: (id: number) => void;
-  updateFrame: (id: number, newName: string) => void;
+  updateFrame: (updFrame: Frame) => void;
   handleError: (error: unknown) => void;
 }
 
@@ -54,9 +54,9 @@ export const useFrameStore = create<FrameStore>((set) => ({
     }
   },
 
-  addFrame: async (name: string) => {
+  addFrame: async (newFrame: NewFrame) => {
     try {
-      const savedFrame = await addFrame(name);
+      const savedFrame = await addFrame(newFrame);
       set((state) => ({
         frames: [...state.frames, savedFrame],
       }));
@@ -77,16 +77,22 @@ export const useFrameStore = create<FrameStore>((set) => ({
     }
   },
 
-  updateFrame: async (id: number, newName: string) => {
+  updateFrame: async (updFrame: Frame) => {
     try {
-      const updatedFrame = await updateFrame(id, newName);
+      const updatedFrame = await updateFrame(updFrame);
       set((state) => ({
         frames: state.frames.map((frame) =>
-          frame.id === id ? { ...frame, name: updatedFrame.name } : frame,
+          frame.id === updatedFrame.id
+            ? { ...frame, name: updatedFrame.name, order: updatedFrame.order }
+            : frame,
         ),
         frameFull:
-          state.frameFull?.id === id
-            ? { ...state.frameFull, name: updatedFrame.name }
+          state.frameFull?.id === updatedFrame.id
+            ? {
+                ...state.frameFull,
+                name: updatedFrame.name,
+                order: updatedFrame.order,
+              }
             : state.frameFull,
       }));
     } catch (err) {
