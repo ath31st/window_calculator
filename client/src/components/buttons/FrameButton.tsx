@@ -4,22 +4,21 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import theme from '@/app/_theme/theme';
 import { FrameEditDeleteButtons } from './FrameEditDeleteButtons';
+import { Frame } from '@/types/api';
 
 interface FrameButtonProps {
-  id: number;
-  name: string;
+  currentFrame: Frame;
   isActive: boolean;
-  onSelect: () => void;
-  onDelete: () => void;
-  onEdit: (newName: string) => void;
+  onSelect: (id: number) => void;
+  onDelete: (id: number) => void;
+  onEdit: (updFrame: Frame) => void;
   isEditMode: boolean;
   isLoading: boolean;
   isTargetFrame: boolean;
 }
 
 const FrameButton: React.FC<FrameButtonProps> = ({
-  id,
-  name,
+  currentFrame,
   isActive,
   onSelect,
   onDelete,
@@ -79,7 +78,7 @@ const FrameButton: React.FC<FrameButtonProps> = ({
           },
         },
       }}
-      onClick={onSelect}
+      onClick={() => onSelect(currentFrame.id)}
     >
       <Box
         sx={{
@@ -92,14 +91,13 @@ const FrameButton: React.FC<FrameButtonProps> = ({
         }}
       >
         <Typography variant="body1" noWrap>
-          {name}
+          {currentFrame.name}
         </Typography>
       </Box>
 
       {isEditMode && (
         <FrameEditDeleteButtons
-          id={id}
-          currentName={name}
+          currentFrame={currentFrame}
           onEdit={onEdit}
           onDelete={onDelete}
         />
