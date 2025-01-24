@@ -74,16 +74,20 @@ const Footer: React.FC = () => {
         }}
       >
         {frames
-          .sort((a, b) => a.id - b.id)
+          .sort((a, b) => {
+            if (a.order !== b.order) {
+              return a.order - b.order;
+            }
+            return a.name.localeCompare(b.name);
+          })
           .map((frame) => (
             <FrameButton
               key={frame.id}
-              id={frame.id}
-              name={frame.name}
+              currentFrame={frame}
               isActive={activeFrameId === frame.id}
-              onSelect={() => handleFrameSelect(frame.id)}
-              onEdit={(newName) => updateFrame(frame.id, newName)}
-              onDelete={() => deleteFrame(frame.id)}
+              onSelect={handleFrameSelect}
+              onEdit={updateFrame}
+              onDelete={deleteFrame}
               isEditMode={isEditMode}
               isLoading={isLoading}
               isTargetFrame={targetFrameId === frame.id}
@@ -99,7 +103,7 @@ const Footer: React.FC = () => {
       <AddFrameDialog
         isOpen={isDialogOpen}
         onClose={() => setDialogOpen(false)}
-        onAdd={(name) => addFrame(name)}
+        onAdd={(newFrame) => addFrame(newFrame)}
       />
     </Box>
   );
