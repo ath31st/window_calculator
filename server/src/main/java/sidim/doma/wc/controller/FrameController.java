@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sidim.doma.wc.dto.frame.FrameDto;
 import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
+import sidim.doma.wc.dto.frame.UpdateFrameDto;
 import sidim.doma.wc.service.FrameService;
 
 @RestController
@@ -61,11 +62,10 @@ public class FrameController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @PutMapping("/frames/{id}")
-  public ResponseEntity<FrameDto> updateFrame(@PathVariable Integer id,
-                                              @RequestBody @Valid NewFrameDto dto) {
-    val trimmedDto = NewFrameDto.from(dto);
-    val updatedFrame = frameService.renameFrame(id, trimmedDto.name());
+  @PutMapping("/frames")
+  public ResponseEntity<FrameDto> updateFrame(@RequestBody @Valid UpdateFrameDto dto) {
+    val trimmedDto = UpdateFrameDto.from(dto);
+    val updatedFrame = frameService.updateFrame(trimmedDto);
 
     return ResponseEntity.ok(updatedFrame);
   }

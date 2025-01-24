@@ -25,11 +25,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import sidim.doma.wc.dto.frame.FrameDto;
 import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
+import sidim.doma.wc.dto.frame.UpdateFrameDto;
 import sidim.doma.wc.exception.FrameServiceException;
 import sidim.doma.wc.service.CustomUserDetailsService;
 import sidim.doma.wc.service.FrameService;
@@ -58,10 +58,11 @@ class FrameControllerTest {
 
   private final Integer id = 1;
   private final String name = "test_frame";
+  private Integer order = 0;
 
   @Test
   void getAllFrames() throws Exception {
-    when(frameService.getAllFrameDtos()).thenReturn(List.of(new FrameDto(id, name)));
+    when(frameService.getAllFrameDtos()).thenReturn(List.of(new FrameDto(id, name, order)));
 
     mockMvc.perform(get(BASE_URL))
         .andExpect(status().isOk())
@@ -71,7 +72,7 @@ class FrameControllerTest {
 
   @Test
   void getFrameById() throws Exception {
-    when(frameService.getFrameDto(id)).thenReturn(new FrameDto(id, name));
+    when(frameService.getFrameDto(id)).thenReturn(new FrameDto(id, name, order));
 
     mockMvc.perform(get(BASE_URL + "/{id}", id))
         .andExpect(status().isOk())
@@ -90,9 +91,9 @@ class FrameControllerTest {
 
   @Test
   void createNewFrame_whenValidDataProvided() throws Exception {
-    val newFrameDto = new NewFrameDto(name);
+    val newFrameDto = new NewFrameDto(name, order);
 
-    when(frameService.createFrame(any(NewFrameDto.class))).thenReturn(new FrameDto(id, name));
+    when(frameService.createFrame(any(NewFrameDto.class))).thenReturn(new FrameDto(id, name, order));
 
     mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
@@ -106,10 +107,10 @@ class FrameControllerTest {
   void createNewFrame_whenValidDataProvided_withTrailingSpace() throws Exception {
     val nameWithSpaces = "test   ";
     val trimmedName = "test";
-    val newFrameDto = new NewFrameDto(nameWithSpaces);
+    val newFrameDto = new NewFrameDto(nameWithSpaces, order);
 
     when(frameService.createFrame(any(NewFrameDto.class)))
-        .thenReturn(new FrameDto(id, trimmedName));
+        .thenReturn(new FrameDto(id, trimmedName, order));
 
     mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
@@ -122,7 +123,7 @@ class FrameControllerTest {
   @ParameterizedTest
   @ValueSource(strings = {"", "  ", "sh"})
   void createNewFrame_whenInvalidDataProvided(String emptyName) throws Exception {
-    val newFrameDto = new NewFrameDto(emptyName);
+    val newFrameDto = new NewFrameDto(emptyName, order);
 
     mockMvc.perform(post(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
@@ -153,13 +154,14 @@ class FrameControllerTest {
   @Test
   void updateFrame_whenValidDataProvided() throws Exception {
     val newName = "new_frame_test";
-    val newFrameDto = new NewFrameDto(newName);
+    val newOrder = 25;
+    val updateFrameDto = new UpdateFrameDto(id, newName, newOrder);
 
-    when(frameService.renameFrame(id, newName)).thenReturn(new FrameDto(id, newName));
+    when(frameService.updateFrame(updateFrameDto)).thenReturn(new FrameDto(id, newName, order));
 
-    val mvcResult = mockMvc.perform(put(BASE_URL + "/{id}", id)
+    val mvcResult = mockMvc.perform(put(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(newFrameDto)))
+            .content(objectMapper.writeValueAsString(updateFrameDto)))
         .andExpect(status().isOk())
         .andReturn();
 
@@ -174,9 +176,9 @@ class FrameControllerTest {
   @ParameterizedTest
   @ValueSource(strings = {"", "  ", "sh"})
   void updateFrame_whenInvalidNameProvided(String invalidName) throws Exception {
-    val newFrameDto = new NewFrameDto(invalidName);
+    val newFrameDto = new NewFrameDto(invalidName, order);
 
-    mockMvc.perform(put(BASE_URL + "/{id}", id)
+    mockMvc.perform(put(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(newFrameDto)))
         .andExpect(status().isBadRequest());
@@ -185,23 +187,24 @@ class FrameControllerTest {
   @Test
   void updateFrame_whenFrameNotFound() throws Exception {
     val newName = "new_frame_test";
-    val newFrameDto = new NewFrameDto(newName);
+    val newOrder = 25;
+    val updateFrameDto = new UpdateFrameDto(id, newName, newOrder);
 
     doThrow(new FrameServiceException("Frame not found", HttpStatus.NOT_FOUND))
-        .when(frameService).renameFrame(id, newName);
+        .when(frameService).updateFrame(updateFrameDto);
 
-    mockMvc.perform(put(BASE_URL + "/{id}", id)
+    mockMvc.perform(put(BASE_URL)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(newFrameDto)))
+            .content(objectMapper.writeValueAsString(updateFrameDto)))
         .andExpect(status().isNotFound());
 
-    verify(frameService).renameFrame(id, newName);
+    verify(frameService).updateFrame(updateFrameDto);
   }
 
   @Test
   void getFrameFullDto_whenValidDataProvided() throws Exception {
     when(frameService.getFrameFullDto(id)).thenReturn(
-        new FrameFullDto(id, name, Collections.emptyList()));
+        new FrameFullDto(id, name, order, Collections.emptyList()));
 
     mockMvc.perform(get(BASE_URL + "/{id}/full", id))
         .andExpect(status().isOk())
