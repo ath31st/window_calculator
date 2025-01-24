@@ -4,17 +4,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import EditFrameDialog from '../dialogs/frame/EditFrameDialog';
 import DeleteFrameDialog from '../dialogs/frame/DeleteFrameDialog';
+import { Frame } from '@/types/api';
 
 interface FrameEditDeleteButtonsProps {
-  id: number;
-  currentName: string;
-  onEdit: (name: string) => void;
+  currentFrame: Frame;
+  onEdit: (updFrame: Frame) => void;
   onDelete: (id: number) => void;
 }
 
 export const FrameEditDeleteButtons: React.FC<FrameEditDeleteButtonsProps> = ({
-  id,
-  currentName,
+  currentFrame,
   onEdit,
   onDelete,
 }) => {
@@ -39,14 +38,14 @@ export const FrameEditDeleteButtons: React.FC<FrameEditDeleteButtonsProps> = ({
         isOpen={dialogType === 'edit'}
         onClose={closeDialog}
         onUpdate={onEdit}
-        currentName={currentName}
+        currentFrame={currentFrame}
       />
 
       <DeleteFrameDialog
         isOpen={dialogType === 'delete'}
         onClose={closeDialog}
         onDelete={onDelete}
-        frameId={id}
+        frameId={currentFrame.id}
       />
     </Box>
   );
