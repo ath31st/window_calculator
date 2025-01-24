@@ -1,29 +1,40 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 import BaseDialog from '../BaseDialog';
 import CommonButton from '@/components/buttons/CommonButton';
+import { Frame } from '@/types/api';
 
 interface EditFrameDialogProps {
   isOpen: boolean;
-  currentName: string;
+  currentFrame: Frame;
   onClose: () => void;
-  onUpdate: (name: string) => void;
+  onUpdate: (updFrame: Frame) => void;
 }
 
 const EditFrameDialog: React.FC<EditFrameDialogProps> = ({
   isOpen,
-  currentName,
+  currentFrame,
   onClose,
   onUpdate,
 }) => {
-  const [frameName, setFrameName] = useState('');
+  const [frameName, setFrameName] = useState(currentFrame.name);
+  const [order, setOrder] = useState<number>(currentFrame.order);
+
+  useEffect(() => {
+    setFrameName(currentFrame.name);
+    setOrder(currentFrame.order);
+  }, [currentFrame]);
 
   const handleUpdate = () => {
-    if (frameName.trim()) {
-      onUpdate(frameName.trim());
-      setFrameName('');
+    if (frameName.trim() && order >= 0 && order <= 999) {
+      const updatedFrame: Frame = {
+        ...currentFrame,
+        name: frameName.trim(),
+        order: order,
+      };
+      onUpdate(updatedFrame);
       onClose();
     }
   };
@@ -36,10 +47,28 @@ const EditFrameDialog: React.FC<EditFrameDialogProps> = ({
       actions={<CommonButton onClick={handleUpdate}>Изменить</CommonButton>}
     >
       <TextField
-        label={currentName}
+        label={frameName}
         value={frameName}
         onChange={(e) => setFrameName(e.target.value)}
         fullWidth
+      />
+      <TextField
+        label="Порядок (0-999)"
+        type="number"
+        value={order}
+        onChange={(e) => {
+          const value = parseInt(e.target.value, 10);
+          if (!isNaN(value) && value >= 0 && value <= 999) {
+            setOrder(value);
+          }
+        }}
+        fullWidth
+        slotProps={{
+          htmlInput: {
+            min: 0,
+            max: 999,
+          },
+        }}
       />
     </BaseDialog>
   );
