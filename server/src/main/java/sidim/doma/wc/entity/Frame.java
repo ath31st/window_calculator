@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -44,5 +45,10 @@ public class Frame {
 
   @OneToMany(mappedBy = "frame", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<FrameBlock> frameBlocks;
+
+  @NotNull
+  @ColumnDefault("0")
+  @Column(name = "\"order\"", nullable = false)
+  private Integer order;
 
 }
