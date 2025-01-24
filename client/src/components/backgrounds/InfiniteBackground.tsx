@@ -11,7 +11,7 @@ const InfiniteBackground: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
     const handleScroll = () => {
       if (backgroundRef.current) {
         const scrollY = window.scrollY;
-        backgroundRef.current.style.backgroundPositionY = `${scrollY % window.innerHeight}px`;
+        backgroundRef.current.style.backgroundPositionY = `-${scrollY % window.innerHeight}px`;
       }
     };
 
