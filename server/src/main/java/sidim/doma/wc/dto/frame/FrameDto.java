@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public record FrameDto(
     Integer id,
-    String name
+    String name,
+    Integer order
 ) implements Serializable {
 }

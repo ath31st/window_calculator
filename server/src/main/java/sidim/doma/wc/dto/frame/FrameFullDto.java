@@ -7,6 +7,7 @@ import sidim.doma.wc.dto.frame_block.FrameBlockFullDto;
 public record FrameFullDto(
     Integer id,
     String name,
+    Integer order,
     List<FrameBlockFullDto> frameBlocks
 ) implements Serializable {
 }
