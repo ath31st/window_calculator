@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import sidim.doma.wc.dto.frame.FrameDto;
 import sidim.doma.wc.dto.frame.FrameFullDto;
 import sidim.doma.wc.dto.frame.NewFrameDto;
+import sidim.doma.wc.dto.frame.UpdateFrameDto;
 import sidim.doma.wc.entity.Frame;
 import sidim.doma.wc.exception.FrameServiceException;
 import sidim.doma.wc.mapper.FrameMapper;
@@ -20,11 +21,10 @@ public class FrameService {
   private final FrameMapper frameMapper;
 
   public FrameDto createFrame(NewFrameDto frameDto) {
-    val frame = new Frame();
-    frame.setName(frameDto.name());
+    val frame = frameMapper.fromNewDtoToEntity(frameDto);
 
     val savedFrame = frameRepository.save(frame);
-    return new FrameDto(savedFrame.getId(), savedFrame.getName());
+    return frameMapper.fromEntityToDto(savedFrame);
   }
 
   public void deleteFrame(Integer frameId) {
@@ -32,19 +32,21 @@ public class FrameService {
     frameRepository.deleteById(frameId);
   }
 
-  public FrameDto renameFrame(Integer id, String newName) {
-    checkExistsFrame(id);
+  public FrameDto updateFrame(UpdateFrameDto dto) {
+    checkExistsFrame(dto.id());
 
-    val frame = getFrame(id);
-    frame.setName(newName);
+    val frame = getFrame(dto.id());
+    frame.setName(dto.name());
+    frame.setOrder(dto.order());
+
     frameRepository.save(frame);
 
-    return new FrameDto(frame.getId(), frame.getName());
+    return frameMapper.fromEntityToDto(frame);
   }
 
   public FrameDto getFrameDto(Integer id) {
     val frame = getFrame(id);
-    return new FrameDto(frame.getId(), frame.getName());
+    return frameMapper.fromEntityToDto(frame);
   }
 
   public FrameFullDto getFrameFullDto(Integer id) {
@@ -54,7 +56,7 @@ public class FrameService {
 
   public List<FrameDto> getAllFrameDtos() {
     return frameRepository.findAll().stream()
-        .map(f -> new FrameDto(f.getId(), f.getName()))
+        .map(frameMapper::fromEntityToDto)
         .toList();
   }
 
