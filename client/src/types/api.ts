@@ -5,15 +5,18 @@ import { ButtonType } from '@/constants/button.type';
 export interface Frame {
   id: number;
   name: string;
+  order: number;
 }
 
 export interface NewFrame {
   name: string;
+  order: number;
 }
 
 export interface FrameFull {
   id: number;
   name: string;
+  order: number;
   frameBlocks: FrameBlockFull[];
 }
 
