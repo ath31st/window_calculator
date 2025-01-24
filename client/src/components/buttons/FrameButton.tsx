@@ -80,6 +80,23 @@ const FrameButton: React.FC<FrameButtonProps> = ({
       }}
       onClick={() => onSelect(currentFrame.id)}
     >
+      {isEditMode && (
+        <Typography
+          variant="h6"
+          sx={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            opacity: 0.9,
+            zIndex: 0,
+            fontWeight: 'bold',
+          }}
+        >
+          [{currentFrame.order}]
+        </Typography>
+      )}
       <Box
         sx={{
           flexGrow: 1,
