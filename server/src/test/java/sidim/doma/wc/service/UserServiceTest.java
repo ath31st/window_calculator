@@ -422,4 +422,23 @@ class UserServiceTest {
 
     assertThrows(UserServiceException.class, () -> userService.getUserDtoById(id));
   }
+
+  @Test
+  void getUserDtoByEmail_success() {
+    when(userRepository.findByEmailIgnoreCase(any(String.class)))
+        .thenReturn(java.util.Optional.of(user));
+    when(userMapper.fromEntityToDto(any(User.class))).thenReturn(expectedUserDto);
+
+    val result = userService.getUserDtoByEmail(email);
+
+    assertEquals(expectedUserDto, result);
+  }
+
+  @Test
+  void getUserDtoByEmail_whenUserNotFound_thenThrowException() {
+    when(userRepository.findByEmailIgnoreCase(any(String.class)))
+        .thenReturn(java.util.Optional.empty());
+
+    assertThrows(UserServiceException.class, () -> userService.getUserDtoByEmail(email));
+  }
 }

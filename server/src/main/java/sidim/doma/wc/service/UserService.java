@@ -118,4 +118,8 @@ public class UserService {
     return userMapper.fromEntityToDto(getUserById(id));
   }
 
+  public UserDto getUserDtoByEmail(String email) {
+    return userMapper.fromEntityToDto(getUserByEmail(email));
+  }
+
 }
