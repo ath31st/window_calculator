@@ -403,4 +403,23 @@ class UserServiceTest {
     verify(userRepository).findByEmailContainingIgnoreCase(email, sort);
     assertEquals(List.of(userDto1), result);
   }
+
+  @Test
+  void getUserDtoById_success() {
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.of(user));
+    when(userMapper.fromEntityToDto(any(User.class))).thenReturn(expectedUserDto);
+
+    val result = userService.getUserDtoById(id);
+
+    assertEquals(expectedUserDto, result);
+  }
+
+  @Test
+  void getUserDtoById_whenUserNotFound_thenThrowException() {
+    when(userRepository.findById(any(Integer.class)))
+        .thenReturn(java.util.Optional.empty());
+
+    assertThrows(UserServiceException.class, () -> userService.getUserDtoById(id));
+  }
 }

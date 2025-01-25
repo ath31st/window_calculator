@@ -114,4 +114,8 @@ public class UserService {
     return users.stream().map(userMapper::fromEntityToDto).toList();
   }
 
+  public UserDto getUserDtoById(Integer id) {
+    return userMapper.fromEntityToDto(getUserById(id));
+  }
+
 }
