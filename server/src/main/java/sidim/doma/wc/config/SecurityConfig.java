@@ -56,6 +56,8 @@ public class SecurityConfig {
                 .requestMatchers(USER_PATH).hasRole(ADMIN_ROLE)
                 .requestMatchers(HttpMethod.PUT, "/api/v1/users/password")
                 .hasAnyRole(ADMIN_ROLE, USER_ROLE)
+                .requestMatchers(HttpMethod.GET, "/api/v1/users/*")
+                .hasAnyRole(ADMIN_ROLE, USER_ROLE)
 
                 // default fallback to authenticated users
                 .anyRequest().authenticated());
