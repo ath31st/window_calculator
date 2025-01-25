@@ -8,6 +8,7 @@ interface CartStore {
   clearCart: () => void;
   countInCart: (blockId: number) => number;
   setCartItems: (items: CartItem[]) => void;
+  changeNote: (id: number, note: string) => void;
 }
 
 export const useCartStore = create<CartStore>((set) => ({
@@ -41,4 +42,16 @@ export const useCartStore = create<CartStore>((set) => ({
   },
 
   setCartItems: (items) => set({ cartItems: items }),
+
+  changeNote: (id, note) =>
+    set((state) => {
+      const updatedCartItems = state.cartItems.map((item) => {
+        if (item.id === id) {
+          return { ...item, note };
+        }
+        return item;
+      });
+      localStorage.setItem('cart', JSON.stringify(updatedCartItems));
+      return { cartItems: updatedCartItems };
+    }),
 }));
