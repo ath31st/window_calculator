@@ -3,6 +3,7 @@ export interface CartItem {
   blockId: number;
   name: string;
   summary: number;
+  note?: string;
 }
 
 export interface JwtUser {
