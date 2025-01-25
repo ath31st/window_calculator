@@ -17,12 +17,12 @@ import { useUserStore } from '@/stores/user.store';
 import RoundButton from './buttons/RoundButton';
 
 const Header: React.FC = () => {
-  const { user, logout } = useAuthStore();
-  const { changeUserPassword } = useUserStore();
+  const { logout } = useAuthStore();
+  const { changeUserPassword, user } = useUserStore();
   const { isEditMode, toggleEditMode } = useEditModeStore();
   const { cartItems } = useCartStore();
   const pathname = usePathname();
-  const isAdmin = user?.role === 'ADMIN';
+  const isAdmin = user?.role === 1;
 
   const [isProfileOpen, setProfileOpen] = useState(false);
 

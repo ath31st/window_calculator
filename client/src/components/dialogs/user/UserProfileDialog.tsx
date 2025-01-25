@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { JwtUser } from '@/types/models';
-import { ChangePassword } from '@/types/api';
+import { ChangePassword, User } from '@/types/api';
 import ChangePasswordDialog from './ChangePasswordDialog';
 import BaseDialog from '../BaseDialog';
 import CommonButton from '@/components/buttons/CommonButton';
 
 interface UserProfileDialogProps {
-  user: JwtUser | null;
+  user: User | null;
   isOpen: boolean;
   onClose: () => void;
   onLogout: () => void;
@@ -65,7 +64,8 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({
               <strong>Email:</strong> {user.email || 'Не указано'}
             </Typography>
             <Typography variant="body2">
-              <strong>Роль:</strong> {user.role}
+              <strong>Роль:</strong>{' '}
+              {user.role === 1 ? 'Администратор' : 'Пользователь'}
             </Typography>
           </>
         ) : (
@@ -74,7 +74,7 @@ const UserProfileDialog: React.FC<UserProfileDialogProps> = ({
       </BaseDialog>
 
       <ChangePasswordDialog
-        userId={user?.userId || 0}
+        userId={user?.id || 0}
         isOpen={isOpenChangePassword}
         onClose={() => setIsOpenChangePassword(false)}
         onChangePassword={onChangePassword}
