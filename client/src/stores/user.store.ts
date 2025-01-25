@@ -21,6 +21,7 @@ interface UserStore {
   updateUser: (user: UpdateUser) => void;
   changeUserPassword: (changePassword: ChangePassword) => void;
   deleteUser: (id: number) => void;
+  setUser: (user: User | null) => void;
   handleError: (error: unknown) => void;
 }
 
@@ -84,6 +85,7 @@ export const useUserStore = create<UserStore>((set) => ({
         users: state.users.map((u) =>
           u.id === updatedUser.id ? updatedUser : u,
         ),
+        user: state.user?.id === updatedUser.id ? updatedUser : state.user,
       }));
     } catch (error) {
       useUserStore.getState().handleError(error);
@@ -106,6 +108,12 @@ export const useUserStore = create<UserStore>((set) => ({
   deleteUser: async (id: number) => {
     set({ loading: true });
     try {
+      const currentUser = useUserStore.getState().user;
+      if (currentUser?.id === id) {
+        useGlobalErrorStore.getState().setError('You cannot delete yourself.');
+        return;
+      }
+
       await deleteUser(id);
       set((state) => ({
         users: state.users.filter((u) => u.id !== id),
@@ -116,4 +124,6 @@ export const useUserStore = create<UserStore>((set) => ({
       set({ loading: false });
     }
   },
+
+  setUser: (user: User | null) => set({ user }),
 }));

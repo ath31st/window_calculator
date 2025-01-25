@@ -7,6 +7,7 @@ import { AxiosError } from 'axios';
 import { create } from 'zustand';
 import { useCartStore } from './cart.store';
 import { useGlobalErrorStore } from './global.error.store';
+import { useUserStore } from './user.store';
 
 interface AuthState {
   user: JwtUser | null;
@@ -44,14 +45,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         user,
         isAuthenticated: true,
       });
+
+      // if (user?.userId && accessToken) {
+      //   useUserStore.getState().fetchUser(user.userId);
+      // }
+    } else if (refreshToken && !isTokenExpired(refreshToken)) {
+      set({ refreshToken });
+      await get().refreshAccessToken();
     } else {
-      if (refreshToken && !isTokenExpired(refreshToken)) {
-        set({ refreshToken });
-        await get().refreshAccessToken();
-      } else {
-        console.log('Invalid access token or refresh token');
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-      }
+      console.log('Invalid access token or refresh token');
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
     set({ isLoading: false });
   },
@@ -79,6 +82,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticated: true,
       });
 
+      if (user?.userId) {
+        useUserStore.getState().fetchUser(user.userId);
+      }
+
       localStorage.setItem(
         LOCAL_STORAGE_KEY,
         JSON.stringify({ accessToken, refreshToken, user }),
@@ -105,6 +112,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isAuthenticated: false,
       });
 
+      useUserStore.getState().setUser(null);
       useCartStore.getState().clearCart();
 
       localStorage.removeItem(LOCAL_STORAGE_KEY);
