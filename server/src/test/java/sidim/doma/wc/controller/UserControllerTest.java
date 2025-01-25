@@ -356,4 +356,46 @@ class UserControllerTest {
 
     assertEquals(expectedUserDtos, userDtos);
   }
+
+  @Test
+  void getUserById_validDataProvided() throws Exception {
+    val userDto = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now(), true, null);
+    Principal mockPrincipal = () -> "alice@example.com";
+
+    when(userService.getUserDtoById(id)).thenReturn(userDto);
+
+    val result = mockMvc.perform(get(BASE_URL + "/{id}", id)
+            .principal(mockPrincipal)
+        )
+        .andExpect(status().isOk())
+        .andReturn();
+
+    val content = result.getResponse().getContentAsString();
+    val user = objectMapper.readValue(content, UserDto.class);
+
+    assertEquals(userDto, user);
+  }
+
+  @Test
+  void getUserById_emailDoesNotMatch() throws Exception {
+    val userDto = new UserDto(1, "Alice", "alice@example.com", role, true, LocalDate.now(), true, null);
+    Principal mockPrincipal = () -> email;
+
+    when(userService.getUserDtoById(id)).thenReturn(userDto);
+
+    mockMvc.perform(get(BASE_URL + "/{id}", id)
+            .principal(mockPrincipal)
+        )
+        .andExpect(status().isForbidden())
+        .andReturn();
+  }
+
+  @Test
+  void getUserById_whenUserNotFound_thenThrowException() throws Exception {
+    when(userService.getUserDtoById(id))
+        .thenThrow(new UserServiceException("User with id " + id + " not found!", HttpStatus.NOT_FOUND));
+
+    mockMvc.perform(get(BASE_URL + "/{id}", id))
+        .andExpect(status().isNotFound()).andReturn();
+  }
 }

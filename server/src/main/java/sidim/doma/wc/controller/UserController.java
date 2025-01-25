@@ -68,4 +68,15 @@ public class UserController {
 
     return new ResponseEntity<>(userDtos, HttpStatus.OK);
   }
+
+  @GetMapping("/users/{id}")
+  public ResponseEntity<UserDto> getUserById(@PathVariable Integer id, Principal principal) {
+    val userDto = userService.getUserDtoById(id);
+
+    if (!userDto.email().equals(principal.getName())) {
+      return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
+    return new ResponseEntity<>(userDto, HttpStatus.OK);
+  }
 }
