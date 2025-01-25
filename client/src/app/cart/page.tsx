@@ -18,7 +18,7 @@ import BorderedBackgraundedContainer from '@/components/containers/BorderedBackg
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const { removeFromCart, clearCart } = useCartStore();
+  const { removeFromCart, clearCart, changeNote } = useCartStore();
   const cartItems = useCartStore((state) => state.cartItems);
   const roles = ['ADMIN', 'USER'];
 
@@ -56,7 +56,11 @@ const Cart: React.FC = () => {
               </Box>
             ) : (
               <>
-                <CartItemList items={cartItems} onRemove={removeFromCart} />
+                <CartItemList
+                  items={cartItems}
+                  onRemove={removeFromCart}
+                  onNoteChange={changeNote}
+                />
                 <Box
                   sx={{
                     display: 'flex',

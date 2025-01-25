@@ -5,9 +5,14 @@ import CartItemCard from '../cards/CartItemCard';
 interface CartItemListProps {
   items: CartItem[];
   onRemove: (cartItemId: number) => void;
+  onNoteChange: (id: number, note: string) => void;
 }
 
-const CartItemList: React.FC<CartItemListProps> = ({ items, onRemove }) => {
+const CartItemList: React.FC<CartItemListProps> = ({
+  items,
+  onRemove,
+  onNoteChange,
+}) => {
   return (
     <Box
       sx={{
@@ -19,7 +24,12 @@ const CartItemList: React.FC<CartItemListProps> = ({ items, onRemove }) => {
       }}
     >
       {items.map((item) => (
-        <CartItemCard key={item.id} item={item} onRemove={onRemove} />
+        <CartItemCard
+          key={item.id}
+          item={item}
+          onRemove={onRemove}
+          onNoteChange={onNoteChange}
+        />
       ))}
     </Box>
   );
