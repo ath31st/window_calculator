@@ -1,17 +1,18 @@
 'use client';
 
-import AddIcon from '@mui/icons-material/Add';
 import Header from '@/components/Header';
 import CommonLayout from '@/components/layouts/CommonLayout';
 import { useUserStore } from '@/stores/user.store';
 import { useEffect, useState } from 'react';
 import AddUserDialog from '@/components/dialogs/user/AddUserDialog';
 import UserList from '@/components/lists/UserList';
-import { IconButton } from '@mui/material';
 import RoleGuard from '@/components/RoleGuard';
 import PageHeader from '@/components/texts/PageHeader';
 import BorderedContainer from '@/components/containers/BorderedContainer';
 import BorderedBackgraundedContainer from '@/components/containers/BorderedBackgraundedContainer';
+import CommonAddIconButton from '@/components/icons/CommonAddIconButton';
+import PersonIcon from '@mui/icons-material/Person';
+import { Box } from '@mui/material';
 
 const Users: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -31,10 +32,13 @@ const Users: React.FC = () => {
             <PageHeader title="Список пользователей" />
 
             <UserList users={users} onEdit={updateUser} onDelete={deleteUser} />
-
-            <IconButton onClick={() => setDialogOpen(true)}>
-              <AddIcon />
-            </IconButton>
+            <Box sx={{ paddingX: 2 }}>
+              <CommonAddIconButton
+                isEditMode={true}
+                customIcon={<PersonIcon />}
+                onAddClick={() => setDialogOpen(true)}
+              />
+            </Box>
           </BorderedBackgraundedContainer>
 
           <AddUserDialog
