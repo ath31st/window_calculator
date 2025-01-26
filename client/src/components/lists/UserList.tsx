@@ -1,6 +1,7 @@
 import { UpdateUser, User } from '@/types/api';
 import UserCard from '../cards/UserCard';
 import { Box } from '@mui/material';
+import AnimatedList from './AnimatedList';
 
 interface UserListProps {
   users: User[];
@@ -19,14 +20,16 @@ const UserList: React.FC<UserListProps> = ({ users, onEdit, onDelete }) => {
         overflowY: 'auto',
       }}
     >
-      {users.map((user) => (
-        <UserCard
-          key={user.id}
-          user={user}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      ))}
+      <AnimatedList>
+        {users.map((user) => (
+          <UserCard
+            key={user.id}
+            user={user}
+            onEdit={onEdit}
+            onDelete={onDelete}
+          />
+        ))}
+      </AnimatedList>
     </Box>
   );
 };

@@ -1,6 +1,7 @@
 import { CartItem } from '@/types/models';
 import { Box } from '@mui/material';
 import CartItemCard from '../cards/CartItemCard';
+import AnimatedList from './AnimatedList';
 
 interface CartItemListProps {
   items: CartItem[];
@@ -23,14 +24,16 @@ const CartItemList: React.FC<CartItemListProps> = ({
         overflowY: 'auto',
       }}
     >
-      {items.map((item) => (
-        <CartItemCard
-          key={item.id}
-          item={item}
-          onRemove={onRemove}
-          onNoteChange={onNoteChange}
-        />
-      ))}
+      <AnimatedList>
+        {items.map((item) => (
+          <CartItemCard
+            key={item.id}
+            item={item}
+            onRemove={onRemove}
+            onNoteChange={onNoteChange}
+          />
+        ))}
+      </AnimatedList>
     </Box>
   );
 };
