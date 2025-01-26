@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import PageLoader from '../loaders/PageLoader';
+import theme from '@/app/_theme/theme';
 
 const InfiniteBackground: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
   const backgroundRef = useRef<HTMLDivElement>(null);
@@ -32,7 +33,17 @@ const InfiniteBackground: React.FC<{ imageUrl: string }> = ({ imageUrl }) => {
   return (
     <>
       {isLoading && <PageLoader />}
-
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: theme.palette.secondary.main,
+          zIndex: -2,
+        }}
+      />
       <div
         ref={backgroundRef}
         style={{
