@@ -3,8 +3,20 @@
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 import CenteredBox from '../containers/CenteredBox';
+import { useEffect, useState } from 'react';
 
 const SelectFrameNotify: React.FC = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsMounted(true);
+      localStorage.setItem('selectFrameAnimationShown', 'true');
+    }, 50);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <Box
       sx={{
@@ -14,6 +26,8 @@ const SelectFrameNotify: React.FC = () => {
         alignItems: 'center',
         height: '90vh',
         textAlign: 'center',
+        transform: isMounted ? 'translateY(0)' : 'translateY(-100vh)',
+        transition: 'transform 1.0s ease-in-out',
       }}
     >
       <CenteredBox>
