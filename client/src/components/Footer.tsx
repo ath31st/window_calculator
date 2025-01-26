@@ -24,10 +24,19 @@ const Footer: React.FC = () => {
   const { isEditMode } = useEditModeStore();
   const [isLoading, setIsLoading] = useState(false);
   const [targetFrameId, setTargetFrameId] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
     fetchFrames();
   }, [fetchFrames]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsMounted(true);
+    }, 50);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   const handleFrameSelect = async (id: number) => {
     if (activeFrameId !== id) {
@@ -55,10 +64,11 @@ const Footer: React.FC = () => {
         borderTop: '2px solid',
         borderColor: theme.palette.background.default,
         position: 'fixed',
-        bottom: 0,
+        bottom: isMounted ? 0 : '-100px',
         left: 0,
         right: 0,
         zIndex: 1000,
+        transition: 'bottom 0.5s ease-in-out',
       }}
     >
       <Box
