@@ -10,11 +10,15 @@ import { useState } from 'react';
 import ClearCartItemsDialog from '@/components/dialogs/cart/ClearCartItemsDialog';
 import RoleGuard from '@/components/RoleGuard';
 import PageHeader from '@/components/texts/PageHeader';
-import { generateCartPdf } from '@/utils/generate.cart.pdf';
+import {
+  generateCartPdf,
+  generateCartPdfWithNotes,
+} from '@/utils/generate.cart.pdf';
 import BorderedContainer from '@/components/containers/BorderedContainer';
 import theme from '../_theme/theme';
 import CommonButton from '@/components/buttons/CommonButton';
 import BorderedBackgraundedContainer from '@/components/containers/BorderedBackgraundedContainer';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 const Cart: React.FC = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -68,18 +72,39 @@ const Cart: React.FC = () => {
                     alignItems: 'center',
                     marginX: 3,
                     paddingY: 2,
+                    flexDirection: { xs: 'column', md: 'row' },
+                    gap: { xs: 1, md: 0 },
                   }}
                 >
-                  <Typography variant="h6" sx={{}}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      whiteSpace: 'normal',
+                      wordBreak: 'break-word',
+                      flexShrink: 0,
+                    }}
+                  >
                     Общая стоимость:{' '}
                     {cartItems.reduce((acc, item) => acc + item.summary, 0)} ₽
                   </Typography>
-                  <CommonButton
-                    color="secondary"
-                    onClick={() => generateCartPdf(cartItems)}
-                  >
-                    Сохарнить в PDF
-                  </CommonButton>
+                  <Box sx={{ display: 'flex', gap: 1, flexDirection: 'row' }}>
+                    <CommonButton
+                      color="secondary"
+                      startIcon={<PictureAsPdfIcon />}
+                      onClick={() => generateCartPdf(cartItems)}
+                    >
+                      Сохранить
+                    </CommonButton>
+
+                    <CommonButton
+                      color="secondary"
+                      startIcon={<PictureAsPdfIcon />}
+                      onClick={() => generateCartPdfWithNotes(cartItems)}
+                    >
+                      Сохранить с примечаниями
+                    </CommonButton>
+                  </Box>
+
                   <CommonButton
                     color="secondary"
                     onClick={() => setDialogOpen(true)}
