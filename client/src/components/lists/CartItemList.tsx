@@ -1,7 +1,7 @@
 import { CartItem } from '@/types/models';
 import { Box } from '@mui/material';
 import CartItemCard from '../cards/CartItemCard';
-import AnimatedList from './AnimatedList';
+import AnimatedListWrapper from './AnimatedListWrapper';
 
 interface CartItemListProps {
   items: CartItem[];
@@ -24,7 +24,7 @@ const CartItemList: React.FC<CartItemListProps> = ({
         overflowY: 'auto',
       }}
     >
-      <AnimatedList>
+      <AnimatedListWrapper>
         {items.map((item) => (
           <CartItemCard
             key={item.id}
@@ -33,7 +33,7 @@ const CartItemList: React.FC<CartItemListProps> = ({
             onNoteChange={onNoteChange}
           />
         ))}
-      </AnimatedList>
+      </AnimatedListWrapper>
     </Box>
   );
 };

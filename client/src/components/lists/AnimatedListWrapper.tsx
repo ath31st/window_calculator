@@ -1,11 +1,13 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ReactNode } from 'react';
 
-interface AnimatedListProps {
+interface AnimatedListWrapperProps {
   children: ReactNode;
 }
 
-const AnimatedList: React.FC<AnimatedListProps> = ({ children }) => {
+const AnimatedListWrapper: React.FC<AnimatedListWrapperProps> = ({
+  children,
+}) => {
   return (
     <AnimatePresence>
       {Array.isArray(children)
@@ -25,4 +27,4 @@ const AnimatedList: React.FC<AnimatedListProps> = ({ children }) => {
   );
 };
 
-export default AnimatedList;
+export default AnimatedListWrapper;
