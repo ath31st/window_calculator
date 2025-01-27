@@ -34,6 +34,9 @@ const UserCard: React.FC<UserCardProps> = ({ user, onEdit, onDelete }) => {
             <Typography variant="body2">
               Статус: {user.isActive ? 'Активен' : 'Не активен'}
             </Typography>
+            <Typography variant="body2">
+              Дата регистрации: {user.createdAt.split('-').reverse().join('.')}
+            </Typography>
           </Box>
         </Box>
 
