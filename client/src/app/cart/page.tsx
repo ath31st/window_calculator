@@ -42,12 +42,12 @@ const Cart: React.FC = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   flexDirection: 'column',
-                  height: { xs: '30vh', md: '50vh' },
+                  height: { xs: '30vh', md: '40vh' },
                 }}
               >
                 <ShoppingCartOutlinedIcon
                   sx={{
-                    fontSize: { xs: 60, md: 120, lg: 150 },
+                    fontSize: { xs: 60, md: 100, lg: 130 },
                     color: theme.palette.text.primary,
                   }}
                 />

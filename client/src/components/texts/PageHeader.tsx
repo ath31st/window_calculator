@@ -9,11 +9,11 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title }) => {
   return (
     <Box sx={{ display: 'flex', padding: 2 }}>
       <Typography
-        variant="h3"
+        variant="h6"
         sx={{
           width: '100%',
           background: `linear-gradient(90deg,${theme.palette.secondary.main}, transparent 90%)`,
-          padding: '6px 16px',
+          padding: '4px 12px',
           borderRadius: theme.shape.borderRadius,
           display: 'inline-block',
         }}
