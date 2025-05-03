@@ -30,6 +30,10 @@ spring:
     clean-on-validation-error: true
     clean-disabled: false
 
+  docker:
+    compose:
+      enabled: false
+
 management:
   endpoint:
     health:
