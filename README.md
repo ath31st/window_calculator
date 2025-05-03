@@ -37,7 +37,7 @@
 
 Видео-демонстрация работы приложения:
 
-![Пример работы](https://github.com/user-attachments/assets/350725a0-a38e-4b7c-ad5d-d1d800267327)
+[Пример работы](https://github.com/user-attachments/assets/350725a0-a38e-4b7c-ad5d-d1d800267327)
 
 ---
 
